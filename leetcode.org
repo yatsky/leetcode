@@ -23,6 +23,97 @@ Each problem is organised as follows:
 * Problems
 Here we start to finish our problems 😈.
 
+** 1313 Decompress Run-length encoded list                           :array:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:09]--[2020-04-16 Thu 20:13] =>  0:04
+:END:
+We are given a list ~nums~ of integers representing a list compressed with run-length encoding.
+
+Consider each adjacent pair of elements ~[freq, val]=[nums[2*i], nums[2*i+1]], i>=0~.
+For each such pair, there are ~freq~ elements with value ~val~ concatenated in a sublist.
+Concatenate all the sublists from left to right to generate the decompressed list.
+
+Return the decompressed list.
+
+Constraints:
+1. 2 <= nums.length <= 100
+2. nums.length % 2 == 0
+3. 1 <= nums[i] <= 100
+**** Examples:
+#+name: 1313 Decompress Run-length encoded list example
+#+caption: 1313 Decompress Run-length encoded list example
+#+begin_example
+Input: nums = [1,2,3,4]
+Output: [2,4,4,4]
+Explanation: The first pair [1,2] means we have freq = 1 and val = 2 so we generate the array [2].
+The second pair [3,4] means we have freq = 3 and val = 4 so we generate [4,4,4].
+At the end the concatenation [2] + [4,4,4] is [2,4,4,4].
+
+Input: nums = [1,1,2,3]
+Output: [1,3,3]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:13]--[2020-04-16 Thu 20:15] =>  0:02
+:END:
+We can use ~for i in range(len(nums), 2)~ and create a sublist for all ~nums[i-1], nums[i]~.
+Finally we concatenate these sublists.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:15]--[2020-04-16 Thu 20:19] =>  0:04
+:END:
+#+name: 1313 Decompress Run-length encoded list my solution
+#+caption: 1313 Decompress Run-length encoded list my solution
+#+begin_src ein-python :session localhost :results output code
+from typing import List
+
+def decompress_RLE_list(nums: List[int]) -> List[int]:
+    res = []
+    for i in range(0, len(nums), 2):
+        sub_lst = [nums[i+1] for j in range(nums[i])]
+        res = res+sub_lst
+    return res
+print(decompress_RLE_list([1,1,2,3]))
+#+end_src
+
+#+RESULTS: 1313 Decompress Run-length encoded list my solution
+#+begin_src none
+[1, 3, 3]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:25]--[2020-04-16 Thu 20:25] =>  0:00
+CLOCK: [2020-04-16 Thu 20:21]--[2020-04-16 Thu 20:25] =>  0:04
+:END:
+$O(M)\text{, where } M=\sum_{i=0,2,4...}^{len(nums)-2}nums[i]$, the summation corresponds to the outer ~for~ loop, we simply sum up the time it takes to build each sub list.
+***** Space complexity: 
+$O(M)\text{, where } M=\sum_{i=0,2,4...}^{len(nums)-2}nums[i]$
+
+**** Leetcode solution
+Not available.
+#+name: 1313 Decompress Run-length encoded list leetcode solution
+#+caption: 1313 Decompress Run-length encoded list leetcode solution
+#+begin_src ein-python :session localhost :results output code
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms

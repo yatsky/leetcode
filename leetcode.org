@@ -22,7 +22,16 @@ Each problem is organised as follows:
   - Related problems
 * Problems
 Here we start to finish our problems 😈.
+** Imports for typing
+#+caption: imports for typing
+#+name: imports for typing
+#+begin_src ein-python :session localhost :results output code :noweb yes
+from typing import List, Tuple, Set
+#+end_src
 
+#+caption: imports for typing-results
+
+#+RESULTS: imports for typing
 ** 1313 Decompress Run-length encoded list                           :array:
 *** Description
 :LOGBOOK:
@@ -70,8 +79,8 @@ CLOCK: [2020-04-16 Thu 20:15]--[2020-04-16 Thu 20:19] =>  0:04
 :END:
 #+name: 1313 Decompress Run-length encoded list my solution
 #+caption: 1313 Decompress Run-length encoded list my solution
-#+begin_src ein-python :session localhost :results output code
-from typing import List
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
 
 def decompress_RLE_list(nums: List[int]) -> List[int]:
     res = []
@@ -160,8 +169,8 @@ CLOCK: [2020-04-16 Thu 20:56]--[2020-04-16 Thu 20:57] =>  0:01
 :END:
 #+name: 1295 Find numbers with even number of digits my solution
 #+caption: 1295 Find numbers with even number of digits my solution
-#+begin_src ein-python :session localhost :results output code
-from typing import List
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
 
 def find_numbers(nums: List[int]) -> int:
     res = 0

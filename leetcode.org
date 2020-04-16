@@ -120,6 +120,21 @@ Not available.
 
 *** More analysis
 **** General thoughts
+To concatenate lists in Python.
+#+caption: concatenate lists
+#+name: concatenate lists
+#+begin_src ein-python :session localhost :results output code 
+lst1=[1,2,3]
+lst2=[3,3,3]
+print(lst1+lst2)
+#+end_src
+
+#+RESULTS: concatenate lists
+#+begin_src none
+[1, 2, 3, 3, 3, 3]
+#+end_src
+
+#+caption: concatenate lists-results
 **** Related problems
 
 
@@ -209,6 +224,102 @@ Not available.
 *** More analysis
 **** General thoughts
 Pretty straightforward.
+**** Related problems
+
+
+** 1365 How many numbers are smaller than the current number         :array:
+*** Description
+Given the array ~nums~, for each ~nums[i]~, find out how many numbers in the array are smaller than it.
+That is, for each ~nums[i]~, you have to count the number of valid ~j~'s, such that ~j != i and nums[j] < nums[i]>~.
+
+Return the answer in an array.
+
+Constraints:
+
+1. 2 <= nums.length <= 500
+2. 0 <= nums[i] <= 100
+**** Examples:
+#+name: 1365 How many numbers are smaller than the current number example
+#+caption: 1365 How many numbers are smaller than the current number example
+#+begin_example
+Input: nums = [8,1,2,2,3]
+Output: [4,0,1,1,3]
+Explanation: 
+For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3). 
+For nums[1]=1 does not exist any smaller number than it.
+For nums[2]=2 there exist one smaller number than it (1). 
+For nums[3]=2 there exist one smaller number than it (1). 
+For nums[4]=3 there exist three smaller numbers than it (1, 2 and 2).
+
+Input: nums = [6,5,4,8]
+Output: [2,1,0,3]
+
+Input: nums = [7,7,7,7]
+Output: [0,0,0,0]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 21:17]--[2020-04-16 Thu 21:19] =>  0:02
+:END:
+We first sort ~nums~, and get ~sorted_nums~.
+We loop through ~sorted_nums~, and get ~smaller_count~ mapping in the form of ~{num: smaller_count}~.
+We then loop ~nums~ and get ~smaller_count~ of each ~num~, store them in ~res~.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 21:20]--[2020-04-16 Thu 21:26] =>  0:06
+:END:
+#+name: 1365 How many numbers are smaller than the current number my solution
+#+caption: 1365 How many numbers are smaller than the current number my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def smaller_numbers_than_current(nums: List[int]) -> List[int]:
+    import math
+    sorted_nums = sorted(nums)
+
+    smaller_counts = {}
+    for i, e in enumerate(sorted_nums):
+        smaller_counts[e] = min(smaller_counts.get(e, math.inf), i)
+
+    res = []
+    for num in nums:
+        res.append(smaller_counts[num])
+
+    return res
+print(smaller_numbers_than_current([2,2,3,4,1]))
+#+end_src
+
+#+RESULTS: 1365 How many numbers are smaller than the current number my solution
+#+begin_src none
+[1, 1, 3, 4, 0]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(N\log{N})$.
+***** Space complexity: 
+$O(N)$.
+
+**** Leetcode solution
+Not available.
+#+name: 1365 How many numbers are smaller than the current number leetcode solution
+#+caption: 1365 How many numbers are smaller than the current number leetcode solution
+#+begin_src ein-python :session localhost :results output code
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+The best time complexity we can do is $O(N\log N)$.
 **** Related problems
 
 

@@ -1,0 +1,27 @@
+* Introduction
+This is the main file that contains all the problems and their solutions.
+Each problem is organised as follows:
+- Problem number Problem name         :problem_tag:
+- Description (Basic info)
+  - Examples
+- Solution (Tackling process)
+  - Problem category
+  - Algorithm (written by me)
+  - Code (written by me)
+  - Complexity
+    - Time complexity
+    - Space complexity
+  - Leetcode solution
+    - Time complexity
+    - Space complexity
+- More analysis (Thoughts)
+  - General thoughts
+  - Related problems
+* Problems
+Here we start to finish our problems.
+* Data structures
+This section contains widely used data structures and related problems.
+* Algorithms
+This section contains widely used algorithms and related problems.
+* Techniques
+This section contains techniques that do not make a full algorithm and related problems.

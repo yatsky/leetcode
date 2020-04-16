@@ -25,3 +25,5 @@ This section contains widely used data structures and related problems.
 This section contains widely used algorithms and related problems.
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
+** General
+** Python

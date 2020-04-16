@@ -57,7 +57,7 @@ Output: [1,3,3]
 *** Solution
 
 **** Problem category
-
+Just an array problem.
 **** Algorithm
 :LOGBOOK:
 CLOCK: [2020-04-16 Thu 20:13]--[2020-04-16 Thu 20:15] =>  0:02
@@ -111,6 +111,95 @@ Not available.
 
 *** More analysis
 **** General thoughts
+**** Related problems
+
+
+** 1295 Find numbers with even number of digits                      :array:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:51]--[2020-04-16 Thu 20:53] =>  0:02
+:END:
+Given an array ~nums~ of integers, return how many of them contain an *even number* of digits.
+
+Constraints:
+1. 1 <= nums.length <= 500
+2. 1 <= nums[i] <= 10^5
+**** Examples:
+#+name: 1295 Find numbers with even number of digits example
+#+caption: 1295 Find numbers with even number of digits example
+#+begin_example
+Input: nums = [12,345,2,6,7896]
+Output: 2
+Explanation: 
+12 contains 2 digits (even number of digits). 
+345 contains 3 digits (odd number of digits). 
+2 contains 1 digit (odd number of digits). 
+6 contains 1 digit (odd number of digits). 
+7896 contains 4 digits (even number of digits). 
+Therefore only 12 and 7896 contain an even number of digits.
+
+Input: nums = [555,901,482,1771]
+Output: 1 
+Explanation: 
+Only 1771 contains an even number of digits.
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:53]--[2020-04-16 Thu 20:54] =>  0:01
+:END:
+We simply loop the ~nums~ and check each number.
+We can use this to get the number of all digits of a number: ~len(str(num))~.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-16 Thu 20:56]--[2020-04-16 Thu 20:57] =>  0:01
+:END:
+#+name: 1295 Find numbers with even number of digits my solution
+#+caption: 1295 Find numbers with even number of digits my solution
+#+begin_src ein-python :session localhost :results output code
+from typing import List
+
+def find_numbers(nums: List[int]) -> int:
+    res = 0
+    for ele in nums:
+        if len(str(ele)) % 2 == 0:
+            res += 1
+    return res
+print(find_numbers([1,2,3]))
+print(find_numbers([11,2,3]))
+#+end_src
+
+#+RESULTS: 1295 Find numbers with even number of digits my solution
+#+begin_src none
+0
+1
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(N)$.
+***** Space complexity: 
+$O(N)$.
+
+**** Leetcode solution
+Not available.
+#+name: 1295 Find numbers with even number of digits leetcode solution
+#+caption: 1295 Find numbers with even number of digits leetcode solution
+#+begin_src ein-python :session localhost :results output code
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+Pretty straightforward.
 **** Related problems
 
 

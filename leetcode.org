@@ -323,6 +323,132 @@ The best time complexity we can do is $O(N\log N)$.
 **** Related problems
 
 
+** DONE 1409 Queries on a permutation with key                :array:medium:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 08:47]--[2020-04-17 Fri 08:53] =>  0:06
+:END:
+Given the array ~queries~ of positive integers between ~1~ and ~m~, you have to process all ~queries[i]~ (from ~i=0~ to ~i=queries.length-1~) according to the following rules:
+1. in the beginning, you have the permutation ~P=[1,2,3,...,m]~.
+2. For the current ~i~, find the position of ~queries[i]~ in the permutation ~P~ (indexing from 0) and then move this at the begining of the permutation ~P~. Notice that the position of ~queries[i]~ in ~P~ is the result for ~queries[i]~.
+
+Return an array containing the result for the given ~queries~.
+
+Constraints:
+
+1. 1 <= m <= 10^3
+2. 1 <= queries.length <= m
+3. 1 <= queries[i] <= m
+**** Examples:
+#+name: 1409 Queries on a permutation with key example
+#+caption: 1409 Queries on a permutation with key example
+#+begin_example
+Input: queries = [3,1,2,1], m = 5
+Output: [2,1,2,1] 
+Explanation: The queries are processed as follow: 
+For i=0: queries[i]=3, P=[1,2,3,4,5], position of 3 in P is 2, then we move 3 to the beginning of P resulting in P=[3,1,2,4,5]. 
+For i=1: queries[i]=1, P=[3,1,2,4,5], position of 1 in P is 1, then we move 1 to the beginning of P resulting in P=[1,3,2,4,5]. 
+For i=2: queries[i]=2, P=[1,3,2,4,5], position of 2 in P is 2, then we move 2 to the beginning of P resulting in P=[2,1,3,4,5]. 
+For i=3: queries[i]=1, P=[2,1,3,4,5], position of 1 in P is 1, then we move 1 to the beginning of P resulting in P=[1,2,3,4,5]. 
+Therefore, the array containing the result is [2,1,2,1].  
+
+Input: queries = [4,1,2,2], m = 4
+Output: [3,1,2,0]
+
+Input: queries = [7,5,5,8,3], m = 8
+Output: [6,5,0,7,5]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 08:53]--[2020-04-17 Fri 09:01] =>  0:08
+:END:
+We can use brute force.
+We loop through queries ~for i, e in enumerate(queries)~, then have an inner loop ~for j, e_p in enumerate(p_copy)~, when ~e_p==e~, we do ~P.pop(j)~, ~P.insert(0, e_p)~, and ~res.append(j)~.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 09:01]--[2020-04-17 Fri 09:05] =>  0:04
+:END:
+#+name: 1409 Queries on a permutation with key my solution
+#+caption: 1409 Queries on a permutation with key my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def process_queries(queries: List[int], m: int) -> List[int]:
+    res = []
+
+    p = list(range(1, m+1))
+    p_copy = p.copy()
+    for i, e in enumerate(queries):
+        p_copy = p.copy()
+        for j, e_p in enumerate(p_copy):
+            if e_p == e:
+                p.pop(j)
+                p.insert(0, e_p)
+                res.append(j)
+
+    return res
+
+print(process_queries([3,1,2,1],5))
+#+end_src
+
+#+RESULTS: 1409 Queries on a permutation with key my solution
+#+begin_src none
+[2, 1, 2, 1]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(N\times M)\text{ , where }N=len(queries), M=m$.
+***** Space complexity: 
+$O(M)$.
+**** Leetcode solution
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 09:33]--[2020-04-17 Fri 09:34] =>  0:01
+:END:
+Not available.
+
+Here is one interesting solution from the discussion forum.
+#+name: 1409 Queries on a permutation with key discussion solution
+#+caption: 1409 Queries on a permutation with key discussion solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def process_queries(queries: List[int], m: int) -> List[int]:
+    # the original code uses
+    # def process(arr, idx), which is quite confusing
+    # as we are trying to find the idx of an element
+    def process(arr, elem):
+        ans = arr.index(elem)
+        arr.insert(0, arr.pop(ans))
+        return ans
+
+    m = [x for x in range(1, m+1)]
+    return [process(m, i) for i in queries]
+
+print(process_queries([3,1,2,1],5))
+#+end_src
+
+#+RESULTS: 1409 Queries on a permutation with key discussion solution
+#+begin_src none
+[2, 1, 2, 1]
+#+end_src
+
+***** Time complexity:
+$O(N\times M)\text{ , where }N=len(queries), M=m$.
+
+***** Space complexity: 
+$O(M)$.
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms

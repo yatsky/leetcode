@@ -21,7 +21,8 @@ Each problem is organised as follows:
   - General thoughts
   - Related problems
 * Problems
-Here we start to finish our problems.
+Here we start to finish our problems 😈.
+
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms

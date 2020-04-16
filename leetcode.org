@@ -32,7 +32,7 @@ from typing import List, Tuple, Set
 #+caption: imports for typing-results
 
 #+RESULTS: imports for typing
-** 1313 Decompress Run-length encoded list                           :array:
+** DONE 1313 Decompress Run-length encoded list                 :array:easy:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-16 Thu 20:09]--[2020-04-16 Thu 20:13] =>  0:04
@@ -138,7 +138,7 @@ print(lst1+lst2)
 **** Related problems
 
 
-** 1295 Find numbers with even number of digits                      :array:
+** DONE 1295 Find numbers with even number of digits            :array:easy:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-16 Thu 20:51]--[2020-04-16 Thu 20:53] =>  0:02
@@ -227,7 +227,7 @@ Pretty straightforward.
 **** Related problems
 
 
-** 1365 How many numbers are smaller than the current number         :array:
+** DONE 1365 How many numbers are smaller than the current number :array:medium:
 *** Description
 Given the array ~nums~, for each ~nums[i]~, find out how many numbers in the array are smaller than it.
 That is, for each ~nums[i]~, you have to count the number of valid ~j~'s, such that ~j != i and nums[j] < nums[i]>~.

@@ -1,7 +1,7 @@
 * Introduction
 [2020-04-16 Thu 19:06]
 
-[[file:leetcode.org][leetcode.org]]is a rewrite of my [[file:old-leetcode.org][old leetcode.org]].
+[[file:leetcode.org][leetcode.org]] is a rewrite of my [[file:old-leetcode.org][old leetcode.org]].
 The goal is to sort the problems in categories and provide more in-depth analysis so that it is easier for me or anyone reading this to gain more out of it.
 
 This is extrordinary times, and as such we have to work hard in these times to make sure we are still competitive after this pandemic. I believe that practicing Leetcode can help us achieve that, because it is not only a great way to improve our technical skills, but by simply solving these problems, we can stay fit mentally.

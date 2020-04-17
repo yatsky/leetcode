@@ -227,7 +227,7 @@ Pretty straightforward.
 **** Related problems
 
 
-** DONE 1365 How many numbers are smaller than the current number :array:medium:
+** DONE 1365 How many numbers are smaller than the current number :array:easy:
 *** Description
 Given the array ~nums~, for each ~nums[i]~, find out how many numbers in the array are smaller than it.
 That is, for each ~nums[i]~, you have to count the number of valid ~j~'s, such that ~j != i and nums[j] < nums[i]>~.
@@ -448,11 +448,414 @@ $O(M)$.
 **** General thoughts
 **** Related problems
 
+** 1329 Sort the matrix diagonally
+This is based on an incorrect understanding of the problem description.
+See [[*1329 Sort the matrix diagonally 2]] for a correct understanding and solution.
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 09:55]--[2020-04-17 Fri 09:57] =>  0:02
+:END:
+Given a ~m*n~ matrix ~mat~ of integers, sort it diagonally in ascending order from the top-left to the bottom-right then return the sorted array.
+
+Constraints:
+1. m == mat.length
+2. n == mat[i].length
+3. 1 <= m, n <= 100
+4. 1 <= mat[i][j] <= 100
+**** Examples:
+#+name: 1329 Sort the matrix diagonally example
+#+caption: 1329 Sort the matrix diagonally example
+#+begin_example
+Input: mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
+Output: [[1,1,1,1],[1,2,2,2],[1,2,3,3]]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 10:10]--[2020-04-17 Fri 10:17] =>  0:07
+:END:
+We first concatenate all lists in the matrix, then sort it to get ~sorted_lst~.
++Then we re-construct the resulting matrix and return it.+
+Then we create a new empty ~m*n~ matrix ~res~ filled with ~None~.
+We then loop through ~sorted_lst~, and fill the first row of ~res~, then the first column, then second row, second column...
+Recall that a 2D array can be mapped to a 1D array.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 10:17]--[2020-04-17 Fri 10:41] =>  0:24
+CLOCK: [2020-04-17 Fri 10:00]--[2020-04-17 Fri 10:04] =>  0:04
+:END:
+#+name: 1329 Sort the matrix diagonally my solution
+#+caption: 1329 Sort the matrix diagonally my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def diagonal_sort(mat: List[List[int]]) -> List[List[int]]:
+    import itertools
+
+    m = len(mat)
+    n = len(mat[0])
+    res = [[None for i in range(n)] for j in range(m)]
+    sorted_lst = sorted(itertools.chain(*mat))
+
+    cur_col = 0
+    cur_row = 0
+
+    idx = 0
+    while cur_col < n or cur_row < m:
+        if cur_col < n:
+            for moving_col in range(cur_col, n):
+                res[cur_row][moving_col] = sorted_lst[idx]
+                idx += 1
+
+            # cur_row+1 so that it does not overwrite
+            # the first data in the column
+        if cur_row < m:
+            for moving_row in range(cur_row+1, m):
+                res[moving_row][cur_col] = sorted_lst[idx]
+                idx += 1
+
+        cur_col = min(n-1, cur_col+1)
+        cur_row = min(m-1, cur_row+1)
+        if cur_col == n-1 and cur_row == m-1 and res[m-1][n-1] is not None:
+            break
+    return res
+#print(diagonal_sort([[2,1],[3,2],[3,2]]))
+#print(diagonal_sort([[1,2,1],[3,2,4],[7,7,4]]))
+#print(diagonal_sort([[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
+print(diagonal_sort(
+    [[11,25,66,1,69,7],[23,55,17,45,15,52],[75,31,36,44,58,8],[22,27,33,25,68,4],[84,28,14,11,5,50]]
+))
+#+end_src
+
+#+RESULTS: 1329 Sort the matrix diagonally my solution
+#+begin_src none
+[[1, 4, 5, 7, 8, 11], [11, 22, 23, 25, 25, 27], [14, 28, 36, 44, 45, 50], [15, 31, 52, 58, 66, 68], [17, 33, 55, 69, 75, 84]]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+
+***** Space complexity: 
+
+**** Leetcode solution
+
+#+name: 1329 Sort the matrix diagonally leetcode solution
+#+caption: 1329 Sort the matrix diagonally leetcode solution
+#+begin_src ein-python :session localhost :results output code
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+** DONE 1329 Sort the matrix diagonally 2                     :array:medium:
+*** Description
+
+Given a ~m*n~ matrix ~mat~ of integers, sort it diagonally in ascending order from the top-left to the bottom-right then return the sorted array.
+
+Constraints:
+1. m == mat.length
+2. n == mat[i].length
+3. 1 <= m, n <= 100
+4. 1 <= mat[i][j] <= 100
+
+**** Examples:
+#+name: 1329 Sort the matrix diagonally 2 example
+#+caption: 1329 Sort the matrix diagonally 2 example
+#+begin_example
+Input: mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
+Output: [[1,1,1,1],[1,2,2,2],[1,2,3,3]]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 13:47]--[2020-04-17 Fri 13:53] =>  0:06
+:END:
+With the existing ~mat~, we want to sort each existing diagonal so that they are ascend from top-left to bottom right. We do not want to sort the entire matrix.
+
+We need to first get all the starting cell of each diagonal list ~(x, y)~.
+With it, we can easily get the diagonal list by adding 1 to both ~x~ and ~y~.
+We then sort each diagonal list and put them back to the ~mat~.
+**** Code
+#+name: 1329 Sort the matrix diagonally 2 my solution
+#+caption: 1329 Sort the matrix diagonally 2 my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def diagonal_sort(mat: List[List[int]]) -> List[List[int]]:
+    n = len(mat)
+    m = len(mat[0])
+
+    def sort_list(head: Tuple[int]) -> None:
+        res = []
+        x, y = head
+        while x < n and y < m:
+            res.append(mat[x][y])
+            x+=1
+            y+=1
+
+        res.sort()
+        res = iter(res)
+        x, y = head
+        while x < n and y < m:
+            mat[x][y] = next(res)
+            x+=1
+            y+=1
+
+    diagonal_heads = [(x, y) for x in range(n) for y in range(m)]
+
+    for head in diagonal_heads:
+        sort_list(head)
+        
+    return mat
+print(diagonal_sort([[4,2,3],[1,3,4]]))
+print(diagonal_sort([[2,1],[3,2],[3,2]]))
+print(diagonal_sort([[1,2,1],[3,2,4],[7,7,4]]))
+print(diagonal_sort([[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
+print(diagonal_sort(
+    [[11,25,66,1,69,7],[23,55,17,45,15,52],[75,31,36,44,58,8],[22,27,33,25,68,4],[84,28,14,11,5,50]]
+))
+#+end_src
+
+#+RESULTS: 1329 Sort the matrix diagonally 2 my solution
+#+begin_src none
+[[3, 2, 3], [1, 4, 4]]
+[[2, 1], [2, 2], [3, 3]]
+[[1, 2, 1], [3, 2, 4], [7, 7, 4]]
+[[1, 1, 1, 1], [1, 2, 2, 2], [1, 2, 3, 3]]
+[[5, 17, 4, 1, 52, 7], [11, 11, 25, 45, 8, 69], [14, 23, 25, 44, 58, 15], [22, 27, 31, 36, 50, 66], [84, 28, 75, 33, 55, 68]]
+#+end_src
+
+**** Complexity
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 14:24]--[2020-04-17 Fri 14:30] =>  0:06
+CLOCK: [2020-04-17 Fri 14:24]--[2020-04-17 Fri 14:24] =>  0:00
+:END:
+***** Time complexity:
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 15:00]--[2020-04-17 Fri 15:15] =>  0:15
+:END:
+This is a bit hard to analyse, but the basic idea is to add up all the time taken to sort all diagonal lists. The total number of such lists is $m+n-1$.
+By observation, we can get that the number of the longest diagonal list(s) in the matrix is $|n-m+1|$.
+The number of remaining lists would be $m+n-1-|n-m+1|$, which gives us either $2\times (m-1)$ or $2\times (n-1)$.
+
+Therefore, our formula to calculate the total time required by the algorithm is as follows:
+
+
+$O(2\times (\sum_{i=1}^{\min(n,m)-1} i\log i)+|n-m+1|\times \min(m,n)\times \log{\min(m,n)})$.
+***** Space complexity: 
+
+$O(\sqrt{m\times n})$.
+**** Leetcode solution
+Not available.
+
+Interesting one [[https://leetcode.com/problems/sort-the-matrix-diagonally/discuss/489846/Several-Python-solutions][here]].
+#+name: 1329 Sort the matrix diagonally 2 leetcode solution
+#+caption: 1329 Sort the matrix diagonally 2 leetcode solution
+#+begin_src ein-python :session localhost :results output code
+def diagonal_sort(mat):
+    m, n = len(mat), len(mat[0])
+
+    def sort(i, j):
+        ij = zip(range(i, m), range(j, n))
+        vals = iter(sorted(mat[i][j] for i, j in ij))
+        for i, j in ij:
+            mat[i][j] = next(vals)
+
+    for i in range(m): sort(i, 0)
+    for j in range(m): sort(0, j)
+
+    return mat
+
+print(diagonal_sort([[4,2,3],[1,3,4]]))
+print(diagonal_sort([[2,1],[3,2],[3,2]]))
+print(diagonal_sort([[1,2,1],[3,2,4],[7,7,4]]))
+print(diagonal_sort([[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
+print(diagonal_sort(
+    [[11,25,66,1,69,7],[23,55,17,45,15,52],[75,31,36,44,58,8],[22,27,33,25,68,4],[84,28,14,11,5,50]]
+))
+#+end_src
+
+#+RESULTS: 1329 Sort the matrix diagonally 2 leetcode solution
+#+begin_src none
+[[4, 2, 3], [1, 3, 4]]
+[[2, 1], [3, 2], [3, 2]]
+[[1, 2, 1], [3, 2, 4], [7, 7, 4]]
+[[3, 3, 1, 1], [2, 2, 1, 2], [1, 1, 1, 2]]
+[[11, 25, 66, 1, 69, 7], [23, 55, 17, 45, 15, 52], [75, 31, 36, 44, 58, 8], [22, 27, 33, 25, 68, 4], [84, 28, 14, 11, 5, 50]]
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+** 1395 Count number of teams                                 :array:medium:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 19:38]--[2020-04-17 Fri 19:43] =>  0:05
+:END:
+There are ~n~ soldiers standing in a line. Each soldier is assigned a *unique* ~rating~ value.
+
+You have to form a team of 3 soldiers amongst them under the following rules:
+1. Choose 3 soldiers with index(i, j, k) with rating ~(rating[i], rating[j], rating[k])~.
+2. A team is valid if: ~(rating[i]<rating[j]<rating[k])~ or ~rating[i]>rating[j]>rating[k]~, where ~0<=i<j<k<n~.
+
+Soldiers can be part of multiple teams.
+
+Return the number of teams you can form given the conditions.
+
+Constraints:
+1. n == rating.length
+2. 1 <= n <= 200
+3. 1 <= rating[i] <= 10^5
+**** Examples:
+#+name: 1395 Count number of teams example
+#+caption: 1395 Count number of teams example
+#+begin_example
+Input: rating = [2,5,3,4,1]
+Output: 3
+Explanation: We can form three teams given the conditions. (2,3,4), (5,4,1), (5,3,1). 
+
+Input: rating = [2,1,3]
+Output: 0
+Explanation: We can't form any team given the conditions.
+
+Input: rating = [1,2,3,4]
+Output: 4
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 19:43]--[2020-04-17 Fri 19:45] =>  0:02
+:END:
+We return ~False~ for all ~n<3~.
+
+This is a combination problem. We need to try all combinations of the list.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 19:46]--[2020-04-17 Fri 19:50] =>  0:04
+:END:
+#+name: 1395 Count number of teams my solution
+#+caption: 1395 Count number of teams my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+def num_teams(rating: List[int]) -> int:
+    if len(rating) < 3:
+        return 0
+
+    from itertools import combinations
+
+    count = 0
+    for comb in combinations(rating, 3):
+        if comb[0] < comb[1] < comb[2] or comb[0]>comb[1]>comb[2]:
+            count += 1
+
+
+    return count
+print(num_teams([2,5,3,4,1]))
+print(num_teams([2,1,3]))
+print(num_teams([1,2,3,4]))
+print(num_teams([0,1]))
+#+end_src
+
+#+RESULTS: 1395 Count number of teams my solution
+#+begin_src none
+3
+0
+4
+0
+#+end_src
+
+**** Complexity
+***** Time complexity:
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 20:02]--[2020-04-17 Fri 20:04] =>  0:02
+:END:
+$O(C_{n}^{3})$, i.e. $O(n^3)$.
+***** Space complexity: 
+
+$O(1)$.
+**** Leetcode solution
+Not available.
+
+Discussions include the use of dynamic programming and backtracking.
+
+Here we try backtracking.
+#+name: 1395 Count number of teams backtracking solution
+#+caption: 1395 Count number of teams backtracking solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-17 Fri 20:17]
+:END:
+Brute-forcing this problem should be prohibited as this is medium level problem.
+We should try to use some better algorithms to solve it.
+**** Related problems
+
 
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms
 This section contains widely used algorithms and related problems.
+** Sorting
+*** Insertion sort
+In-place sort.
+Easy to implement.
+#+caption: Insertion sort
+#+name: Insertion sort
+#+begin_src ein-python :session localhost :results output code 
+def insertion_sort(arr):
+    i = 0
+    while i < len(arr):
+        j = i
+        while j > 0 and arr[j-1] > arr[j]:
+            temp = arr[j-1]
+            arr[j-1] = arr[j]
+            arr[j] = temp
+            j -= 1
+
+        i+=1
+
+    return arr
+print(insertion_sort([2,1,3,4,2,5]))
+#+end_src
+
+#+RESULTS: Insertion sort
+#+begin_src none
+[1, 2, 2, 3, 4, 5]
+#+end_src
+
+#+caption: Insertion sort-results
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
 ** General

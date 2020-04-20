@@ -706,7 +706,7 @@ print(diagonal_sort(
 **** General thoughts
 **** Related problems
 
-** 1395 Count number of teams                                 :array:medium:
+** DONE 1395 Count number of teams                            :array:medium:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-17 Fri 19:38]--[2020-04-17 Fri 19:43] =>  0:05
@@ -797,29 +797,128 @@ $O(C_{n}^{3})$, i.e. $O(n^3)$.
 
 $O(1)$.
 **** Leetcode solution
+:PROPERTIES:
+:CUSTOM_ID: 1395 Count number of teams Leetcode
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 16:10]--[2020-04-20 Mon 16:19] =>  0:09
+CLOCK: [2020-04-20 Mon 15:09]--[2020-04-20 Mon 15:51] =>  0:42
+:END:
 Not available.
 
-Discussions include the use of dynamic programming and backtracking.
-
-Here we try backtracking.
-#+name: 1395 Count number of teams backtracking solution
-#+caption: 1395 Count number of teams backtracking solution
+This following is adapted from [[https://leetcode.com/problems/count-number-of-teams/discuss/554817/Java-O(N2)-Time-O(N)-Space-(Best-Solution)][this Java solution]].
+#+name: 1395 Count number of teams efficient solution
+#+caption: 1395 Count number of teams efficient solution
 #+begin_src ein-python :session localhost :results output code :noweb yes
 <<imports for typing>>
+def num_teams(rating: List[int]) -> int:
+    ans = 0
+    n = len(rating)
 
+    biggerLeft, biggerRight = {}, {}
+
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if rating[i] < rating[j]:
+                biggerRight[i] = biggerRight.get(i, 0) + 1
+            elif rating[i] > rating[j]:
+                biggerLeft[j] = biggerLeft.get(j, 0) + 1
+
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if rating[i] < rating[j]:
+                ans += biggerRight.get(j, 0)
+            elif rating[i] > rating[j]:
+                ans += biggerLeft.get(i, 0)
+    return ans
+print(num_teams([2,5,3,4,1]))
+print(num_teams([2,1,3]))
+print(num_teams([1,2,3,4]))
+print(num_teams([0,1]))
 #+end_src
 
-***** Time complexity:
+#+RESULTS: 1395 Count number of teams efficient solution
+#+begin_src none
+3
+0
+4
+0
+#+end_src
 
+
+***** Time complexity:
+$O(N^2)$.
 ***** Space complexity: 
 
+$O(N)$.
 *** More analysis
 **** General thoughts
 :LOGBOOK:
-CLOCK: [2020-04-17 Fri 20:17]
+CLOCK: [2020-04-17 Fri 20:17]--[2020-04-17 Fri 21:21] =>  1:04
 :END:
 Brute-forcing this problem should be prohibited as this is medium level problem.
 We should try to use some better algorithms to solve it.
+
+[[#1395 Count number of teams Leetcode]] is a neat solution to the problem and a specia case of a general solution, which is provided here.
+
+#+name: 1395 Count number of teams general solution
+#+caption: 1395 Count number of teams general solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def calc_combinations(n: int, k: int) -> int:
+    """
+    n: total number of items
+    k: number of items to be drawn
+    """
+    calculated = {}
+    def factorial(n: int) -> int:
+        if n == 0 or n == 1:
+            return 1
+        if n not in calculated.keys():
+            calculated[n] = n * factorial(n-1)
+        return calculated[n]
+
+    if n < k :
+        return 0
+    return int(factorial(n)/factorial(k)/factorial(n-k))
+
+def num_teams(rating: List[int], team_len: int = 3) -> int:
+    ans = 0
+    n = len(rating)
+
+    biggerLeft, biggerRight = {}, {}
+
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if rating[i] < rating[j]:
+                biggerRight[i] = biggerRight.get(i, 0) + 1
+            elif rating[i] > rating[j]:
+                biggerLeft[j] = biggerLeft.get(j, 0) + 1
+
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if rating[i] < rating[j]:
+                # team_len-2 gives the remaining numbers that need to be drawn
+                # from biggerRight.get(j, 0) given rating[i] and rating[j]
+                ans += calc_combinations(biggerRight.get(j, 0), team_len-2)
+            elif rating[i] > rating[j]:
+                ans += calc_combinations(biggerLeft.get(i, 0), team_len-2)
+    return ans
+print(num_teams([2,7,8,9,10], 4))
+print(num_teams([2,1,3]))
+print(num_teams([1,2,3,4]))
+print(num_teams([0,1]))
+#+end_src
+
+#+RESULTS: 1395 Count number of teams general solution
+#+begin_src none
+5
+0
+4
+0
+#+end_src
+
 **** Related problems
 
 

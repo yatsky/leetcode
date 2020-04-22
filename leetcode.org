@@ -1797,6 +1797,223 @@ print(edit("abc", "ac"))
 #+end_src
 
 #+caption: dynamic programming - edit distance improved-results
+*** Discussions from /Introduction to Algorithms/
+:PROPERTIES:
+:NOTER_DOCUMENT: /mnt/c/Users/thoma/OneDrive/Books/Introduction to Algorithms (3rd Edition).pdf
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 13:36]--[2020-04-22 Wed 13:52] =>  0:16
+:END:
+Dynamic programming solves problems by combining the solutions to subproblems. "Programming" in this context refers to
+a tabular mothod, not to writing computer code.
+
+DP is usually applied to *optimization problems* that can be divided into subproblems,
+and these subproblems have overlapping subsubprolems, i.e. they share some common subsubproblems.
+
+Usually, there exist multiple solutions to a problem, and we want /a/ solution that gives an optimal 
+(minimum or maximum) value, since there might also exist multiple solutions that give us the same
+optimal value.
+**** Four steps to develop a dynamic programming algorithm
+:PROPERTIES:
+:NOTER_PAGE: 380
+:END:
+1. <<characterize-structure>>Characterize the structure of an optimal solution
+2. <<recursively-define-value>>Recursively define the value of an optimal solution
+3. Compute the value of an optimal solution, typically in a bottom-up fashion
+4. Construct an optimal solution from computed information
+   1. This step is only needed when we want /not only the value of the solution/, but also the /solution/ itself.
+   2. This step is where DP needs $O(N)$ space (if input is one dimentional array) as it needs to store the computed information.
+**** Rod cutting example
+:PROPERTIES:
+:NOTER_PAGE: 381
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 13:52]--[2020-04-22 Wed 14:47] =>  0:55
+:END:
+***** The problem
+Given a rod of length ~n~ inches and a table of ~prices[i], i=1,2,...,n~, determine the maximum revenue ~rn~ obtainable
+by cutting up the rod and selling the pieces. Note that if the price ~prices[n]~ for a rod of length
+~n~ is large enough, an optimal solution may require no cutting at all.
+***** The solution
+:PROPERTIES:
+:NOTER_PAGE: 382
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 17:13]--[2020-04-22 Wed 17:13] =>  0:00
+CLOCK: [2020-04-22 Wed 14:59]--[2020-04-22 Wed 15:05] =>  0:06
+CLOCK: [2020-04-22 Wed 14:56]--[2020-04-22 Wed 14:57] =>  0:01
+:END:
+To cut a rod of length ~n~ into rods of 1 inch, we need to cut ~n-1~ times.
+By thinking of this as a problem of bitmasking, where we have a binary number of ~n-1~ bits,
+and 1 represents cut, 0 represents no cut, it is easy to deduce that the number of possible ways
+to cut the rod is $2^{n-1}$.
+
+Given the ~prices~ table, any revenue $r_n$ of a length ~n~ rod can be represented as follows:
+$r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},...,r_{n-1}+r_1)$. ([[recusively-define-value][Recursively define the value of an optimal solution]])
+$p_n$ corresponds to making no cuts at all. The remaining ~n-1~ arguments correspond to the maximum
+revenue obtained by making an initial cut of the rod into two pieces of size ~i~ and ~n-i~, 
+for each $i=1,2,...,n-1$, and then optimally cutting up those pieces further, 
+obtaining revenues $r_i$ and and $r_{n-i}$ from those two pieces.
+
+We say the rod-cutting problem exihibits *optimal substructure*, i.e. optimal solutions to a problem
+incorporate optimal solutions to related subproblems, which we may solve independently.
+It also has overlapping subsubproblems. For example, one needs to $r_1$ twice for $r_i$ and $r_{n-i}$.
+
+The equation $r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},...,r_{n-1}+r_1)$ has duplicate values
+since when doing cutting (bitmasking), "100" is the same as "001".
+Therefore, we can simplify this process of cutting by the following:
+1. We cut a first piece of length ~i~ off the left-hand end
+2. We only further divided the right-hand end remainder of length ~n-i~.
+3. The revenue is then $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$, which removes one recursion ($r_i$) for us.
+
+****** Recursive top-down implementation
+:PROPERTIES:
+:NOTER_PAGE: 384
+:END:
+Here is an implementation of the above formula $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$.
+#+caption: cutting rod recursive top-down implementation
+#+name: cutting rod recursive top-down implementation
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+def cut_rod(p: List[int], n: int) -> int:
+    from math import inf
+    if n == 0:
+        return 0
+    q = -inf
+    for i in range(1, n+1):
+        # implementation detail
+        # the array in the book starts with 1
+        # here the array starts with 0
+        q = max(q, p[i-1]+cut_rod(p, n-i))
+    return q
+print(cut_rod([1,2,3,9], 3))
+#+end_src
+
+#+RESULTS: cutting rod recursive top-down implementation
+#+begin_src none
+3
+#+end_src
+
+#+caption: cutting rod recursive top-down implementation-results
+
+This implementation is slow because it's time complexity is $O(n^2),\text{ where }n=\text{len}(p)$.
+Many same operations were done multiple times. 
+For example, when solving ~cut_rod(p, n)~ and ~cut_rod(p, n-1)~, ~cut_rod(p, n-2)~ was calculated twice.
+
+****** Dynamic programming solution
+:PROPERTIES:
+:NOTER_PAGE: 385
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 15:05]--[2020-04-22 Wed 15:34] =>  0:29
+:END:
+We only need to solve one problem in [[*Recursive top-down implementation]] to make it significantly faster,
+namely, we want to solve each subproblem exactly *once* and save it (extra memory) for future use.
+
+Dynamic programming runs in polynomial time when the number of /distinct/ subproblems involved
+is polynomial in the input size and we can solve each sub subproblem in polynomial time.
+There are usually two ways to implement a dynamic programming approach - top-down with memoization
+and bottom-up.
+
+Top-down with memoization:
+1. Recursive
+2. Save the result of each subproblem in an array or hash table
+3. For every subproblem, first check if we have already solved it
+4. If so, just return the value
+5. If not, compute the value for the subproblem
+
+Bottom-up:
+1. Typically depends on some natural notion of the "size" of a subproblem, s.t. solving any particular subproblem depends only on solving "smaller" subproblems.
+2. We sort the subproblems by size and solve them in size order, smallest first.
+3. When solving a particular subproblem, we have already solved all of the smaller subproblems its solution depends upon beforehand, and we have saved their solutions.
+
+These two methods are asymptotically the same.
+
+******* top-bottom approach code
+:PROPERTIES:
+:NOTER_PAGE: 386
+:END:
+Here is the Python code for dynamic programming using top-bottom memoization method.
+#+caption: top-bottom dynamic programming meoization
+#+name: top-bottom dynamic programming meoization
+#+begin_src ein-python :session localhost :results output code 
+def memoized_cut_rod(p, n):
+    from math import inf
+    def memoized_cut_rod_aux(p, n, r):
+        if r[n] >= 0:
+            return r[n]
+        if n == 0:
+            q = 0
+        else:
+            q = -inf
+            for i in range(1, n+1):
+                q = max(q, p[i-1]+memoized_cut_rod_aux(p, n-i, r))
+        r[n] = q
+        return q
+
+    r = [-inf for i in range(n+1)]
+
+    return memoized_cut_rod_aux(p, n, r)
+print(memoized_cut_rod([1,2,3,9], 3))
+#+end_src
+
+#+RESULTS: top-bottom dynamic programming meoization
+#+begin_src none
+3
+#+end_src
+
+#+caption: top-bottom dynamic programming meoization-results
+
+#+RESULTS: top-bottom dynamic programming meoization#+begin_src none
+[....]
+#+end_src
+
+******* bottom-up approach code
+:PROPERTIES:
+:NOTER_PAGE: 387
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 17:14]--[2020-04-22 Wed 17:16] =>  0:02
+CLOCK: [2020-04-22 Wed 16:30]--[2020-04-22 Wed 16:47] =>  0:17
+CLOCK: [2020-04-22 Wed 15:47]--[2020-04-22 Wed 16:23] =>  0:36
+CLOCK: [2020-04-22 Wed 15:34]--[2020-04-22 Wed 15:37] =>  0:03
+:END:
+Here is the bottom-up approach, which is simpler and easier to understand for me.
+Recall the revenue is $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$.
+We need to prove that $r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},...,r_{n-1}+r_1)$ is in effect
+equivalent to $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$, so that we can justify the use of an inner loop in the code below.
+#+caption: bottom-up dynamic programming approach
+#+name: bottom-up dynamic programming approach
+#+begin_src ein-python :session localhost :results output code 
+def bottom_up_cut_rod(p, n):
+    from math import inf
+
+    r = [0 for i in range(n+1)]
+    for i in range(1, n+1):
+        q = -inf
+        # This inner loop is introduced because
+        # we cannot know, ahead of time, the best cutting strategy
+        # that will give us the highest return.
+        # Therefore we need to check all possible strategies,
+        # which were already calculated.
+        for j in range(1, i+1):
+            # p[j-1] is the price of a length j rod
+            # r[i-j] is the best return of length i-j rod, which should be already calculated
+            #q = max(q, p[j-1] + r[i-j])
+            # q is the possible return from previous operations in this inner loop
+            q = max(q, r[j] + r[i-j], p[j-1]) # this is easier to understand
+        r[i] = q
+    return r[n]
+print(bottom_up_cut_rod([1,4,4,4,9], 4))
+#+end_src
+
+#+RESULTS: bottom-up dynamic programming approach
+#+begin_src none
+8
+#+end_src
+
+#+caption: bottom-up dynamic programming approach-results
+
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
 ** General

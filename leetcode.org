@@ -1680,7 +1680,7 @@ print(max_subarray([-2,1,-3,4,-1,2,1,-5,4]))
 **** Related problems
 [[*121 Best time to buy and sell stock]]
 The ~minprice~ in [[*121 Best time to buy and sell stock]] is the ~cur_sum~ in this question, and ~maxprofit~ in [[*121 Best time to buy and sell stock]] is the ~best_sum~ in this question.
-** 70 Climbming stairs                                             :dp:easy:
+** DONE 70 Climbming stairs                                        :dp:easy:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-22 Wed 10:50]--[2020-04-22 Wed 10:52] =>  0:02
@@ -2110,6 +2110,11 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 #+end_src
 
 #+caption: bottom-up dynamic programming approach-results
+
+******* Reconstructing a solution
+:PROPERTIES:
+:NOTER_PAGE: 389
+:END:
 
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.

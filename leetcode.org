@@ -1798,7 +1798,7 @@ CLOCK: [2020-04-23 Thu 08:05]--[2020-04-23 Thu 08:08] =>  0:03
 It is amazing how we can optimise this seemingly daunting problem such dramatically from $O(2^n)$ to $\log(n)$!.
 **** Related problems
 [[*746 Min cost climbing stairs]]
-** DONE 746 Min cost climbing stairs
+** DONE 746 Min cost climbing stairs                               :dp:easy:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-23 Thu 08:11]--[2020-04-23 Thu 08:14] =>  0:03

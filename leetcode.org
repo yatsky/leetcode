@@ -1760,12 +1760,30 @@ $O(n)$.
 $O(n)$.
 
 **** Leetcode solution
-
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 07:55]--[2020-04-23 Thu 08:05] =>  0:10
+:END:
+There are [[https://leetcode.com/problems/climbing-stairs/solution/][6 approaches]] on Leetcode.
+1. Approach 1 is brute force.
+2. Approaches 2 to 4 are essentially the same as my solution.
+3. Approach 5 uses /Binets Method/, which uses matrix multiplication to obtain the $n^{th}$ Fibonacci number. Its time complexity is $\log(n)$. Space complexity is $O(1)$.
+4. Approach 6 just uses the Fibonacci Formula to calculate the $n^{th}$ Fibonacci number. It is asymptotically the same as approach 5. However, precision of calculation is lost when ~n~ is big and the formula will give an incorrect number.
+Here we take the formula solution.
 #+name: 70 Climbming stairs leetcode solution
 #+caption: 70 Climbming stairs leetcode solution
 #+begin_src ein-python :session localhost :results output code :noweb yes
 <<imports for typing>>
 
+def climb_stairs(n: int) -> int:
+    sqrt5=pow(5, 1/2)
+    fibn = pow((1+sqrt5)/2, n+1)-pow((1-sqrt5)/2,n+1)
+    return int(fibn/sqrt5)
+print(climb_stairs(5))
+#+end_src
+
+#+RESULTS: 70 Climbming stairs leetcode solution
+#+begin_src none
+8
 #+end_src
 
 ***** Time complexity:
@@ -1774,6 +1792,160 @@ $O(n)$.
 
 *** More analysis
 **** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 08:05]--[2020-04-23 Thu 08:08] =>  0:03
+:END:
+It is amazing how we can optimise this seemingly daunting problem such dramatically from $O(2^n)$ to $\log(n)$!.
+**** Related problems
+[[*746 Min cost climbing stairs]]
+** DONE 746 Min cost climbing stairs
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 08:11]--[2020-04-23 Thu 08:14] =>  0:03
+:END:
+On a staircase, the $i^{th}$ step has some 0 indexed non-negative cost ~cost[i]~ assigned.
+
+Once you pay the cost, you can either climb one or two steps. You need to find minimum cost to reach the top of the floor, and you can either start from the step with index 0 or with index 1.
+
+Constraints:
+1. ~cost~ will have a length in the range [2, 1000]
+2. Every ~cost[i]~ will be an integer in the range [0, 999].
+**** Examples:
+#+name: 746 Min cost climbing stairs example
+#+caption: 746 Min cost climbing stairs example
+#+begin_example
+Input: cost = [10, 15, 20]
+Output: 15
+Explanation: Cheapest is start on cost[1], pay that cost and go to the top.
+
+Input: cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+Output: 6
+Explanation: Cheapest is start on cost[0], and only step on 1s, skipping cost[3].
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 08:14]--[2020-04-23 Thu 08:24] =>  0:10
+:END:
+This is an optimal problem. The final problem, "minimum cost to reach the top of the floor" can be divided into two subproblems, namely, the minimum cost to reach to the previous two possible stairs. We have $min_cost_n=min(min_cost_{n-1}, min_cost_{n-2})$, and that $min_cost_{n-1}$ and $min_cost_{n-2}$ have overlapping subsubproblems.
+Therefore, we can use dynamic programming to solve this problem.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 09:11]--[2020-04-23 Thu 09:11] =>  0:00
+CLOCK: [2020-04-23 Thu 08:24]--[2020-04-23 Thu 08:41] =>  0:17
+:END:
+#+name: 746 Min cost climbing stairs my solution
+#+caption: 746 Min cost climbing stairs my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def min_cost_climbing_stairs(cost: List[int]) -> int:
+    from math import inf
+    n = len(cost)
+    min_cost = [inf for i in range(n)]
+
+    min_cost[0], min_cost[1] = cost[0], cost[1]
+    for i in range(2, n):
+        min_cost[i] = min(min_cost[i-1], min_cost[i-2])+cost[i]
+
+    return min(min_cost[n-1], min_cost[n-2])
+print(min_cost_climbing_stairs([1, 100, 1,1,1,100,1,1,100,1]))
+#+end_src
+
+#+RESULTS: 746 Min cost climbing stairs my solution
+#+begin_src none
+6
+#+end_src
+**** Complexity
+***** Time complexity:
+$O(N)$.
+***** Space complexity: 
+$O(N)$.
+**** Leetcode solution
+:PROPERTIES:
+:CUSTOM_ID: 746 Leetcode
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 08:43]--[2020-04-23 Thu 09:03] =>  0:20
+:END:
+The explanation from Leetcode is not very intuitive or clear.
+The concept is the same as mine, but the way it explains things is very twisted.
+
+Basically, they want ~i in range(n, 1, -1)~, and then calculate each ~f[i]~ which is the total cost of the current floor.
+#+caption: Quote from Leetcode
+#+name: Quote from Leetcode
+#+begin_quote
+Intuition: 
+There is a clear recursion available: the final cost f[i] to climb the staircase from some step i is f[i] = cost[i] + min(f[i+1], f[i+2]). This motivates dynamic programming.
+
+Algorithm:
+Let's evaluate f backwards in order. That way, when we are deciding what f[i] will be, we've already figured out f[i+1] and f[i+2].
+
+We can do even better than that. At the i-th step, let f1, f2 be the old value of f[i+1], f[i+2], and update them to be the new values f[i], f[i+1]. We keep these updated as we iterate through i backwards. At the end, we want min(f1, f2).
+#+end_quote
+
+#+name: 746 Min cost climbing stairs leetcode solution
+#+caption: 746 Min cost climbing stairs leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def min_cost_climbing_stairs(cost: List[int]):
+    f1 = f2 = 0
+    for x in reversed(cost):
+        f1, f2=x+min(f1, f2), f1
+
+    return min(f1, f2)
+print(min_cost_climbing_stairs([10,14,10]))
+#+end_src
+
+#+RESULTS: 746 Min cost climbing stairs leetcode solution
+#+begin_src none
+14
+#+end_src
+
+Based on the [[#746 Leetcode][Leetcode solution]], we can improve our code to get $O(1)$ space complexity.
+#+name: 746 Min cost climbing stairs my solution improved
+#+caption: 746 Min cost climbing stairs my solution improved
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def min_cost_climbing_stairs(cost: List[int]) -> int:
+    from math import inf
+    n = len(cost)
+
+    mc1, mc2 = cost[0], cost[1]
+
+    for i in range(2, n):
+        mc1, mc2 = mc2, min(mc1, mc2)+cost[i]
+
+    return min(mc1, mc2)
+print(min_cost_climbing_stairs([1, 100, 1,1,1,100,1,1,100,1]))
+#+end_src
+
+#+RESULTS: 746 Min cost climbing stairs my solution improved
+#+begin_src none
+6
+#+end_src
+***** Time complexity:
+$O(N)$
+***** Space complexity: 
+
+$O(1)$
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 09:15]--[2020-04-23 Thu 09:18] =>  0:03
+:END:
+Again, to determine if a question fits dynamic programming, we want to determine if:
+1. It asks for an optimal solution
+2. It can be divided into finding the optimal solution to subproblems
+3. The subproblems have overlapping subsubproblems
+   1. DP's goal is to only solve these overlapping problems once to save time
+4. A recursive definition of the optimal solution can be found
 **** Related problems
 
 

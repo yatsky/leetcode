@@ -1947,7 +1947,7 @@ Again, to determine if a question fits dynamic programming, we want to determine
    1. DP's goal is to only solve these overlapping problems once to save time
 4. A recursive definition of the optimal solution can be found
 **** Related problems
-
+[[*70 Climbming stairs]]
 
 * Data structures
 This section contains widely used data structures and related problems.

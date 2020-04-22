@@ -1680,6 +1680,103 @@ print(max_subarray([-2,1,-3,4,-1,2,1,-5,4]))
 **** Related problems
 [[*121 Best time to buy and sell stock]]
 The ~minprice~ in [[*121 Best time to buy and sell stock]] is the ~cur_sum~ in this question, and ~maxprofit~ in [[*121 Best time to buy and sell stock]] is the ~best_sum~ in this question.
+** 70 Climbming stairs                                             :dp:easy:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 10:50]--[2020-04-22 Wed 10:52] =>  0:02
+:END:
+You are climbing a stair case. It takes ~n~ steps to reach to the top.
+
+Each time you can either climbe 1 or 2 steps. In how many distinct ways you can climb to the top?
+
+Constraints:
+~n~ will be positive integer.
+**** Examples:
+#+name: 70 Climbming stairs example
+#+caption: 70 Climbming stairs example
+#+begin_example
+Input: 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+
+Input: 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 11:07]--[2020-04-22 Wed 11:11] =>  0:04
+CLOCK: [2020-04-22 Wed 10:57]--[2020-04-22 Wed 11:03] =>  0:06
+CLOCK: [2020-04-22 Wed 10:52]--[2020-04-22 Wed 10:56] =>  0:04
+:END:
+This is basically a Fibonacci series.
++We need to do a "top-down" calculation of the ways we can take.+
++Starting from the top (~n~), there are two ways to go back (one step or two steps), and we are at ~n-1~.+
++By the same token, when we are at ~n-1~, for the two different stairs we are at, there are two stairs we can take for each of them. We first calculate one of them, and store the number of ways to go down in a map. This map can be later used for calculating another possibility at ~n-1~.+
+
++We continue this until we reach the bottom.+
+
++We then do addition: ~ans[n] = ans[n-1]+ans[n-2]~.+
+The code is written in "bottom-up" format. Somehow for me it is easier to think this way. Previously mentioned algorithm still works but is hard for me to implement as I am not sure how to solve the recursive part when we use a map to simplify calculation.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 11:11]--[2020-04-22 Wed 11:18] =>  0:07
+:END:
+#+name: 70 Climbming stairs my solution
+#+caption: 70 Climbming stairs my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def climb_stairs(n: int) -> int:
+    dp = [0 for i in range(n+1)]
+
+    dp[0], dp[1] = 1, 1
+    for i in range(2, n+1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]
+print(climb_stairs(4))
+#+end_src
+
+#+RESULTS: 70 Climbming stairs my solution
+#+begin_src none
+5
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(n)$.
+
+***** Space complexity: 
+$O(n)$.
+
+**** Leetcode solution
+
+#+name: 70 Climbming stairs leetcode solution
+#+caption: 70 Climbming stairs leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms

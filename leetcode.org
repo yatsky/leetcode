@@ -921,7 +921,765 @@ print(num_teams([0,1]))
 
 **** Related problems
 
+** DONE 442 Find all duplicates in an array                   :array:medium:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 17:30]--[2020-04-20 Mon 17:34] =>  0:04
+:END:
+Given an array of integers, $1\le a[i] \le n, n=\text{size of array}$, some elements appear *twice* and others appear *once*.
 
+Find all the elements that appear *twice* in this array.
+
+Constraints:
+Do it without extra space and in $O(n)$ runtime.
+
+**** Examples:
+#+name: 442 Find all duplicates in an array example
+#+caption: 442 Find all duplicates in an array example
+#+begin_example
+Input:
+[4,3,2,7,8,2,3,1]
+
+Output:
+[2,3]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 19:40]--[2020-04-20 Mon 19:46] =>  0:06
+CLOCK: [2020-04-20 Mon 19:18]--[2020-04-20 Mon 19:29] =>  0:11
+CLOCK: [2020-04-20 Mon 17:35]--[2020-04-20 Mon 17:36] =>  0:01
+:END:
+
+See [[https://leetcode.com/problems/find-all-duplicates-in-an-array/discuss/92390/Python-O(n)-time-O(1)-space][Discussion]].
+
+$\because$:
+Given the condition $\max(arr)\le \text{len}(arr)$, we know that each number element in the array should be able to be mapped to an index of the array.
+
+We also know that, a number in the array either occurs just once or twice.
+
+$\therefore$:
+when iterating the array, we can mark the number at index ~i~ negative when we first encounter it. If we never see it again, then we can safely ignore it (once). The second time we see it and it's negative, we add it to the final result (twice). 
+
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 19:46]--[2020-04-20 Mon 19:50] =>  0:04
+:END:
+#+name: 442 Find all duplicates in an array my solution
+#+caption: 442 Find all duplicates in an array my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def find_duplicates(nums: List[int]) -> List[int]:
+    res = []
+    for n in nums:
+        if nums[abs(n)-1] < 0:
+            res.append(abs(n))
+        else:
+            nums[abs(n)-1] *= -1
+    return res
+
+print(find_duplicates([1,2,3,3]))
+#+end_src
+
+#+RESULTS: 442 Find all duplicates in an array my solution
+#+begin_src none
+[3]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(N)$.
+***** Space complexity: 
+$O(1)$, excluding the returning result ~res~.
+
+**** Leetcode solution
+Not available.
+
+Most interesting idea has been provided in the previous section.
+#+name: 442 Find all duplicates in an array leetcode solution
+#+caption: 442 Find all duplicates in an array leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+** DONE 78 Subsets                                            :array:medium:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 20:03]--[2020-04-20 Mon 20:05] =>  0:02
+:END:
+
+Given a set of *distinct* integers, ~nums~, return all possible subsets (the power set).
+
+Constraints:
+The solution set must not contain duplicate subsets.
+**** Examples:
+#+name: 78 Subsets example
+#+caption: 78 Subsets example
+#+begin_example
+Input: nums = [1,2,3]
+Output:
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 20:05]--[2020-04-20 Mon 20:06] =>  0:01
+:END:
+
+We can use Python's ~itertools.combinations~.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 20:06]--[2020-04-20 Mon 20:14] =>  0:08
+:END:
+#+name: 78 Subsets my solution
+#+caption: 78 Subsets my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def subsets(nums: List[int]) -> List[List[int]]:
+    from itertools import combinations, chain
+
+    res = [combinations(nums, i) for i in range(1, len(nums) + 1)]
+    return list(map(list, chain(*res))) + [[]]
+print(subsets([1,2,3]))
+#+end_src
+
+#+RESULTS: 78 Subsets my solution
+#+begin_src none
+[[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3], []]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(\frac{N!}{(N-K)!K!})$
+***** Space complexity: 
+$O(\frac{N!}{(N-K)!K!})$
+
+**** Leetcode solution
+:PROPERTIES:
+:CUSTOM_ID: 78 Subsets Leetcode Solution
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-20 Mon 20:38]--[2020-04-20 Mon 20:40] =>  0:02
+:END:
+Bitmask solution.
+The idea is that we map each subset to a bitmask of length n, where 1 on the /ith/ position in the bitmask meas the presence of ~nums[i]~ in the subset, and 0 means its absence.
+#+name: 78 Subsets leetcode solution
+#+caption: 78 Subsets leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def subsets(nums: List[int]) -> List[List[int]]:
+    n = len(nums)
+    output = []
+
+    # nth_bit = "1000"
+    nth_bit = 1<<n
+    for i in range(2**n):
+        # generate bit mask, from 0..00 to 1..11
+        bitmask = bin(i | nth_bit)[3:]
+        # append subset corresponding to that bit mask
+        output.append([nums[j] for j in range(n) if bitmask[j] == '1'])
+
+    return output
+print(subsets([1,2,3]))
+#+end_src
+
+#+RESULTS: 78 Subsets leetcode solution
+#+begin_src none
+0b1000
+000
+0b1001
+001
+0b1010
+010
+0b1011
+011
+0b1100
+100
+0b1101
+101
+0b1110
+110
+0b1111
+111
+[[], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
+#+end_src
+
+***** Time complexity:
+$O(\frac{N!}{(N-K)!K!})$
+***** Space complexity: 
+$O(\frac{N!}{(N-K)!K!})$
+
+*** More analysis
+**** General thoughts
+See [[*Bitmask]]
+**** Related problems
+
+** DONE 48 Rotate image                                       :array:medium:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 14:13]--[2020-04-21 Tue 14:14] =>  0:01
+:END:
+You are given an ~n*n~ 2D matrix representing an image.
+
+Rotate the image 90 degrees (clockwise).
+
+Constraints:
+
+You have to rotate the image in-place.
+**** Examples:
+#+name: 48 Rotate image example
+#+caption: 48 Rotate image example
+#+begin_example
+Given input matrix = 
+[
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+],
+
+rotate the input matrix in-place such that it becomes:
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+
+Given input matrix =
+[
+  [ 5, 1, 9,11],
+  [ 2, 4, 8,10],
+  [13, 3, 6, 7],
+  [15,14,12,16]
+], 
+
+rotate the input matrix in-place such that it becomes:
+[
+  [15,13, 2, 5],
+  [14, 3, 4, 1],
+  [12, 6, 8, 9],
+  [16, 7,10,11]
+]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 14:17]--[2020-04-21 Tue 14:28] =>  0:11
+:END:
+Given the coordinate of a point ~(row, col)~ in the matrix ~mat~ (~n*n~), to rotate a matrix clockwise by 90 degrees is to do the following:
+~map(lambda (row, col): (col, n-1-row), mat)~.
+**** Code
+:PROPERTIES:
+:CUSTOM_ID: 48 Rotate image my solution
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 14:57]--[2020-04-21 Tue 15:01] =>  0:04
+CLOCK: [2020-04-21 Tue 14:32]--[2020-04-21 Tue 14:56] =>  0:24
+:END:
+#+name: 48 Rotate image my solution
+#+caption: 48 Rotate image my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def rotate(matrix: List[List[int]]) -> None:
+    import math
+    n = len(matrix)
+    def rotate_square(mat: List[List[int]], coor: Tuple[int]) -> None:
+        row, col = coor
+        target_val = mat[col][n-1-row]
+        mat[col][n-1-row] = mat[row][col]
+
+        row, col = col, n-1-row
+        temp = mat[col][n-1-row]
+        mat[col][n-1-row] = target_val
+
+        row, col = col, n-1-row
+        target_val = mat[col][n-1-row]
+        mat[col][n-1-row] = temp
+
+        row, col = col, n-1-row
+        mat[col][n-1-row] = target_val
+
+    for cur_row in range(math.ceil(n/2)):
+        for cur_col in range(cur_row, n-cur_row-1):
+            rotate_square(matrix, (cur_row, cur_col))
+
+    print(matrix)
+
+rotate([[1,2],[3,4]])
+rotate([[1,2,3],[4,5,6],[7,8,9]])
+rotate([[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]])
+#+end_src
+
+#+RESULTS: 48 Rotate image my solution
+#+begin_src none
+[[3, 1], [4, 2]]
+[[7, 4, 1], [8, 5, 2], [9, 6, 3]]
+[[15, 13, 2, 5], [14, 3, 4, 1], [12, 6, 8, 9], [16, 7, 10, 11]]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(N^2)$.
+***** Space complexity: 
+$O(1)$
+**** Leetcode solution
+Not available.
+#+name: 48 Rotate image leetcode solution
+#+caption: 48 Rotate image leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 15:42]--[2020-04-21 Tue 15:49] =>  0:07
+:END:
+My solution is very cumbersome, especially the ~rotate_square()~ function.
+As shown in the Leetcode discussion forum, it is easier to flip the matrix instead of actually rotating it because flip the matrix only involves *swapping* two values. Whereas my ~rotate_square()~ involves introducing two temporary variables to finish a rotation.
+
+The other way to mitigate the problem in my solution is to use the following code, which does the rotation of four elements at once.
+#+caption: 48 rotate image sample
+#+name: 48 rotate image sample
+#+begin_src ein-python :session localhost :results output code 
+matrix[i][j], matrix[j][n - 1 - i], matrix[n - 1 - i][n - 1 - j], matrix[n - 1 - j][i] 
+= matrix[n - 1 - j][i], matrix[i][j], matrix[j][n - 1 - i], matrix[n - 1 - i][n - 1 - j]
+#+end_src
+
+#+caption: 48 rotate image sample-results
+
+#+RESULTS: 48 rotate image sample
+**** Related problems
+
+** DONE 72 Edit distance                                           :dp:hard:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 20:46]--[2020-04-21 Tue 20:47] =>  0:01
+:END:
+Given two words, ~word1~ and ~word2~, find the minimum number of operations required to convert ~word1~ to ~word2~.
+
+You have the following 3 operations permitted on a word:
+1. Insert a character
+2. Delete a character
+3. Replace a character
+   
+Constraints:
+
+**** Examples:
+#+name: 72 Edit distance example
+#+caption: 72 Edit distance example
+#+begin_example
+Input: word1 = "intention", word2 = "execution"
+Output: 5
+Explanation: 
+intention -> inention (remove 't')
+inention -> enention (replace 'i' with 'e')
+enention -> exention (replace 'n' with 'x')
+exention -> exection (replace 'n' with 'c')
+exection -> execution (insert 'u')
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+This is a typical dynamic programming problem.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 20:49]--[2020-04-21 Tue 21:05] =>  0:16
+:END:
+#+name: 72 Edit distance my solution
+#+caption: 72 Edit distance my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def min_distance(word1: str, word2: str) -> int:
+    m = len(word1)
+    n = len(word2)
+
+    if m == 0:
+        return n
+    if n == 0:
+        return m
+
+    tbl = [[0 for j in range(n+1)] for i in range(m+1)]
+
+    for i in range(m+1):
+        for j in range(n+1):
+            if i == 0:
+                tbl[i][j] = j
+            elif j==0:
+                tbl[i][j] = i
+            elif word1[i-1] == word2[j-1]:
+                tbl[i][j] = tbl[i-1][j-1]
+            else:
+                tbl[i][j] = 1 + min(
+                    tbl[i-1][j],
+                    tbl[i][j-1],
+                    tbl[i-1][j-1]
+                )
+
+    return tbl[m][n]
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(MN)$
+***** Space complexity: 
+$O(MN)$
+
+**** Leetcode solution
+Not available.
+#+name: 72 Edit distance leetcode solution
+#+caption: 72 Edit distance leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+See [[*Edit distance]].
+**** Related problems
+
+** DONE 121 Best time to buy and sell stock                  :array:hard:dp:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 21:05]--[2020-04-21 Tue 21:07] =>  0:02
+:END:
+Say you have an array for which the ~ith~ element is the price of a given stock on day ~i~.
+
+If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+Constraints:
+You cannot sell a stock before you buy one.
+**** Examples:
+#+name: 121 Best time to buy and sell stock example
+#+caption: 121 Best time to buy and sell stock example
+#+begin_example
+Input: [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+             Not 7-1 = 6, as selling price needs to be larger than buying price.
+             
+Input: [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transaction is done, i.e. max profit = 0.
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 21:24]--[2020-04-21 Tue 21:28] =>  0:04
+CLOCK: [2020-04-21 Tue 21:07]--[2020-04-21 Tue 21:13] =>  0:06
+:END:
++We build up a table of all possible combinations from the ~prices~ list.+
++Half of the table is not necessary.+
+We first sort the list ~prices~ and convert it to a ordered map that ~{price: day}~.
+Then we start from the lowest price ~p_low~, and check it against the highest price ~p_hi~, if ~price[p_hi]>price[p_low]~, we already find one candidate of the result and move ~p_low~ to the right, else, we move ~p_hi~ to the left.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 21:31]--[2020-04-21 Tue 21:46] =>  0:15
+CLOCK: [2020-04-21 Tue 21:13]--[2020-04-21 Tue 21:16] =>  0:03
+:END:
+#+name: 121 Best time to buy and sell stock my solution
+#+caption: 121 Best time to buy and sell stock my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def max_profit(prices: List[int]) -> int:
+
+    max_p = 0
+
+    price_map = {}
+    for i, p in enumerate(prices):
+        if p not in price_map.keys():
+            price_map[p] = i
+
+    prices.sort()
+
+    for p_buy in prices:
+        d_buy = price_map[p_buy]
+        for p_sell in reversed(prices):
+            d_sell = price_map[p_sell]
+            if p_buy<p_sell and d_buy < d_sell:
+                max_p = max(max_p, p_sell-p_buy)
+                break
+
+    return max_p
+print(max_profit([7,1,5,3,6,4]))
+print(max_profit([7,6,5]))
+print(max_profit([1,4,1,4,3,1]))
+#+end_src
+
+#+RESULTS: 121 Best time to buy and sell stock my solution
+#+begin_src none
+5
+0
+3
+#+end_src
+
+**** Complexity
+***** Time complexity:
+
+***** Space complexity: 
+
+**** Leetcode solution
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 08:17]--[2020-04-22 Wed 08:23] =>  0:06
+:END:
+If we plot the numbers in the array on a graph, we will have a line graph.
+
+The points of interest are the peaks and valleys in the given graph. We need to find the highest peak, following the lowest valley. We can maintain two variables - ~minprice~ and ~maxprofit~ corresponding to the lowest valley and maximum profit (max difference between selling price and ~minprice~) obtained so far respectively.
+#+name: 121 Best time to buy and sell stock leetcode solution
+#+caption: 121 Best time to buy and sell stock leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def max_profit(prices: List[int]) -> int:
+    from math import inf
+    minprice = inf
+    maxprofit = 0
+
+    for i in range(len(prices)):
+        if prices[i] < minprice:
+            minprice = prices[i]
+        elif prices[i] - minprice > maxprofit:
+            maxprofit = prices[i] - minprice
+
+    return maxprofit
+print(max_profit([1,2,3,4,5]))
+#+end_src
+
+#+RESULTS: 121 Best time to buy and sell stock leetcode solution
+#+begin_src none
+4
+#+end_src
+
+***** Time complexity:
+$O(N)$
+
+***** Space complexity: 
+$O(1)$
+
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 09:09]--[2020-04-22 Wed 09:26] =>  0:17
+CLOCK: [2020-04-22 Wed 08:23]--[2020-04-22 Wed 08:46] =>  0:23
+:END:
+Initially I was trying to use dynamic programming to solve this problem, as is indicated by the problem's DP tag, then it was very hard to start because the problem does not seem to have an obvious subproblems that will be solved multiple times.
+
+The solutions provided by Leetcode did not use DP either, but then other people suggested that it /can/ be categorised as a very [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock/solution/][simple DP problem]] and tabulation can be used to solve it.
+
+#+begin_quote
+The prerequisites for using DP are:
+1. optimal substructure
+2. overlaping sub-problems
+
+In this problem, sub-problems ~f[i]~ is defined as "the minimum stock price from day 0 to day ~i~", which is dependant on ~f[i-1]~ and ~prices[i]~, whichever is lower.
+The overlapping sub-problem here is very obvious - there's no need to calculate ~f[i]~ by comparing stock prices from day 0 to day ~i-1~, which is the brute force solution, but just reuse the pre-calculated result ~f[i-1]~.
+
+~maxprofit~ variable may or may not be in the DP table, as it can be viewed as a simple global max, and we can simply get it by ~maxprofit=max(maxprofit, prices[i-1]-dp[i-1][0])~.
+#+end_quote
+
+Also people mentioned that this is similar to [[https://en.wikipedia.org/wiki/Maximum_subarray_problem][Kadane's Algorithm for Maximum Subarry Sum]].
+#+caption: 121 Best time to buy and sell stock dp solution
+#+name: 121 Best time to buy and sell stock dp solution
+#+begin_src ein-python :session localhost :results output code 
+def max_profit(prices) -> int:
+    from math import inf
+    
+    n = len(prices)
+    dp = [[0, 0] for i in range(n+1)]
+
+    # starting price
+    dp[0][0] = inf
+
+    for i in range(1, n+1):
+        dp[i][0] = min(dp[i-1][0], prices[i-1])
+        dp[i][1] = max(dp[i-1][1], prices[i-1]-dp[i-1][0])
+
+    return dp[n][1]
+print(max_profit([1,2,3,4,5]))
+#+end_src
+
+#+RESULTS: 121 Best time to buy and sell stock dp solution
+#+begin_src none
+4
+#+end_src
+
+#+caption: 121 Best time to buy and sell stock dp solution-results
+**** Related problems
+[[*53 Maximum subarry]]
+** DONE 53 Maximum subarry
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 09:27]--[2020-04-22 Wed 09:28] =>  0:01
+:END:
+Given an integer array ~nums~, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+Constraints:
+Use $O(N)$ time.
+**** Examples:
+#+name: 53 Maximum subarry example
+#+caption: 53 Maximum subarry example
+#+begin_example
+Input: [-2,1,-3,4,-1,2,1,-5,4],
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 09:28]--[2020-04-22 Wed 09:38] =>  0:10
+:END:
+Use dynamic programming.
+The sub-problem is "the maximum sum of previous arrays".
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 09:53]--[2020-04-22 Wed 09:54] =>  0:01
+CLOCK: [2020-04-22 Wed 09:43]--[2020-04-22 Wed 09:49] =>  0:06
+:END:
+#+name: 53 Maximum subarry my solution
+#+caption: 53 Maximum subarry my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def max_subarray(nums: List[int]) -> int:
+    from math import inf
+    n = len(nums)
+    if n == 1:
+        return nums[0]
+
+    # this is actualy not needed
+    # see General thoughts
+    dp = [0 for i in range(n+1)]
+    dp[0] = -inf
+
+    for i in range(1, n+1):
+        dp[i] =max(nums[i-1], nums[i-1] + dp[i-1])
+
+    return max(dp)
+print(max_subarray([-2,1,-3,4,-1,2,1,-5,4]))
+print(max_subarray([-2,1]))
+#+end_src
+
+#+RESULTS: 53 Maximum subarry my solution
+#+begin_src none
+6
+1
+#+end_src
+
+**** Complexity
+***** Time complexity:
+$O(N)$.
+***** Space complexity: 
+$O(N)$ but $O(1)$ can be achieved by removing the ~dp~ array.
+
+**** Leetcode solution
+Not available.
+#+name: 53 Maximum subarry leetcode solution
+#+caption: 53 Maximum subarry leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-22 Wed 10:19]--[2020-04-22 Wed 10:22] =>  0:03
+CLOCK: [2020-04-22 Wed 10:06]--[2020-04-22 Wed 10:09] =>  0:03
+:END:
+[[https://en.wikipedia.org/wiki/Maximum_subarray_problem][Wikipedia]] introduces the history of this problem as "a simplified model for /maximum likelihood/ estimate of patterns in digitized images".
+
+In this problem, $O(1)$ space can be achieved.
+#+name: 53 Maximum subarry my solution O(1) space
+#+caption: 53 Maximum subarry my solution O(1) space
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def max_subarray(nums: List[int]) -> int:
+    from math import inf
+    n = len(nums)
+    if n == 1:
+        return nums[0]
+
+    cur_sum = -inf
+    best_sum = cur_sum
+
+    for i in range(1, n+1):
+        cur_sum =max(nums[i-1], nums[i-1] + cur_sum)
+        best_sum = max(best_sum, cur_sum)
+
+    return best_sum
+print(max_subarray([-2,1,-3,4,-1,2,1,-5,4]))
+#print(max_subarray([-2,1]))
+#+end_src
+
+#+RESULTS: 53 Maximum subarry my solution O(1) space
+#+begin_src none
+6
+#+end_src
+
+**** Related problems
+[[*121 Best time to buy and sell stock]]
+The ~minprice~ in [[*121 Best time to buy and sell stock]] is the ~cur_sum~ in this question, and ~maxprofit~ in [[*121 Best time to buy and sell stock]] is the ~best_sum~ in this question.
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms
@@ -955,7 +1713,138 @@ print(insertion_sort([2,1,3,4,2,5]))
 #+end_src
 
 #+caption: Insertion sort-results
+** Dynamic programming
+*** Edit distance
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 20:27]--[2020-04-21 Tue 20:45] =>  0:18
+CLOCK: [2020-04-21 Tue 17:35]--[2020-04-21 Tue 17:57] =>  0:22
+:END:
+
+#+caption: dynamic programming - edit distance
+#+name: dynamic programming - edit distance
+#+begin_src ein-python :session localhost :results output code 
+def edit(s: str, t: str) -> int:
+    from math import inf
+    def get_element(tbl: List[List[int]], i: int, j: int) -> int:
+
+        if i>=0 and j>=0:
+            return tbl[i][j]
+        else:
+            return inf
+        
+    m = len(s)
+    n = len(t)
+
+    tbl = [[0 for j in range(n+1)] for i in range(m+1)]
+
+
+    for i in range(0, m+1):
+        for j in range(0, n+1):
+            if i==0 and j==0:
+                continue
+            tbl[i][j] = min(1+get_element(tbl,i, j-1), 1+get_element(tbl,i-1, j), get_element(tbl, i-1, j-1)+(0 if s[i-1]==t[j-1] else 1))
+    return tbl[m][n]
+print(edit("cbc", "ac"))
+#+end_src
+
+#+RESULTS: dynamic programming - edit distance
+#+begin_src none
+2
+#+end_src
+
+#+caption: dynamic programming - edit distance-results
+
+#+caption: dynamic programming - edit distance improved
+#+name: dynamic programming - edit distance improved
+#+begin_src ein-python :session localhost :results output code 
+def edit(s: str, t: str) -> int:
+    m = len(s)
+    n = len(t)
+
+    # +1 accounts for the empty string in the table
+    tbl = [[0 for j in range(n+1)] for i in range(m+1)]
+
+    for i in range(m+1):
+        for j in range(n+1):
+            if i == 0:
+                tbl[i][j] = j
+            elif j==0:
+                tbl[i][j] = i
+
+            # we want to compare the chars s[i-1] and t[j-1]
+            # not the chars s[i] and t[j]
+            # because at this point, i is in [1..m], j is in [1..n]
+            # we need to map them back to [0..m-1] and [0..n-1]
+            elif s[i-1]==t[j-1]:
+                tbl[i][j] = tbl[i-1][j-1]
+            else:
+                tbl[i][j] = 1+min(tbl[i][j-1], # insert
+                                  tbl[i-1][j], # remove
+                                  tbl[i-1][j-1] # replace
+                )
+    return tbl[m][n]
+
+print(edit("abc", "ac"))
+#+end_src
+
+#+RESULTS: dynamic programming - edit distance improved
+#+begin_src none
+1
+#+end_src
+
+#+caption: dynamic programming - edit distance improved-results
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
 ** General
+*** Bitmask
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 11:34]--[2020-04-21 Tue 11:38] =>  0:04
+CLOCK: [2020-04-21 Tue 10:45]--[2020-04-21 Tue 10:59] =>  0:14
+:END:
+See [[#78 Subsets Leetcode Solution]].
+
+We have set of objects that we want to draw from. How do we represent the set's subsets such that we get its power set?
+
+We can easily think of a map to associate with each object a boolean value, indicating whether the object is picked. The problem with this is that it can take a lot of memory and can be slow due to the overhead of creating the map.
+
+So we can use bitmask.
+
+#+name: bitmask example
+| arr  | 1 | 2 | 3 |
+| mask | 1 | 0 | 1 |
+#+caption: bitmask
+#+name: bitmask
+#+begin_src ein-python :session localhost :results output code 
+def get_power_set(arr: List[int]) -> List[List[int]]:
+    n = len(arr)
+
+    # helps create left padding zeros
+    # if n == 4, we have 1000
+    nth_bit = 1<<n
+
+    res = [[]]
+    # time complexity: 2**n
+    for i in range(2**n):
+        # if n==4, we might have 1000 | 010
+        # 1000 | 110, etc
+        # [3:] takes out the leading "0b1" in "0b1010"
+        mask = bin(nth_bit | i)[3:]
+        sub = []
+        # time complexity: n
+        for j in range(n):
+            if mask[j] == "1":
+                sub.append(arr[j])
+
+        res.append(sub)
+    return res
+print(get_power_set([1,2,3]))
+#+end_src
+
+#+RESULTS: bitmask
+#+begin_src none
+[[], [], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
+#+end_src
+
+#+caption: bitmask-results
+
 ** Python

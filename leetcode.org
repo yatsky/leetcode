@@ -1714,6 +1714,10 @@ print(insertion_sort([2,1,3,4,2,5]))
 
 #+caption: Insertion sort-results
 ** Dynamic programming
+
+The prerequisites for using DP are:
+1. optimal substructure
+2. overlaping sub-problems
 *** Edit distance
 :LOGBOOK:
 CLOCK: [2020-04-21 Tue 20:27]--[2020-04-21 Tue 20:45] =>  0:18

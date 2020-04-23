@@ -1949,6 +1949,7 @@ Again, to determine if a question fits dynamic programming, we want to determine
 **** Related problems
 [[*70 Climbming stairs]]
 
+
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms
@@ -2067,8 +2068,67 @@ print(edit("abc", "ac"))
 
 #+caption: dynamic programming - edit distance improved-results
 *** Discussions from /Introduction to Algorithms/
+See [[#CLRS Dynamic Programming]].
+* Techniques
+This section contains techniques that do not make a full algorithm and related problems.
+** General
+*** Bitmask
+:LOGBOOK:
+CLOCK: [2020-04-21 Tue 11:34]--[2020-04-21 Tue 11:38] =>  0:04
+CLOCK: [2020-04-21 Tue 10:45]--[2020-04-21 Tue 10:59] =>  0:14
+:END:
+See [[#78 Subsets Leetcode Solution]].
+
+We have set of objects that we want to draw from. How do we represent the set's subsets such that we get its power set?
+
+We can easily think of a map to associate with each object a boolean value, indicating whether the object is picked. The problem with this is that it can take a lot of memory and can be slow due to the overhead of creating the map.
+
+So we can use bitmask.
+
+#+name: bitmask example
+| arr  | 1 | 2 | 3 |
+| mask | 1 | 0 | 1 |
+#+caption: bitmask
+#+name: bitmask
+#+begin_src ein-python :session localhost :results output code 
+def get_power_set(arr: List[int]) -> List[List[int]]:
+    n = len(arr)
+
+    # helps create left padding zeros
+    # if n == 4, we have 1000
+    nth_bit = 1<<n
+
+    res = [[]]
+    # time complexity: 2**n
+    for i in range(2**n):
+        # if n==4, we might have 1000 | 010
+        # 1000 | 110, etc
+        # [3:] takes out the leading "0b1" in "0b1010"
+        mask = bin(nth_bit | i)[3:]
+        sub = []
+        # time complexity: n
+        for j in range(n):
+            if mask[j] == "1":
+                sub.append(arr[j])
+
+        res.append(sub)
+    return res
+print(get_power_set([1,2,3]))
+#+end_src
+
+#+RESULTS: bitmask
+#+begin_src none
+[[], [], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
+#+end_src
+
+#+caption: bitmask-results
+
+** Python
+* CLRS Notes
+** Dynamic programming
 :PROPERTIES:
 :NOTER_DOCUMENT: /mnt/c/Users/thoma/OneDrive/Books/Introduction to Algorithms (3rd Edition).pdf
+:CUSTOM_ID: CLRS Dynamic programming
 :END:
 :LOGBOOK:
 CLOCK: [2020-04-22 Wed 13:36]--[2020-04-22 Wed 13:52] =>  0:16
@@ -2287,59 +2347,3 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 :PROPERTIES:
 :NOTER_PAGE: 389
 :END:
-
-* Techniques
-This section contains techniques that do not make a full algorithm and related problems.
-** General
-*** Bitmask
-:LOGBOOK:
-CLOCK: [2020-04-21 Tue 11:34]--[2020-04-21 Tue 11:38] =>  0:04
-CLOCK: [2020-04-21 Tue 10:45]--[2020-04-21 Tue 10:59] =>  0:14
-:END:
-See [[#78 Subsets Leetcode Solution]].
-
-We have set of objects that we want to draw from. How do we represent the set's subsets such that we get its power set?
-
-We can easily think of a map to associate with each object a boolean value, indicating whether the object is picked. The problem with this is that it can take a lot of memory and can be slow due to the overhead of creating the map.
-
-So we can use bitmask.
-
-#+name: bitmask example
-| arr  | 1 | 2 | 3 |
-| mask | 1 | 0 | 1 |
-#+caption: bitmask
-#+name: bitmask
-#+begin_src ein-python :session localhost :results output code 
-def get_power_set(arr: List[int]) -> List[List[int]]:
-    n = len(arr)
-
-    # helps create left padding zeros
-    # if n == 4, we have 1000
-    nth_bit = 1<<n
-
-    res = [[]]
-    # time complexity: 2**n
-    for i in range(2**n):
-        # if n==4, we might have 1000 | 010
-        # 1000 | 110, etc
-        # [3:] takes out the leading "0b1" in "0b1010"
-        mask = bin(nth_bit | i)[3:]
-        sub = []
-        # time complexity: n
-        for j in range(n):
-            if mask[j] == "1":
-                sub.append(arr[j])
-
-        res.append(sub)
-    return res
-print(get_power_set([1,2,3]))
-#+end_src
-
-#+RESULTS: bitmask
-#+begin_src none
-[[], [], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
-#+end_src
-
-#+caption: bitmask-results
-
-** Python

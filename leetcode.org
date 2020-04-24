@@ -2068,7 +2068,7 @@ print(edit("abc", "ac"))
 
 #+caption: dynamic programming - edit distance improved-results
 *** Discussions from /Introduction to Algorithms/
-See [[#CLRS Dynamic Programming]].
+See [[#CLRS Dynamic programming]].
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
 ** General
@@ -2139,7 +2139,7 @@ Also check Yufei Tao's lecture notes for concise introductions.
 CLOCK: [2020-04-23 Thu 11:00]--[2020-04-23 Thu 11:11] =>  0:11
 :END:
 We want to compare which algorithm performs better with respect to input size.
-We study the [[*Aymptotic notation][asymptotic]] efficiency of algorithms when we make the input size large enough that only the order of growth of the running time is relevant.
+We study the [[*Asymptotic notation][asymptotic]] efficiency of algorithms when we make the input size large enough that only the order of growth of the running time is relevant.
 *** Asymptotic notation
 :PROPERTIES:
 :NOTER_PAGE: 64
@@ -2449,7 +2449,7 @@ and 1 represents cut, 0 represents no cut, it is easy to deduce that the number 
 to cut the rod is $2^{n-1}$.
 
 Given the ~prices~ table, any revenue $r_n$ of a length ~n~ rod can be represented as follows:
-$r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},...,r_{n-1}+r_1)$. ([[recusively-define-value][Recursively define the value of an optimal solution]])
+$r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},...,r_{n-1}+r_1)$. ([[recursively-define-value][Recursively define the value of an optimal solution]])
 $p_n$ corresponds to making no cuts at all. The remaining ~n-1~ arguments correspond to the maximum
 revenue obtained by making an initial cut of the rod into two pieces of size ~i~ and ~n-i~, 
 for each $i=1,2,...,n-1$, and then optimally cutting up those pieces further, 
@@ -2548,7 +2548,7 @@ def memoized_cut_rod(p, n):
             q = -inf
             for i in range(1, n+1):
                 q = max(q, p[i-1]+memoized_cut_rod_aux(p, n-i, r))
-        r[n] = q
+                r[n] = q
         return q
 
     r = [-inf for i in range(n+1)]
@@ -2563,10 +2563,6 @@ print(memoized_cut_rod([1,2,3,9], 3))
 #+end_src
 
 #+caption: top-bottom dynamic programming meoization-results
-
-#+RESULTS: top-bottom dynamic programming meoization#+begin_src none
-[....]
-#+end_src
 
 ******* bottom-up approach code
 :PROPERTIES:
@@ -2602,7 +2598,7 @@ def bottom_up_cut_rod(p, n):
             #q = max(q, p[j-1] + r[i-j])
             # q is the possible return from previous operations in this inner loop
             q = max(q, r[j] + r[i-j], p[j-1]) # this is easier to understand
-        r[i] = q
+            r[i] = q
     return r[n]
 print(bottom_up_cut_rod([1,4,4,4,9], 4))
 #+end_src

@@ -1,5 +1,8 @@
 #+FILETAG: :learning:note:
+#+AUTHOR: Yi Wang
+#+TITLE: Leetcode, Data structure and Algorithm
 #+LATEX_HEADER: \usepackage{amsmath}
+#+OPTIONS: toc:2 H:5
 
 * Introduction
 This is the main file that contains all the problems and their solutions.
@@ -37,6 +40,7 @@ from typing import List, Tuple, Set
 :LOGBOOK:
 CLOCK: [2020-04-16 Thu 20:09]--[2020-04-16 Thu 20:13] =>  0:04
 :END:
+
 We are given a list ~nums~ of integers representing a list compressed with run-length encoding.
 
 Consider each adjacent pair of elements ~[freq, val]=[nums[2*i], nums[2*i+1]], i>=0~.
@@ -2199,7 +2203,7 @@ A *recurrence* is an equation of inequality that describes a function in terms o
 The books provides 3 methods for obtaining the asymptotic $\Theta$ or $O$ bounds on the recurrence solution:
 1. *Substitution method* - we guess a bound and then use mathematical induction to prove our guess correct.
 2. *Recursion-tree method* - convert the recurrence into a tree whose nodes represent the costs incurred at various levels of the recursion. We use techniques for bounding summations to solve the recurrence.
-3. <<master method>>*Master method* - provides bounds for recurrences of the form $T(n)=\underbrace{aT(n/b)}_{a \text{ subproblems}}+f(n),a\ge 1, b>1$ and $f(n)$ is a given function.
+3. <<master method>> *Master method* - provides bounds for recurrences of the form $T(n)=\underbrace{aT(n/b)}_{a \text{ subproblems}}+f(n),a\ge 1, b>1$ and $f(n)$ is a given function.
 
 To use the [[master method]], 3 cases need to be memorized.
 ** Sorting
@@ -2413,7 +2417,7 @@ and these subproblems have overlapping subsubprolems, i.e. they share some commo
 Usually, there exist multiple solutions to a problem, and we want /a/ solution that gives an optimal 
 (minimum or maximum) value, since there might also exist multiple solutions that give us the same
 optimal value.
-**** Four steps to develop a dynamic programming algorithm
+*** Four steps to develop a dynamic programming algorithm
 :PROPERTIES:
 :NOTER_PAGE: 380
 :END:
@@ -2423,18 +2427,18 @@ optimal value.
 4. Construct an optimal solution from computed information
    1. This step is only needed when we want /not only the value of the solution/, but also the /solution/ itself.
    2. This step is where DP needs $O(N)$ space (if input is one dimentional array) as it needs to store the computed information.
-**** Rod cutting example
+*** Rod cutting example
 :PROPERTIES:
 :NOTER_PAGE: 381
 :END:
 :LOGBOOK:
 CLOCK: [2020-04-22 Wed 13:52]--[2020-04-22 Wed 14:47] =>  0:55
 :END:
-***** The problem
+**** The problem
 Given a rod of length ~n~ inches and a table of ~prices[i], i=1,2,...,n~, determine the maximum revenue ~rn~ obtainable
 by cutting up the rod and selling the pieces. Note that if the price ~prices[n]~ for a rod of length
 ~n~ is large enough, an optimal solution may require no cutting at all.
-***** The solution
+**** The solution
 :PROPERTIES:
 :NOTER_PAGE: 382
 :END:
@@ -2466,7 +2470,7 @@ Therefore, we can simplify this process of cutting by the following:
 2. We only further divided the right-hand end remainder of length ~n-i~.
 3. The revenue is then $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$, which removes one recursion ($r_i$) for us.
 
-****** Recursive top-down implementation
+***** Recursive top-down implementation
 :PROPERTIES:
 :NOTER_PAGE: 384
 :END:
@@ -2500,7 +2504,7 @@ This implementation is slow because it's time complexity is $O(n^2),\text{ where
 Many same operations were done multiple times. 
 For example, when solving ~cut_rod(p, n)~ and ~cut_rod(p, n-1)~, ~cut_rod(p, n-2)~ was calculated twice.
 
-****** Dynamic programming solution
+***** Dynamic programming solution
 :PROPERTIES:
 :NOTER_PAGE: 385
 :END:
@@ -2529,7 +2533,7 @@ Bottom-up:
 
 These two methods are asymptotically the same.
 
-******* top-bottom approach code
+****** top-bottom approach code
 :PROPERTIES:
 :NOTER_PAGE: 386
 :END:
@@ -2564,7 +2568,7 @@ print(memoized_cut_rod([1,2,3,9], 3))
 
 #+caption: top-bottom dynamic programming meoization-results
 
-******* bottom-up approach code
+****** bottom-up approach code
 :PROPERTIES:
 :NOTER_PAGE: 387
 :END:
@@ -2610,7 +2614,31 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 
 #+caption: bottom-up dynamic programming approach-results
 
-******* Reconstructing a solution
+****** Reconstructing a solution
 :PROPERTIES:
 :NOTER_PAGE: 389
 :END:
+
+
+* Clock table
+#+BEGIN: clocktable :scope file :maxlevel 1
+#+CAPTION: Clock summary at [2020-04-24 Fri 15:27]
+| Headline                             |    Time |
+|--------------------------------------+---------|
+| *Total time*                         | *16:27* |
+|--------------------------------------+---------|
+| Problems                             |    8:49 |
+| Algorithms                           |    0:40 |
+| Techniques                           |    0:18 |
+| CLRS Notes & Yufei Tao lecture notes |    6:02 |
+| Exporting                            |    0:38 |
+#+END:
+
+* Exporting                                                        :noexport:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 14:49]--[2020-04-24 Fri 15:27] =>  0:38
+:END:
+* Appendix
+#+TOC: listings
+#+TOC: tables
+

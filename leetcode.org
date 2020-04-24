@@ -2124,11 +2124,282 @@ print(get_power_set([1,2,3]))
 #+caption: bitmask-results
 
 ** Python
-* CLRS Notes
-** Dynamic programming
+* CLRS Notes & Yufei Tao lecture notes
 :PROPERTIES:
 :NOTER_DOCUMENT: /mnt/c/Users/thoma/OneDrive/Books/Introduction to Algorithms (3rd Edition).pdf
+:END:
+Read chapters 3-4, 6-7, 10-17 and 22 of CLRS, and practice on LeetCode.
+Also check Yufei Tao's lecture notes for concise introductions.
+
+** Growth of functions
+:PROPERTIES:
+:NOTER_PAGE: 64
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 11:00]--[2020-04-23 Thu 11:11] =>  0:11
+:END:
+We want to compare which algorithm performs better with respect to input size.
+We study the [[*Aymptotic notation][asymptotic]] efficiency of algorithms when we make the input size large enough that only the order of growth of the running time is relevant.
+*** Asymptotic notation
+:PROPERTIES:
+:NOTER_PAGE: 64
+:END:
+Notations:
+1. Domain for all functions of interest: $\mathbb{N}$.
+2. Worst-case running-time function $T(n)$.
+
+List of notations from YFT lecture notes:
+**** Big-$O$ (upper bound)
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 11:11]--[2020-04-23 Thu 11:18] =>  0:07
+:END:
+Let $f(n)$ and $g(n)$ be two functions of $n$.
+
+We say that $f(n)$ grows asymptotically no faster than $g(n)$ if there is a constant $c_1>0$ and a constant $c_2$ such that $f(n)\le c_1 g(n)$ holds for all $n \ge c_2$.
+We denote this by $f(n)=O(g(n))$.
+
+The *time complexity* of an algorithm is described in the asymptotical form (big-O). 
+**** Big-$\Omega$ (lower bound)
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 13:45]--[2020-04-23 Thu 13:48] =>  0:03
+:END:
+Let $f(n)$ and $g(n)$ be two functions of $n$.
+If $g(n)=O(f(n))$, then we define: $f(n)=\Omega(g(n))$, to indicate that $f(n)$ grows asymptotically no slower than $g(n)$.
+**** Big-$\Theta$
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 13:48]--[2020-04-23 Thu 13:59] =>  0:11
+:END:
+Let $f(n)$ and $g(n)$ be two functions of $n$.
+If $f(n)=O(g(n)) \text{ and } f(n)=\Omega(g(n))$, in other words, $f(n)=O(g(n)) \text{ and } g(n)=O(f(n))$, then we define: $f(n)=\Theta(g(n))$.
+This indicates that $f(n)$ grows asymptotically as fast as $g(n)$, no faster (big-$O$), no faster (big-$\Omega$).
+*** Standard notations and common functions
+:PROPERTIES:
+:NOTER_PAGE: 74
+:END:
+** Divide and conquer
+:PROPERTIES:
+:NOTER_PAGE: 86
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 14:05]--[2020-04-23 Thu 14:09] =>  0:04
+:END:
+We solve the problem recursively, applying the following 3 steps at each level of the recursion:
+1. *Divide* the problem into a number of subproblems that are smaller instances of the same problem (recursive case).
+2. *Conquer* the subproblems by solving them recursively. If the subproblem sizes are small enough, however, just solve the subproblems in a straightforward manner (base case).
+3. *Combine* the solutions to the subproblems into the solution for the original problem.
+*** Recurrences
+:PROPERTIES:
+:NOTER_PAGE: 86
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 14:09]--[2020-04-23 Thu 14:19] =>  0:10
+:END:
+A *recurrence* is an equation of inequality that describes a function in terms of its value on smaller inputs.
+
+The books provides 3 methods for obtaining the asymptotic $\Theta$ or $O$ bounds on the recurrence solution:
+1. *Substitution method* - we guess a bound and then use mathematical induction to prove our guess correct.
+2. *Recursion-tree method* - convert the recurrence into a tree whose nodes represent the costs incurred at various levels of the recursion. We use techniques for bounding summations to solve the recurrence.
+3. <<master method>>*Master method* - provides bounds for recurrences of the form $T(n)=\underbrace{aT(n/b)}_{a \text{ subproblems}}+f(n),a\ge 1, b>1$ and $f(n)$ is a given function.
+
+To use the [[master method]], 3 cases need to be memorized.
+** Sorting
+:PROPERTIES:
+:NOTER_PAGE: 168
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-23 Thu 18:42]--[2020-04-23 Thu 18:53] =>  0:11
+:END:
+The *sorting problem*:
+- Input: A sequence of $n$ numbers $\langle a_1, a_2,\ldots,a_n\rangle$.
+- Output: A permutation $\langle a_1',a_2',\ldots,a_n'\rangle$ of the input sequence such that $a_1'\le a_2'\le \ldots \le a_n'$.
+
+#+name: Sorting time complexity
+#+caption: Sorting time complexity
+| Algo           | Worst-case runing time | Average-case/expected running time |
+|----------------+------------------------+------------------------------------|
+| Insertion sort | $\Theta(n^2)$          | $\Theta(n^2)$                      |
+| Merge          | $\Theta(n\lg n)$       | $\Theta(n\lg n)$                   |
+| Heap           | $O(n\lg n)$            | -                                  |
+| Quick          | $\Theta(n^2)$          | $\Theta(n\lg n)$ (expected)        |
+| Counting       | $\Theta(k+n)$          | $\Theta(k+n)$                      |
+| Radix          | $\Theta(d(k+n))$       | $\Theta(d(k+n))$                   |
+| Bucket         | $\Theta(n^2)$          | $\Theta(n)$ (average-case)         |
+*** Heapsort
+:PROPERTIES:
+:NOTER_PAGE: 172
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 11:02]--[2020-04-24 Fri 11:39] =>  0:37
+CLOCK: [2020-04-23 Thu 18:53]--[2020-04-23 Thu 19:13] =>  0:20
+:END:
+- Running time: $O(n\lg n)$
+- In-place: yes
+
+The *(binary) heap* data structure is an /array/ object that can be viewed as a nearly complete binary tree (some leaves might be empty). Each node of the tree corresponds to an element of the array.
+
+A heap $A$ is an array that has two attributes:
+1. $A.length$
+2. $A.heap-size$, only $A[1..A.heap-size]$ are valid elements to the heap
+$A.heap-size\le A.length$.
+
+**** Heap properties
+:PROPERTIES:
+:NOTER_PAGE: 173
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 09:39]--[2020-04-24 Fri 09:47] =>  0:08
+:END:
+
+For any node $i$, we have:
+- parent: $\lfloor i/2\rfloor$.
+- left child: $2i$
+- right child: $2i+1$
+
+There are two kinds of binary heaps: *max-heaps* and *min-heaps*.
+For every node $i$, they satisfy a *heap property*, 
+- max-heap: $A[parent(i)]\ge A[i]$.
+- min-heap: $A[parent(i)]\le A[i]$.
+
+Max-heaps are used in the heapsort lagorithm; Min-heaps implement priority queues.
+
+**** Max-Heapify (maintaining $A[parent(i)]\ge A[i]$)
+:PROPERTIES:
+:NOTER_PAGE: 175
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 11:55]--[2020-04-24 Fri 12:07] =>  0:12
+CLOCK: [2020-04-24 Fri 09:47]--[2020-04-24 Fri 10:13] =>  0:26
+:END:
+Here is the Python code for the Max-Heapify pseudo-code.
+Time complexity: $O(\lg n), n=A.length$.
+
+The ~max_heapify~ lets the value at ~A[i]~ "float down" in the max-heap
+so that the subtree rooted at index ~i~ obeys the max-heap property.
+#+caption: max-heapify
+#+name: max-heapify
+#+begin_src ein-python :session localhost :results output code 
+def max_heapify(A, i, heap_size) -> None:
+
+    # A is 0-indexed
+    l = 2*i+1
+    r = 2*i+2
+
+    largest = i
+    if l < heap_size and A[l]>A[i]:
+        largest = l
+    if r < heap_size and A[r]>A[largest]:
+        largest = r
+
+    if largest != i:
+        A[i], A[largest] = A[largest], A[i]
+        # after exchanging A[i] and A[largest]
+        # the subtree now rooted at A[largest] might violate the max-heap property
+        # thus we need to heapify it
+        # at the end, the value of the original A[i] will float down
+        # as many heights as possible
+        max_heapify(A, largest, heap_size)
+
+A = [4,14,7,10,1,12]
+max_heapify(A, 0, len(A))
+print(A)
+#+end_src
+
+#+RESULTS: max-heapify
+#+begin_src none
+[14, 10, 7, 4, 1, 12]
+#+end_src
+
+#+caption: max-heapify-results
+
+**** Building a heap
+:PROPERTIES:
+:NOTER_PAGE: 178
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 10:13]--[2020-04-24 Fri 10:27] =>  0:14
+:END:
+Here is the Python code for building the Build-Max-Heap pseudo-code from bottom to top (this is faster than "top-bottom" but the details are not important here).
+
+This is $O(n)$. Although the obvious time complexity is $O(n\lg n)$, we can prove that 
+a tighter bound exists and it is $O(n)$.
+
+This makes sure that *all* elements $A[i]$ in the heap satisfies:
+$A[parent(i)]\ge A[i]$.
+#+caption: build-max-heap
+#+name: build-max-heap
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<max-heapify>>
+def build_max_heap(A, heap_size) -> None:
+
+    # we simply skip all leaves
+    for i in range((len(A)//2-1), -1, -1):
+        max_heapify(A, i, heap_size)
+
+#A = [4,14,7]
+#build_max_heap(A, len(A))
+#print(A)
+#+end_src
+
+#+RESULTS: build-max-heap
+#+begin_src none
+[14, 4, 7]
+#+end_src
+
+#+caption: build-max-heap-results
+
+**** Heapsort algorithm
+:PROPERTIES:
+:NOTER_PAGE: 180
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 10:27]--[2020-04-24 Fri 10:39] =>  0:12
+:END:
+
+#+caption: heapsort
+#+name: heapsort
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<build-max-heap>>
+
+def heapsort(A):
+
+    build_max_heap(A, len(A)-1)
+    for i in range(len(A)-1, 0, -1):
+        # heap_size is i
+        A[0], A[i] = A[i], A[0]
+        max_heapify(A, 0, i)
+
+A=[3,13,2,123,4,1]        
+heapsort(A)
+print(A)
+#+end_src
+
+#+RESULTS: heapsort
+#+begin_src none
+[14, 10, 7, 4, 1, 12]
+[1, 2, 3, 4, 13, 123]
+#+end_src
+
+#+caption: heapsort-results
+
+**** Issues with heapsort in real world applications
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 12:10]--[2020-04-24 Fri 12:21] =>  0:11
+:END:
+Notes from [[https://www.cs.princeton.edu/courses/archive/spring13/cos226/lectures/24PriorityQueues-JH-2x2.pdf][Princeton COS 226]]
+
+Performance on real computers is heavily impacted by really messy factors like cache performance.
+
+Cache works in a way that when we fetch one memory address, its nearby addresses are fetched as well, since memory access patterns of most programs/algorithms are highly localized.
+Therefore, in a $n\times n$ matrix, ~[arr[i][j] for j in range(n) for i in range(n)]~ is faster than ~[arr[j][i] for j in range(n) for i in range(n)]~, because when we fetched ~arr[i][0]~, the computer already cached ~arr[i][1]~, etc, for us. 
+
+Sort algorithms and cache performance:
+- mergesort: sort subarrays first (cache-friendly ☺)
+- quicksort: partition into subarrays (cache-friendly ☺)
+- heapsort: all over the place (cache-unfriendly 🤕)
+** Dynamic programming
+:PROPERTIES:
 :CUSTOM_ID: CLRS Dynamic programming
+:NOTER_PAGE: 380
 :END:
 :LOGBOOK:
 CLOCK: [2020-04-22 Wed 13:36]--[2020-04-22 Wed 13:52] =>  0:16

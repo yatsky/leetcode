@@ -2391,7 +2391,7 @@ print(A)
 :LOGBOOK:
 CLOCK: [2020-04-24 Fri 12:10]--[2020-04-24 Fri 12:21] =>  0:11
 :END:
-Notes from [[https://www.cs.princeton.edu/courses/archive/spring13/cos226/lectures/24PriorityQueues-JH-2x2.pdf][Princeton COS 226]]
+Notes from [[https://www.cs.princeton.edu/courses/archive/spring13/cos226/lectures/24PriorityQueues-JH-2x2.pdf][Princeton COS 226]].
 
 Performance on real computers is heavily impacted by really messy factors like cache performance.
 

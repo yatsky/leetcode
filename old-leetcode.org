@@ -29,10 +29,18 @@ CLOCK: [2019-09-09 Mon 09:18]--[2019-09-09 Mon 09:45] =>  0:27
 1. [[https://leetcode.com/discuss/career/216554/from-0-to-clearing-uberappleamazonlinkedingoogle][From 0 to clearing]] 
 2. [[https://www.reddit.com/r/cscareerquestions/comments/6luszf/a_leetcode_grinding_guide/][A leetcode grinding guide]]
 *** TODO Execution
-SCHEDULED: <2019-10-29 Tue 15:00 +1d>
+SCHEDULED: <2019-11-06 Wed 15:00 +1d>
 :PROPERTIES:
-:LAST_REPEAT: [2020-04-16 Thu 14:27]
+:LAST_REPEAT: [2020-04-23 Thu 07:53]
 :END:
+- State "DONE"       from "TODO"       [2020-04-23 Thu 07:53]
+- State "DONE"       from "TODO"       [2020-04-23 Thu 07:53]
+- State "DONE"       from "TODO"       [2020-04-23 Thu 07:53]
+- State "DONE"       from "TODO"       [2020-04-23 Thu 07:52]
+- State "DONE"       from "TODO"       [2020-04-23 Thu 07:52]
+- State "DONE"       from "TODO"       [2020-04-23 Thu 07:52]
+- State "DONE"       from "TODO"       [2020-04-17 Fri 09:51]
+- State "DONE"       from "TODO"       [2020-04-17 Fri 09:51]
 - State "DONE"       from "TODO"       [2020-04-16 Thu 14:27]
 - State "DONE"       from "TODO"       [2020-04-16 Thu 08:09]
 - State "DONE"       from "TODO"       [2020-04-14 Tue 22:16]

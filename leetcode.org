@@ -2154,8 +2154,8 @@ Notations:
 1. Domain for all functions of interest: $\mathbb{N}$.
 2. Worst-case running-time function $T(n)$.
 
-List of notations from YFT lecture notes:
-**** Big-$O$ (upper bound)
+**** List of notations from YFT lecture notes:
+***** Big-$O$ (upper bound)
 :LOGBOOK:
 CLOCK: [2020-04-23 Thu 11:11]--[2020-04-23 Thu 11:18] =>  0:07
 :END:
@@ -2165,13 +2165,13 @@ We say that $f(n)$ grows asymptotically no faster than $g(n)$ if there is a cons
 We denote this by $f(n)=O(g(n))$.
 
 The *time complexity* of an algorithm is described in the asymptotical form (big-O). 
-**** Big-$\Omega$ (lower bound)
+***** Big-$\Omega$ (lower bound)
 :LOGBOOK:
 CLOCK: [2020-04-23 Thu 13:45]--[2020-04-23 Thu 13:48] =>  0:03
 :END:
 Let $f(n)$ and $g(n)$ be two functions of $n$.
 If $g(n)=O(f(n))$, then we define: $f(n)=\Omega(g(n))$, to indicate that $f(n)$ grows asymptotically no slower than $g(n)$.
-**** Big-$\Theta$
+***** Big-$\Theta$
 :LOGBOOK:
 CLOCK: [2020-04-23 Thu 13:48]--[2020-04-23 Thu 13:59] =>  0:11
 :END:

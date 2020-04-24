@@ -2627,16 +2627,17 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 
 * Clock table
 #+BEGIN: clocktable :scope file :maxlevel 1
-#+CAPTION: Clock summary at [2020-04-24 Fri 15:27]
+#+CAPTION: Clock summary at [2020-04-24 Fri 21:22]
 | Headline                             |    Time |
 |--------------------------------------+---------|
-| *Total time*                         | *16:27* |
+| *Total time*                         | *19:06* |
 |--------------------------------------+---------|
 | Problems                             |    8:49 |
 | Algorithms                           |    0:40 |
 | Techniques                           |    0:18 |
 | CLRS Notes & Yufei Tao lecture notes |    6:02 |
 | Exporting                            |    0:38 |
+| Fix up                               |    2:39 |
 #+END:
 
 * Exporting                                                        :noexport:
@@ -2644,6 +2645,15 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 CLOCK: [2020-04-24 Fri 14:49]--[2020-04-24 Fri 15:27] =>  0:38
 :END:
 * Fix up                                                           :noexport:
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 16:24]--[2020-04-24 Fri 16:25] =>  0:01
+:END:
+** DONE Fix results tables
+:LOGBOOK:
+CLOCK: [2020-04-24 Fri 20:00]--[2020-04-24 Fri 20:56] =>  0:56
+CLOCK: [2020-04-24 Fri 17:44]--[2020-04-24 Fri 18:13] =>  0:29
+CLOCK: [2020-04-24 Fri 16:25]--[2020-04-24 Fri 17:38] =>  1:13
+:END:
 * Appendix
 #+TOC: listings
 #+TOC: tables

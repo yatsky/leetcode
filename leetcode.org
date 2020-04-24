@@ -2648,12 +2648,14 @@ CLOCK: [2020-04-24 Fri 14:49]--[2020-04-24 Fri 15:27] =>  0:38
 :LOGBOOK:
 CLOCK: [2020-04-24 Fri 16:24]--[2020-04-24 Fri 16:25] =>  0:01
 :END:
-** DONE Fix results tables
+** DONE Captions and names for code result block
 :LOGBOOK:
+CLOCK: [2020-04-25 Sat 09:29]--[2020-04-25 Sat 09:38] =>  0:09
 CLOCK: [2020-04-24 Fri 20:00]--[2020-04-24 Fri 20:56] =>  0:56
 CLOCK: [2020-04-24 Fri 17:44]--[2020-04-24 Fri 18:13] =>  0:29
 CLOCK: [2020-04-24 Fri 16:25]--[2020-04-24 Fri 17:38] =>  1:13
 :END:
+In ~ob-ein.el~, set ~KEEP-KEYWORD~ to ~t~ for ~(org-babel-remove-result)~.
 * Appendix
 #+TOC: listings
 #+TOC: tables

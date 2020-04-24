@@ -2396,10 +2396,13 @@ Performance on real computers is heavily impacted by really messy factors like c
 Cache works in a way that when we fetch one memory address, its nearby addresses are fetched as well, since memory access patterns of most programs/algorithms are highly localized.
 Therefore, in a $n\times n$ matrix, ~[arr[i][j] for j in range(n) for i in range(n)]~ is faster than ~[arr[j][i] for j in range(n) for i in range(n)]~, because when we fetched ~arr[i][0]~, the computer already cached ~arr[i][1]~, etc, for us. 
 
-Sort algorithms and cache performance:
-- mergesort: sort subarrays first (cache-friendly ☺)
-- quicksort: partition into subarrays (cache-friendly ☺)
-- heapsort: all over the place (cache-unfriendly 🤕)
+#+caption: Sort algorithms and cache performance
+#+name: Sort algorithms and cache performance
+| Sorting algo | characteristic           | cache-friendly☺?   |
+|--------------+--------------------------+----------------------|
+| mergesort    | sort subarrays first     | cache-friendly ☺   |
+| quicksort    | partition into subarrays | cache-friendly ☺   |
+| heapsort     | all over the place       | cache-unfriendly 🤕 |
 ** Dynamic programming
 :PROPERTIES:
 :CUSTOM_ID: CLRS Dynamic programming

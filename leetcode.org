@@ -2643,6 +2643,7 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 :LOGBOOK:
 CLOCK: [2020-04-24 Fri 14:49]--[2020-04-24 Fri 15:27] =>  0:38
 :END:
+* Fix up                                                           :noexport:
 * Appendix
 #+TOC: listings
 #+TOC: tables

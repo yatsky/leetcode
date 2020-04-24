@@ -3,6 +3,8 @@
 #+TITLE: Leetcode, Data structure and Algorithm
 #+LATEX_HEADER: \usepackage{amsmath}
 #+OPTIONS: toc:2 H:5
+#+SETUPFILE: ../../orgs/theme-readtheorg.setup
+# HTML_HEAD: <link rel="stylesheet" href="http://dakrone.github.io/org.css" type="text/css" />
 
 * Introduction
 This is the main file that contains all the problems and their solutions.

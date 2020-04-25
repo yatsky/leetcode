@@ -2219,18 +2219,22 @@ The *sorting problem*:
 - Input: A sequence of $n$ numbers $\langle a_1, a_2,\ldots,a_n\rangle$.
 - Output: A permutation $\langle a_1',a_2',\ldots,a_n'\rangle$ of the input sequence such that $a_1'\le a_2'\le \ldots \le a_n'$.
 
+Two kinds of sorting based on time complexity:
+- Comparison sort: sorted order is based only on comparison between the input elements
+- Non-comparison sort: use operations other than comparisons to determine the sorted order
 #+name: Sorting time complexity
 #+caption: Sorting time complexity
-| Algo           | Worst-case runing time | Average-case/expected running time |
-|----------------+------------------------+------------------------------------|
-| Insertion sort | $\Theta(n^2)$          | $\Theta(n^2)$                      |
-| Merge          | $\Theta(n\lg n)$       | $\Theta(n\lg n)$                   |
-| Heap           | $O(n\lg n)$            | -                                  |
-| Quick          | $\Theta(n^2)$          | $\Theta(n\lg n)$ (expected)        |
-| Counting       | $\Theta(k+n)$          | $\Theta(k+n)$                      |
-| Radix          | $\Theta(d(k+n))$       | $\Theta(d(k+n))$                   |
-| Bucket         | $\Theta(n^2)$          | $\Theta(n)$ (average-case)         |
-*** Heapsort
+| Algorithm      | Worst-case runing time | Average-case/expected running time | Comparison? |
+|----------------+------------------------+------------------------------------+-------------|
+| Insertion sort | $\Theta(n^2)$          | $\Theta(n^2)$                      | yes         |
+| Merge          | $\Theta(n\lg n)$       | $\Theta(n\lg n)$                   | yes         |
+| Heap           | $O(n\lg n)$            | -                                  | yes         |
+| Quick          | $\Theta(n^2)$          | $\Theta(n\lg n)$ (expected)        | yes         |
+| Counting       | $\Theta(k+n)$          | $\Theta(k+n)$                      | no          |
+| Radix          | $\Theta(d(k+n))$       | $\Theta(d(k+n))$                   | no          |
+| Bucket         | $\Theta(n^2)$          | $\Theta(n)$ (average-case)         | no          |
+
+*** Heapsort                                              :comparison_sort:
 :PROPERTIES:
 :NOTER_PAGE: 172
 :END:

@@ -2409,6 +2409,118 @@ Therefore, in a $n\times n$ matrix, ~[arr[i][j] for j in range(n) for i in range
 | mergesort    | sort subarrays first     | cache-friendly ☺   |
 | quicksort    | partition into subarrays | cache-friendly ☺   |
 | heapsort     | all over the place       | cache-unfriendly 🤕 |
+
+
+*** Quicksort                                             :comparison_sort:
+:PROPERTIES:
+:NOTER_PAGE: 191
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 10:52]--[2020-04-25 Sat 12:00] =>  1:08
+CLOCK: [2020-04-25 Sat 10:14]--[2020-04-25 Sat 10:46] =>  0:32
+:END:
+
+Worst-case: $\Theta(n^2)$.
+Expected-case: $O(n\lg n)$.
+In-place: true.
+
+Three step divide-and-conquer process for a subarray $A[p..r]$:
+- *Divide*: Partition $A[p..r]$ into two (possibly empty) subarrays $A[p..q-1]$ and $A[q+1..r]$ such that $a\le A[q]\le b, a\in A[p..q-1], b\in A[q+1, r]$. Compute the index $q$ as part of this partition prcedure.
+- *Conquer*: Sort the two subarrays $A[p..q-1]$ and $A[q+1..r]$ by recursive calls to quicksort.
+- *Combine*: Because the subarrays are already sorted, no work is needed to combine them.
+
+**** Implementation
+Implementation of the above steps:
+#+caption: quicksort
+#+name: quicksort
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+<<partitioning the array>>
+
+def quicksort(arr, low, high):
+    if low < high:
+        par_idx = partition(arr, low, high)
+        quicksort(arr, low, par_idx-1)
+        quicksort(arr, par_idx+1, high)
+
+A = [2,1,4,5]
+quicksort(A, 0, len(A)-1)
+print(A)
+#+end_src
+
+#+caption: quicksort-results
+#+RESULTS: quicksort
+#+begin_src none
+[1, 2, 4, 5]
+#+end_src
+
+Implementation of partitioning the array:
+#+caption: partitioning the array
+#+name: partitioning the array
+#+begin_src ein-python :session localhost :results output code :noweb yes
+def partition(arr, low, high):
+    """
+    This function takes last element as pivot, places the pivot element at its
+    correct position in sorted array, and places all smaller elements to the left of
+    the pivot, and all greater elements to the right of the pivot.
+
+    This partitions the arr in-place. Thus the for loop seems hard to understand.
+    """
+    pivot = arr[high]
+    # arr[low:i+1] is the smaller elements segment 
+    # that are <= pivot
+
+    # i is the idx of the last smaller element
+    i = low - 1 
+    # After each the iteration:
+    # arr[low:i+1] are smaller elements.
+    # arr[i+1:j] are larger elements.
+    # arr[j:high] are unchecked elements.
+    # arr[high] is the pivot
+    for j in range(low, high):
+        # if current element is smaller than
+        # or equal to pivot
+        # This means we can add another element
+        # to the smaller elements segment
+        if arr[j] <= pivot:
+            # increment index of smaller element
+            # because we found one smaller element at arr[j]
+            # and is going to exchange it with arr[i]
+            i += 1
+            # if j>i, that means arr[i] > pivot
+            # we need to exchange that with arr[j].
+            # otherwise, there is no need to exchange 
+            # arr[j] and arr[i]
+            # however, this condition can be ignored,
+            # as it does not slow down the operation
+            if j>i:
+                arr[i], arr[j] = arr[j], arr[i]
+
+    # exchange the smallest element in the larger segment
+    # with the pivot
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+    return i+1
+#+end_src
+
+**** Notes on choosing the /pivot/ and running time
+:PROPERTIES:
+:NOTER_PAGE: 196
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 14:27]--[2020-04-25 Sat 14:43] =>  0:16
+:END:
+
+We can randomly pick any $i$ in $A$ to be our pivot. And this random picking process can be done in $O(1)$ time.
+
+Because this is a randomized algorithm, its running time is a *random variable* depending on the random choices made. Thus we can only get its running time as follows:
+#+caption: Quicksort running time
+#+name: Quicksort running time
+| Case    | # of elements in segments after each partitioning | Running time |
+|---------+---------------------------------------------------+--------------|
+| Worst   | n-1 elements and 0 elements                       | $O(n^2)$     |
+| Best    | $\lfloor n/2 \rfloor$, $\lceil n/2 \rceil -1$     | $O(n\lg n)$  |
+| Average | as long as segment not empty (not the worst)      | $O(n\lg n)$  |
+
 ** Dynamic programming
 :PROPERTIES:
 :CUSTOM_ID: CLRS Dynamic programming

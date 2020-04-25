@@ -2521,6 +2521,47 @@ Because this is a randomized algorithm, its running time is a *random variable* 
 | Best    | $\lfloor n/2 \rfloor$, $\lceil n/2 \rceil -1$     | $O(n\lg n)$  |
 | Average | as long as segment not empty (not the worst)      | $O(n\lg n)$  |
 
+*** Sorting in linear time
+:PROPERTIES:
+:NOTER_PAGE: 212
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 15:07]--[2020-04-25 Sat 15:13] =>  0:06
+:END:
+We assume all input elements are distinct, without loss of generality.
+**** TODO Decision-tree
+:PROPERTIES:
+:NOTER_PAGE: 213
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 15:13]--[2020-04-25 Sat 15:15] =>  0:02
+:END:
+Comparison sorts can be viewed abstractly in terms of decision trees.
+A decision tree is a full binary tree that represents the comparisons between elements 
+that are performed by a particular sorting algorithm operating on an input of a given size.
+** Medians and order statistics
+:PROPERTIES:
+:NOTER_PAGE: 234
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 09:53]--[2020-04-25 Sat 10:11] =>  0:18
+:END:
+*** Definition
+The $i$ th *order statistic* of a set of $n$ elements is the $i$ th smallest element.
+For example, the *minimum* of a set of elements is the first order statistic ($i=1$),
+and the *maximum* is the $n$ th order statistic ($i=n$). A *median*, is the middle of the set.
+
+The *selection problem*:
+- Input: A set $A$ of $n$ (distinct) numbers and an integer $i$, with $1\le i \le n$.
+- Output: The element $x \in A,a_1< a_2 < \ldots < a_{i-1},x < a_{i+1}\ldots a_n$.
+*** TODO Selection in expected linear time
+:PROPERTIES:
+:NOTER_PAGE: 236
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 10:11]--[2020-04-25 Sat 10:13] =>  0:02
+:END:
+We use ~randomized_select~.
 ** Dynamic programming
 :PROPERTIES:
 :CUSTOM_ID: CLRS Dynamic programming

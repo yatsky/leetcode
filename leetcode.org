@@ -1955,6 +1955,154 @@ Again, to determine if a question fits dynamic programming, we want to determine
 **** Related problems
 [[*70 Climbming stairs]]
 
+** 703 Kth largest element in a stream                                :heap:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 09:45]--[2020-04-25 Sat 09:49] =>  0:04
+:END:
+Design a class to find the *K* th largest element in a stream. Note that it is the kth largest element in
+the sorted order, not the kth distinct element.
+
+Your ~KthLargest~ class will have a constructor which accepts an integer ~k~ and an integer array
+~nums~, which contains initial elements from the stream. For each call to the method ~KthLargest.add~,
+return the element representing the kth largest element in the modified stream.
+
+Constraints:
+You may assume that ~nums.length>=k-1~ and ~k>=1~.
+**** Examples:
+#+name: 703 Kth largest element in a stream example
+#+caption: 703 Kth largest element in a stream example
+#+begin_example
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 15:29]--[2020-04-25 Sat 15:32] =>  0:03
+:END:
+See [[*Medians and order statistics]].
+
+Brute-force algorithm:
+- constructing the object
+  - simply sort the ~nums~ array and store it in ~self.nums~
+- running the ~KthLargest.add(val)~ method
+  - insert the ~val~ in to the sorted ~self.nums~, then get ~self.nums[2]~
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 15:33]--[2020-04-25 Sat 15:37] =>  0:04
+:END:
+#+name: 703 Kth largest element in a stream my solution
+#+caption: 703 Kth largest element in a stream my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+class KthLargest:
+    def __init__(self, k: int, nums: List[int]):
+        self.k = k
+        self.nums = sorted(nums, reverse=True)
+
+    def add(self, val: int) -> int:
+        for i in range(len(self.nums)):
+            if val > self.nums[i]:
+                self.nums.insert(i, val)
+                break
+
+        else:
+            self.nums.append(val)
+
+        return self.nums[self.k-1]
+
+k=3
+arr=[4,5,8,2]
+obj = KthLargest(k, arr)
+print(obj.add(3))
+print(obj.add(5))
+print(obj.add(10))
+print(obj.add(9))
+print(obj.add(4))
+#+end_src
+
+#+name: 703 Kth largest element in a stream my solution-results
+#+caption: 703 Kth largest element in a stream my solution-results
+#+RESULTS: 703 Kth largest element in a stream my solution
+#+begin_src none
+4
+5
+5
+8
+8
+#+end_src
+***** Complexity
+****** Time complexity:
+Initial sorting: $O(n\lg n)$.
+The ~add~ method: $O(n)$.
+****** Space complexity: 
+$O(n)$.
+**** Leetcode solution
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 16:47]--[2020-04-25 Sat 16:55] =>  0:08
+:END:
+Not available.
+
+[[*Priority queue]] was used by many to solve the problem.
+
+The question was probably asking us to implement the (max) priority queue.
+
+The following [[https://leetcode.com/problems/kth-largest-element-in-a-stream/discuss/563924/Easy-to-Understand-or-HeapQ-or-Simple-or-Python-Solution][solution]] uses Python's ~heapq~ data structure.
+#+name: 703 Kth largest element in a stream leetcode solution
+#+caption: 703 Kth largest element in a stream leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+class KthLargest:
+    import heapq
+
+    def __init__(self, k: int, nums: List[int]):
+        self.arr = []
+        self.n = k
+        for i in nums: self._push(i)
+
+    def _push(self, val: int):
+        if len(self.arr) == self.n:
+            top = heapq.heappop(self.arr)
+            if top > val:
+                heapq.heappush(self.arr, top)
+            else:
+                heapq.heappush(self.arr, val)
+
+        else:
+            heapq.heappush(self.arr, val)
+
+    def add(self, val: int) -> int:
+        self._push(val)
+        return self.arr[0] if len(self.arr) else None
+#+end_src
+
+#+name: 703 Kth largest element in a stream leetcode solution-results
+#+caption: 703 Kth largest element in a stream leetcode solution-results
+#+RESULTS: 703 Kth largest element in a stream leetcode solution
+#+begin_src none
+
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
 
 * Data structures
 This section contains widely used data structures and related problems.

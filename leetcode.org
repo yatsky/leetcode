@@ -2782,6 +2782,120 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 :END:
 
 
+
+** Data structure
+:PROPERTIES:
+:NOTER_PAGE: 249
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-26 Sun 17:05]--[2020-04-26 Sun 17:06] =>  0:01
+:END:
+*Dynamic sets*: sets that can grow, shrink, or otherwise change over time.
+*Dictionary*: a dynamic set that supports ~insert~, ~delete~, and ~test~ (membership)
+
+#+name: Operations on dynamic sets
+#+caption: Operations on dynamic sets
+| Category | Operation |
+| Query    | search()  |
+|          |           |
+*** Stacks and queues
+:PROPERTIES:
+:NOTER_PAGE: 253
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-26 Sun 16:43]--[2020-04-26 Sun 16:55] =>  0:12
+:END:
+
+#+name: Data structures based on list/array
+#+caption: Data structures based on list/array
+| data structure | policy                       | example              |
+|----------------+------------------------------+----------------------|
+| Queue          | first in, first out          | real life queue      |
+| Stack          | last in, first out           | recursive call stack |
+| Priority queue | whatever in, min/max key out | Triage               |
+
+Stack operations (all $O(1)$):
+- ~push(element)~
+- ~pop()~
+- ~stack_empty()~
+Queue operations (all $O(1)$):
+- ~enqueue(element)~
+- ~dequeue()~
+  
+
+*** Linked lists
+:PROPERTIES:
+:NOTER_PAGE: 257
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-26 Sun 16:55]--[2020-04-26 Sun 16:59] =>  0:04
+:END:
+
+Three types of linked lists:
+- singly linked list
+- doubly linked list
+- circular list
+
+The following content concerns unsorted Doubly Linked List.
+
+*** Priority queue
+:PROPERTIES:
+:NOTER_PAGE: 183
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 16:00]--[2020-04-25 Sat 16:17] =>  0:17
+:END:
+We use [[*Heap properties][Heap]] to implement it.
+
+A *priority queue* is a data structure for maintaining a set $S$ of elements,
+each with an associated value called a $key$ (priority). A *max-priority queue* supports the 
+following operations:
+- $insert(S, x)$ inserts the element $x$ into the set $S$, i.e. $S=S\cup \{x\}$, $O(\lg n)$
+- $maximum(S)$ returns the element of $S$ with the largest $key$, $O(1)$
+- $extract\_max(S)$ removes and returns the element of $S$ with the largest $key$, $O(\lg n)$
+- $increase\_key(S, x, k)$ increases the value of element $x\text{'s}$ $key$ to the new value $k$, which is assumed to be at least as large as the current $key$, $O(\lg n)$
+
+Similarly, a *min-priority queue* supports:
+- $insert(S, x)$ inserts the element $x$ into the set $S$, i.e. $S=S\cup \{x\}$
+- $minimum(S)$ returns the element of $S$ with the smallest $key$
+- $extract\_min(S)$ removes and returns the element of $S$ with the smallest $key$
+- $decrease\_key(S, x, k)$ decreases the value of element $x\text{'s}$ $key$ to the new value $k$, which is assumed to be at least as small as the current $key$
+
+Max-priority queue can be used to schedule jobs on a shared computer.
+Min-priority queue can be used in an event-driven simulator.
+
+**** Implementation of max-priority queue
+:LOGBOOK:
+CLOCK: [2020-04-25 Sat 16:29]--[2020-04-25 Sat 16:44] =>  0:15
+:END:
+Based on the pseudo-code on CLRS.
+#+caption: max-priority queue
+#+name: max-priority queue
+#+begin_src ein-python :session localhost :results output code 
+class max_priority_queue:
+
+    def __init__(self, nums: List[int]):
+        self.q = max_heapify(nums, 0, len(nums)-1)
+
+    def heap_max(self):
+        return self.q[0]
+
+    def heap_extract_max(self):
+        if len(self.q) < 1:
+            raise Exception
+        m = self.q[0]
+        self.q[0] = self.q[len(self.q)-1]
+        self.max_heapify(self.q, 1, self.q[0]-1)
+
+    @staticmethod
+    def max_heapify(arr, i, heap_size):
+        pass
+#+end_src
+
+#+caption: max-priority queue-results
+#+RESULTS: max-priority queue
+
+
 * Clock table
 #+BEGIN: clocktable :scope file :maxlevel 1
 #+CAPTION: Clock summary at [2020-04-24 Fri 21:22]

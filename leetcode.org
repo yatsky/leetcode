@@ -2474,7 +2474,7 @@ For every node $i$, they satisfy a *heap property*,
 - max-heap: $A[parent(i)]\ge A[i]$.
 - min-heap: $A[parent(i)]\le A[i]$.
 
-Max-heaps are used in the heapsort lagorithm; Min-heaps implement priority queues.
+Max-heaps are used in the heapsort lagorithm; Min-heaps implement [[*Priority queue]].
 
 **** Max-Heapify (maintaining $A[parent(i)]\ge A[i]$)
 :PROPERTIES:

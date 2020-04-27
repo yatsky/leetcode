@@ -2941,7 +2941,100 @@ print(find_kth_largest([3,2,1,5,6,4], 1))
 #+begin_src python
 6
 #+end_src
+*** TODO Selection in worst-case linear time (median-of-medians)
+:PROPERTIES:
+:NOTER_PAGE: 241
+:END:
+:LOGBOOK:
+CLOCK: [2020-04-27 Mon 15:53]--[2020-04-27 Mon 16:07] =>  0:14
+CLOCK: [2020-04-27 Mon 15:32]--[2020-04-27 Mon 15:53] =>  0:21
+:END:
+Steps to select:
+1. Divide the $n$ elements of the input array into $\lfloor n/5 \rfloor$ groups and at most one group made up of the remaining $n \mod 5$ elements.
+2. Find the median of each of the $\lceil n/5 \rceil$ groups by first insertion-sorting the elements of each group.
+3. Use ~select()~ recursively to find the median $x$ of the $\lceil n/5 \rceil$ medians found in step 2.
+4. Partition the input array around the median-of-medians $x$ using the modified version of ~partition~. Let $k$ be one more than the number of elements on the low side of the partition, so that $x$ is the kth smallest element and there are $n-k$ elements on the high side of the partition.
+5. If $i=k$, then return $x$, otherwise, use ~select~ recursively to find the ith smallest element on the low side if $i<k$, or the $(i-k)$ th smallest element on the high side if $i>k$.
 
+Python implementation of the algorithm.
+#+caption: selection worst case linear
+#+name: selection worst case linear
+#+begin_src ein-python :session localhost :results output code 
+def partition(arr, lo, hi, pivot) -> int:
+    for i in range(lo, hi):
+        if arr[i] == pivot:
+            arr[hi], arr[i] = arr[i], arr[hi]
+            break
+
+        
+    i = lo
+
+    for j in range(lo, hi):
+        if arr[j] >= pivot:
+            arr[j], arr[i] = arr[i], arr[j]
+            i += 1
+
+    arr[i], arr[hi] = arr[hi], arr[i]
+    return i
+
+def find_median(arr, lo, n):
+    lst = []
+    for i in range(lo, lo+n):
+        lst.append(arr[i])
+
+    lst.sort()
+
+    return lst[n//2]
+
+
+def select(arr, lo, hi, k) -> int:
+    # number of elements in arr[lo, hi]
+    n = hi - lo + 1
+    medians = []
+
+    i = 0
+    while (i<n//5):
+        medians.append(find_median(arr, lo+i*5, 5))
+        i += 1
+        
+    # last group
+    if i*5 < n:
+        medians.append(find_median(arr, lo+i*5, n%5))
+        i+=1
+
+    # Find median of all medians using recursive call.
+    # If medians has only one element, then no need
+    # of recursive call
+    if i == 1:
+        med_of_meds = medians[0]
+    else:
+        med_of_meds = select(medians, 0, i-1, i//2)
+
+    # Partition the array around a med_of_meds
+    # element and get position of pivot
+    # element in sorted array
+    pos = partition(arr, lo, hi, med_of_meds)
+
+    # If position is the same as k
+    if (pos - lo == k - 1):
+        return arr[pos]
+    # If position is more,
+    # recur for left subarray
+    if (pos - lo > k-1):
+        return select(arr, lo, pos-1, k)
+    
+
+    # Else recur for right subarray
+    return select(arr, pos+1, hi, k-pos+lo-1)
+print(select([1,2,3,4,5],0, 4, 2))
+#+end_src
+
+#+caption: selection worst case linear-results
+
+#+RESULTS: selection worst case linear
+#+begin_src none
+4
+#+end_src
 ** Dynamic programming
 :PROPERTIES:
 :CUSTOM_ID: CLRS Dynamic programming

@@ -1955,7 +1955,7 @@ Again, to determine if a question fits dynamic programming, we want to determine
 **** Related problems
 [[*70 Climbming stairs]]
 
-** 703 Kth largest element in a stream                                :heap:
+** DONE 703 Kth largest element in a stream                           :heap:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-25 Sat 09:45]--[2020-04-25 Sat 09:49] =>  0:04
@@ -2050,6 +2050,9 @@ The ~add~ method: $O(n)$.
 ****** Space complexity: 
 $O(n)$.
 **** Leetcode solution
+:PROPERTIES:
+:CUSTOM_ID: 703 Leetcode
+:END:
 :LOGBOOK:
 CLOCK: [2020-04-25 Sat 16:47]--[2020-04-25 Sat 16:55] =>  0:08
 :END:
@@ -2065,8 +2068,8 @@ The following [[https://leetcode.com/problems/kth-largest-element-in-a-stream/di
 #+begin_src ein-python :session localhost :results output code :noweb yes
 <<imports for typing>>
 
+import heapq
 class KthLargest:
-    import heapq
 
     def __init__(self, k: int, nums: List[int]):
         self.arr = []
@@ -2087,22 +2090,75 @@ class KthLargest:
     def add(self, val: int) -> int:
         self._push(val)
         return self.arr[0] if len(self.arr) else None
+
+nums = [10,9,8,7]
+k=3
+obj = KthLargest(k, nums)
+val=6
+param_1 = obj.add(val)
+print(param_1)
 #+end_src
 
 #+name: 703 Kth largest element in a stream leetcode solution-results
 #+caption: 703 Kth largest element in a stream leetcode solution-results
 #+RESULTS: 703 Kth largest element in a stream leetcode solution
 #+begin_src none
-
+8
 #+end_src
 ***** Time complexity:
-
+Initial sorting: $O(n\lg n)$.
+The ~add()~ method: $O(\lg n)$.
 ***** Space complexity: 
+$O(n)$.
 
 *** More analysis
 **** General thoughts
-**** Related problems
+:LOGBOOK:
+CLOCK: [2020-04-27 Mon 10:24]
+CLOCK: [2020-04-27 Mon 09:09]--[2020-04-27 Mon 09:59] =>  0:50
+:END:
+The ~heapq~ provided by Python follows min-heap properties.
+- ~arr[0]~ is the smallest element
+- ~arr[k]<arr[2k+1], arr[k]<arr[2k+2]~
 
+We can modify the [[#703 Leetcode][Leetcode solution]] to make it use less memory in theory since we are dealing with a stream and do not care about storing it.
+Basically, we chop off the list after each ~add(val)~ operation, so the list has only ~k~ elements.
+
+#+name: 703 Kth largest element in a stream leetcode solution improved
+#+caption: 703 Kth largest element in a stream leetcode solution improved
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+class KthLargest:
+    import heapq
+
+    def __init__(self, k: int, nums: List[int]):
+        self.k = k
+        self.arr = nums
+        heapq.heapify(self.arr)
+        self._chop_off_queue()
+
+    def add(self, val: int) -> int:
+        heap_top = 0
+
+        # always keep heap size = k
+        # Top element = kth largest element
+        if len(self.arr) < self.k:
+            heapq.heappush(self.arr, val)
+        else:
+            heapq.heappushpop(self.arr, val)
+
+        return self.arr[heap_top]
+
+
+    def _chop_off_queue(self):
+        while len(self.arr) > self.k:
+            # heappop() pops the smallest element
+            heapq.heappop(self.arr)
+#+end_src
+
+**** Related problems
+See [[*Heapsort]] and [[*Priority queue]].
 
 * Data structures
 This section contains widely used data structures and related problems.

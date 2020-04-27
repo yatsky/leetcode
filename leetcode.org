@@ -2160,6 +2160,136 @@ class KthLargest:
 **** Related problems
 See [[*Heapsort]] and [[*Priority queue]].
 
+** DONE 215 Kth largest element in an array                           :heap:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-27 Mon 10:29]--[2020-04-27 Mon 10:30] =>  0:01
+:END:
+Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Constraints:
+You may assume k is always valid, 1 ≤ k ≤ array's length.
+**** Examples:
+#+name: 215 Kth largest element in an array example
+#+caption: 215 Kth largest element in an array example
+#+begin_example
+Input: [3,2,1,5,6,4] and k = 2
+Output: 5
+
+Input: [3,2,3,1,2,4,5,5,6] and k = 4
+Output: 4
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-27 Mon 10:45]--[2020-04-27 Mon 10:52] =>  0:07
+:END:
+We can use quicksort.
+
+See [[*Medians and order statistics]] for theory discussion and linear time algorithm (randomized quickselect).
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-27 Mon 15:01]--[2020-04-27 Mon 15:09] =>  0:08
+CLOCK: [2020-04-27 Mon 14:32]--[2020-04-27 Mon 14:46] =>  0:14
+:END:
+#+name: 215 Kth largest element in an array my solution
+#+caption: 215 Kth largest element in an array my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def find_kth_largest(nums: List[int], k: int) -> int:
+    return sorted(nums)[k-1]
+print(find_kth_largest([3,2,1,5,6,4], 2))
+#+end_src
+
+#+name: 215 Kth largest element in an array my solution-results
+#+caption: 215 Kth largest element in an array my solution-results
+#+RESULTS: 215 Kth largest element in an array my solution
+#+begin_src none
+2
+#+end_src
+
+Quickselect implementation (a replica of [[*Selection in expected linear time (Quickselect)]]).
+
+#+caption: quickselect implementation
+#+name: quickselect implementation
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+import random
+
+def kth_largest(arr: List[int], k: int) -> int:
+    def partition(arr, lo, hi):
+        pivot = arr[hi]
+        i = lo
+
+        for j in range(lo, hi):
+            if arr[j] > pivot:
+                arr[i], arr[j] = arr[j], arr[i]
+                i += 1
+
+        arr[i], arr[hi] = arr[hi], arr[i]
+        return i
+    
+    def quickselect(arr: List[int],lo, hi, k) -> int:
+        rand_pivot_idx = random.randrange(lo, hi+1)
+        arr[hi], arr[rand_pivot_idx] = arr[rand_pivot_idx], arr[hi]
+        par = partition(arr, lo, hi)
+        
+        if par == k - 1:
+            return arr[par]
+        elif par > k-1:
+            return quickselect(arr, lo, par-1, k)
+        return quickselect(arr, par+1, hi, k)
+    
+    return quickselect(arr, 0, len(arr)-1, k)
+
+print(kth_largest([3,2,1,5,6,4], 3))
+#+end_src
+
+#+caption: quickselect implementation-results
+#+RESULTS: quickselect implementation
+#+begin_src none
+4
+#+end_src
+***** Complexity
+****** Time complexity:
+$O(n\lg n)$.
+****** Space complexity: 
+:LOGBOOK:
+CLOCK: [2020-04-27 Mon 14:32]--[2020-04-27 Mon 14:32] =>  0:00
+:END:
+$O(1)$. Quicksort is in-place.
+
+**** Leetcode solution
+Not available.
+#+name: 215 Kth largest element in an array leetcode solution
+#+caption: 215 Kth largest element in an array leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 215 Kth largest element in an array leetcode solution-results
+#+caption: 215 Kth largest element in an array leetcode solution-results
+#+RESULTS: 215 Kth largest element in an array leetcode solution
+#+begin_src none
+
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+
+**** Related problems
+
+
 * Data structures
 This section contains widely used data structures and related problems.
 * Algorithms

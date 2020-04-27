@@ -2758,14 +2758,59 @@ and the *maximum* is the $n$ th order statistic ($i=n$). A *median*, is the midd
 The *selection problem*:
 - Input: A set $A$ of $n$ (distinct) numbers and an integer $i$, with $1\le i \le n$.
 - Output: The element $x \in A,a_1< a_2 < \ldots < a_{i-1},x < a_{i+1}\ldots a_n$.
-*** TODO Selection in expected linear time
+*** DONE Selection in expected linear time (Quickselect)
 :PROPERTIES:
 :NOTER_PAGE: 236
 :END:
 :LOGBOOK:
+CLOCK: [2020-04-27 Mon 14:04]--[2020-04-27 Mon 14:30] =>  0:26
+CLOCK: [2020-04-27 Mon 11:30]--[2020-04-27 Mon 11:50] =>  0:20
 CLOCK: [2020-04-25 Sat 10:11]--[2020-04-25 Sat 10:13] =>  0:02
 :END:
-We use ~randomized_select~.
+We use ~randomized_select~ modeled after the [[*Quicksort]] algorithm but only works on one side of a partition.
+
+Implementation of Quickselect from[[https://leetcode.com/problems/kth-largest-element-in-an-array/discuss/60547/Python-quick-select-(use-partition)-average-time-O(N)-and-worst-O(N2)][Leetcode]].
+
+#+caption: Quickselect python implementation
+#+name: Quickselect python implementation
+#+begin_src python :results output code
+import random
+
+def partition(arr, l, r):
+    x = arr[r]
+    i = l
+
+    for j in range(l, r):
+        # use > to sort the elements in descending order
+        if arr[j] > x:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+
+    arr[i], arr[r] = arr[r], arr[i]
+    return i
+
+def quick_select(nums, start, n, k):
+    # get random pivot index
+    rand_pivot_idx = random.randrange(start, n+1)
+    nums[n], nums[rand_pivot_idx] = nums[rand_pivot_idx], nums[n]
+    pos = partition(nums, start, n)
+    if pos == k-1:
+        return nums[pos]
+    elif pos >= k:
+        return quick_select(nums, start, pos-1, k)
+    return quick_select(nums, pos+1, n, k)
+
+def find_kth_largest(nums, k):
+    return quick_select(nums, 0, len(nums)-1, k)
+
+print(find_kth_largest([3,2,1,5,6,4], 1))
+#+end_src
+
+#+RESULTS: Quickselect python implementation
+#+begin_src python
+6
+#+end_src
+
 ** Dynamic programming
 :PROPERTIES:
 :CUSTOM_ID: CLRS Dynamic programming

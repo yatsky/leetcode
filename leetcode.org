@@ -3102,17 +3102,17 @@ class max_priority_queue:
 
 * Clock table
 #+BEGIN: clocktable :scope file :maxlevel 1
-#+CAPTION: Clock summary at [2020-04-24 Fri 21:22]
+#+CAPTION: Clock summary at [2020-04-27 Mon 08:45]
 | Headline                             |    Time |
 |--------------------------------------+---------|
-| *Total time*                         | *19:06* |
+| *Total time*                         | *22:47* |
 |--------------------------------------+---------|
-| Problems                             |    8:49 |
+| Problems                             |    9:08 |
 | Algorithms                           |    0:40 |
 | Techniques                           |    0:18 |
-| CLRS Notes & Yufei Tao lecture notes |    6:02 |
+| CLRS Notes & Yufei Tao lecture notes |    9:15 |
 | Exporting                            |    0:38 |
-| Fix up                               |    2:39 |
+| Fix up                               |    2:48 |
 #+END:
 
 * Exporting                                                        :noexport:

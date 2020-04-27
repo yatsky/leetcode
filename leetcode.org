@@ -2114,7 +2114,7 @@ $O(n)$.
 *** More analysis
 **** General thoughts
 :LOGBOOK:
-CLOCK: [2020-04-27 Mon 10:24]
+CLOCK: [2020-04-27 Mon 10:24]--[2020-04-27 Mon 10:29] =>  0:05
 CLOCK: [2020-04-27 Mon 09:09]--[2020-04-27 Mon 09:59] =>  0:50
 :END:
 The ~heapq~ provided by Python follows min-heap properties.

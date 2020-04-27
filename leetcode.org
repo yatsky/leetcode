@@ -2288,6 +2288,7 @@ Not available.
 **** General thoughts
 
 **** Related problems
+[[*703 Kth largest element in a stream]]
 
 
 * Data structures

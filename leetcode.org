@@ -2670,12 +2670,12 @@ max_heapify(A, 0, len(A))
 print(A)
 #+end_src
 
+#+caption: max-heapify-results
 #+RESULTS: max-heapify
 #+begin_src none
 [14, 10, 13, 4, 1, 12]
 #+end_src
 
-#+caption: max-heapify-results
 
 **** Building a heap
 :PROPERTIES:

@@ -2624,17 +2624,17 @@ so that the subtree rooted at index ~i~ obeys the max-heap property.
 #+name: A 3-node construct that ~max-heapify~ works on
 #+caption: A 3-node construct that ~max-heapify~ works on
 #+BEGIN_SRC ditaa :file max-heapify-demo.png :cmdline -r -s 2 
-/-------\
-| arr(i)|
-|       |
-\-------/
-/         \
-/           \
-/             \
-/-------\               /-------\
-| max   |               | max   |
-| heap  |               | heap  |
-\-------/               \-------/
+                 /-------\
+                 | arr(i)|
+                 |       |
+                 \-------/
+                /         \
+               /           \
+              /             \
+    /-------\               /-------\
+    | max   |               | max   |
+    | heap  |               | heap  |
+    \-------/               \-------/
 #+END_SRC
 
 #+RESULTS:

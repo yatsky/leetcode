@@ -2740,7 +2740,15 @@ CLOCK: [2020-04-24 Fri 10:27]--[2020-04-24 Fri 10:39] =>  0:12
 
 def heapsort(A):
 
+    # As the name suggests,
+    # build a max-heap out of array A.
+    # We have the largest number at root
+    # after this
     build_max_heap(A, len(A)-1)
+
+    # Keep changing root and the last element
+    # max_heapify() guarantees that
+    # the largest element pops to the root
     for i in range(len(A)-1, 0, -1):
         # heap_size is i
         A[0], A[i] = A[i], A[0]

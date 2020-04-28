@@ -2620,6 +2620,26 @@ Time complexity: $O(\lg n), n=A.length$.
 
 The ~max_heapify~ lets the value at ~A[i]~ "float down" in the max-heap
 so that the subtree rooted at index ~i~ obeys the max-heap property.
+
+#+name: A 3-node construct that ~max-heapify~ works on
+#+caption: A 3-node construct that ~max-heapify~ works on
+#+BEGIN_SRC ditaa :file max-heapify-demo.png :cmdline -r -s 2 
+/-------\
+| arr(i)|
+|       |
+\-------/
+/         \
+/           \
+/             \
+/-------\               /-------\
+| max   |               | max   |
+| heap  |               | heap  |
+\-------/               \-------/
+#+END_SRC
+
+#+RESULTS:
+[[file:max-heapify-demo.png]]
+
 #+caption: max-heapify
 #+name: max-heapify
 #+begin_src ein-python :session localhost :results output code 
@@ -2644,14 +2664,15 @@ def max_heapify(A, i, heap_size) -> None:
         # as many heights as possible
         max_heapify(A, largest, heap_size)
 
-A = [4,14,7,10,1,12]
+# The children of the root node must be already max-heaps
+A = [4,14,13,10,1,12]
 max_heapify(A, 0, len(A))
 print(A)
 #+end_src
 
 #+RESULTS: max-heapify
 #+begin_src none
-[14, 10, 7, 4, 1, 12]
+[14, 10, 13, 4, 1, 12]
 #+end_src
 
 #+caption: max-heapify-results

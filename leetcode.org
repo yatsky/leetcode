@@ -2682,15 +2682,26 @@ print(A)
 :NOTER_PAGE: 178
 :END:
 :LOGBOOK:
+CLOCK: [2020-04-28 Tue 20:08]--[2020-04-28 Tue 20:15] =>  0:07
 CLOCK: [2020-04-24 Fri 10:13]--[2020-04-24 Fri 10:27] =>  0:14
 :END:
 Here is the Python code for building the Build-Max-Heap pseudo-code from bottom to top (this is faster than "top-bottom" but the details are not important here).
+This also makes sense because we start from the direct parent of leave nodes, which matches
+the prerequisite of ~max-heapify()~ of having the child nodes of a 3-node construct to be 
+max-heaps. In this case, those child nodes of a 3-node construct are leaves of the binary tree,
+which are max-heaps with only one element.
+
+As we go up the tree, all nodes that we have passed by are now roots of max-heaps, 
+which again satisfies the condition of ~max-heapify()~ when used as child nodes of an upper node.
 
 This is $O(n)$. Although the obvious time complexity is $O(n\lg n)$, we can prove that 
 a tighter bound exists and it is $O(n)$.
 
 This makes sure that *all* elements $A[i]$ in the heap satisfies:
 $A[parent(i)]\ge A[i]$.
+
+Once again, compared to ~max-heapify()~, this algorithm does not need its argument array to have children of the root as max-heaps already,
+since this algorithm is going to achieve exactly that.
 #+caption: build-max-heap
 #+name: build-max-heap
 #+begin_src ein-python :session localhost :results output code :noweb yes
@@ -2698,6 +2709,7 @@ $A[parent(i)]\ge A[i]$.
 def build_max_heap(A, heap_size) -> None:
 
     # we simply skip all leaves
+    # because they are max-heaps with one element
     for i in range((len(A)//2-1), -1, -1):
         max_heapify(A, i, heap_size)
 

@@ -2290,6 +2290,154 @@ Not available.
 **** Related problems
 [[*703 Kth largest element in a stream]]
 
+** DONE 347 Top K frequent elements                            :heap:medium:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-04-29 Wed 14:57]--[2020-04-29 Wed 14:58] =>  0:01
+:END:
+Given a non-empty array of integers, return the $k$ most frequent elements.
+
+Constraints:
+1. You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+2. Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+3. It's guaranteed that the answer is unique, in other words the set of the top k frequent elements is unique.
+4. You can return the answer in any order.
+**** Examples:
+#+name: 347 Top K frequent elements example
+#+caption: 347 Top K frequent elements example
+#+begin_example
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+
+Input: nums = [1], k = 1
+Output: [1]
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-04-29 Wed 14:58]--[2020-04-29 Wed 15:00] =>  0:02
+:END:
+It's obvious that we have to use quickselect to achieve $O(n)$ time complexity on average.
+
+We first scan the array and build a cound of elements ($O(n)$).
+We then quick-select the counts and get the $k$ elements ($O(n)$).
+**** Code
+:LOGBOOK:
+CLOCK: [2020-04-29 Wed 15:12]--[2020-04-29 Wed 21:24] =>  6:12
+CLOCK: [2020-04-29 Wed 15:00]--[2020-04-29 Wed 15:04] =>  0:04
+:END:
+#+name: 347 Top K frequent elements my solution
+#+caption: 347 Top K frequent elements my solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def top_k_frequent(nums: List[int], k: int) -> List[int]:
+    def partition(arr, low, high):
+        pivot = arr[high]
+        i = low
+        for j in range(low, high):
+            if arr[j][1] >= pivot[1]:
+                arr[j], arr[i] = arr[i], arr[j]
+                i += 1
+
+        arr[i], arr[high] = arr[high], arr[i]
+        return i
+
+    def quickselect(arr, low, high, k: int) -> List[int]:
+
+        par = partition(arr, low, high)
+
+        if par == k-1:
+            return arr[:k]
+        elif par < k-1:
+            return quickselect(arr, par+1, high, k)
+        else:
+            return quickselect(arr, low, par-1, k)
+        
+    temp = {}
+    for i in nums:
+        temp[i] = temp.get(i, 0) + 1
+        arr = [(k, v) for k, v in temp.items()]
+    return [i[0] for i in quickselect(arr, 0, len(arr)-1, k)]
+
+print(top_k_frequent([1,1,1,2,2,3], 2))
+print(top_k_frequent([1,1,1,2,2,3,3,3], 2))
+#+end_src
+
+#+name: 347 Top K frequent elements my solution-results
+#+caption: 347 Top K frequent elements my solution-results
+#+RESULTS: 347 Top K frequent elements my solution
+#+begin_src none
+[1, 2]
+[1, 3]
+#+end_src
+***** Complexity
+****** Time complexity:
+$O(n)$ on average, $O(n^2)$ worst case.
+****** Space complexity: 
+$O(n)$.
+
+**** Leetcode solution
+
+#+name: 347 Top K frequent elements leetcode solution
+#+caption: 347 Top K frequent elements leetcode solution
+#+begin_src ein-python :session localhost :results output code :noweb yes
+<<imports for typing>>
+
+def top_k_frequent(nums, k):
+    from collections import Counter
+    import heapq
+
+    count = Counter(nums)
+    return heapq.nlargest(k, count.keys(), key=count.get)
+
+print(top_k_frequent([1,1,1,2,3,2], 2))
+#+end_src
+
+#+name: 347 Top K frequent elements leetcode solution-results
+#+caption: 347 Top K frequent elements leetcode solution-results
+#+RESULTS: 347 Top K frequent elements leetcode solution
+#+begin_src none
+[1, 2]
+#+end_src
+***** Time complexity:
+$O(n \lg k)$
+***** Space complexity: 
+$O(n)$
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-29 Wed 21:24]--[2020-04-29 Wed 21:33] =>  0:09
+:END:
+My solution uses Quickselect without randomization, which means that some particular array setup could 
+hit it hard and run at $O(n^2)$, but in general, it works at $O(n)$.
+
+Another quick hack to this is to use ~Counter~ object.
+When $k<n$, this uses ~heapq.nlargest()~ internally, which gives us $O(n\lg k)$ time complexity.
+When $k==n$, this uses ~sorted~ internally, which also gives us $O(n\lg k)$ time complexity.
+#+name: most_common
+#+caption: most_common
+#+begin_src python :results output code
+from collections import Counter
+
+def top_k_frequent(nums, k):
+    count = Counter(nums)
+    return [i[0] for i in count.most_common(k)]
+print(top_k_frequent([1,2,1,1,24,2], 2))
+#+end_src
+
+#+RESULTS: most_common
+#+begin_src python
+[1, 2]
+#+end_src
+
+Seems we can also use bucket sort.
+**** Related problems
+
 
 * Data structures
 This section contains widely used data structures and related problems.

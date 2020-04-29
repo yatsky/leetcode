@@ -30,7 +30,7 @@ Here we start to finish our problems 😈.
 ** Imports for typing
 #+caption: imports for typing
 #+name: imports for typing
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 from typing import List, Tuple, Set
 #+end_src
 
@@ -85,7 +85,7 @@ CLOCK: [2020-04-16 Thu 20:15]--[2020-04-16 Thu 20:19] =>  0:04
 :END:
 #+name: 1313 Decompress Run-length encoded list my solution
 #+caption: 1313 Decompress Run-length encoded list my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def decompress_RLE_list(nums: List[int]) -> List[int]:
@@ -98,7 +98,7 @@ print(decompress_RLE_list([1,1,2,3]))
 #+end_src
 
 #+RESULTS: 1313 Decompress Run-length encoded list my solution
-#+begin_src none
+#+begin_src python
 [1, 3, 3]
 #+end_src
 
@@ -116,7 +116,7 @@ $O(M)\text{, where } M=\sum_{i=0,2,4...}^{len(nums)-2}nums[i]$
 Not available.
 #+name: 1313 Decompress Run-length encoded list leetcode solution
 #+caption: 1313 Decompress Run-length encoded list leetcode solution
-#+begin_src ein-python :session localhost :results output code
+#+begin_src python :results output code
 
 #+end_src
 
@@ -129,7 +129,7 @@ Not available.
 To concatenate lists in Python.
 #+caption: concatenate lists
 #+name: concatenate lists
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 lst1=[1,2,3]
 lst2=[3,3,3]
 print(lst1+lst2)
@@ -190,7 +190,7 @@ CLOCK: [2020-04-16 Thu 20:56]--[2020-04-16 Thu 20:57] =>  0:01
 :END:
 #+name: 1295 Find numbers with even number of digits my solution
 #+caption: 1295 Find numbers with even number of digits my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def find_numbers(nums: List[int]) -> int:
@@ -204,7 +204,7 @@ print(find_numbers([11,2,3]))
 #+end_src
 
 #+RESULTS: 1295 Find numbers with even number of digits my solution
-#+begin_src none
+#+begin_src python
 0
 1
 #+end_src
@@ -219,7 +219,7 @@ $O(N)$.
 Not available.
 #+name: 1295 Find numbers with even number of digits leetcode solution
 #+caption: 1295 Find numbers with even number of digits leetcode solution
-#+begin_src ein-python :session localhost :results output code
+#+begin_src python :results output code
 
 #+end_src
 
@@ -281,7 +281,7 @@ CLOCK: [2020-04-16 Thu 21:20]--[2020-04-16 Thu 21:26] =>  0:06
 :END:
 #+name: 1365 How many numbers are smaller than the current number my solution
 #+caption: 1365 How many numbers are smaller than the current number my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def smaller_numbers_than_current(nums: List[int]) -> List[int]:
@@ -301,7 +301,7 @@ print(smaller_numbers_than_current([2,2,3,4,1]))
 #+end_src
 
 #+RESULTS: 1365 How many numbers are smaller than the current number my solution
-#+begin_src none
+#+begin_src python
 [1, 1, 3, 4, 0]
 #+end_src
 
@@ -315,7 +315,7 @@ $O(N)$.
 Not available.
 #+name: 1365 How many numbers are smaller than the current number leetcode solution
 #+caption: 1365 How many numbers are smaller than the current number leetcode solution
-#+begin_src ein-python :session localhost :results output code
+#+begin_src python :results output code
 
 #+end_src
 
@@ -381,7 +381,7 @@ CLOCK: [2020-04-17 Fri 09:01]--[2020-04-17 Fri 09:05] =>  0:04
 :END:
 #+name: 1409 Queries on a permutation with key my solution
 #+caption: 1409 Queries on a permutation with key my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def process_queries(queries: List[int], m: int) -> List[int]:
@@ -403,7 +403,7 @@ print(process_queries([3,1,2,1],5))
 #+end_src
 
 #+RESULTS: 1409 Queries on a permutation with key my solution
-#+begin_src none
+#+begin_src python
 [2, 1, 2, 1]
 #+end_src
 
@@ -421,7 +421,7 @@ Not available.
 Here is one interesting solution from the discussion forum.
 #+name: 1409 Queries on a permutation with key discussion solution
 #+caption: 1409 Queries on a permutation with key discussion solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def process_queries(queries: List[int], m: int) -> List[int]:
@@ -440,7 +440,7 @@ print(process_queries([3,1,2,1],5))
 #+end_src
 
 #+RESULTS: 1409 Queries on a permutation with key discussion solution
-#+begin_src none
+#+begin_src python
 [2, 1, 2, 1]
 #+end_src
 
@@ -496,7 +496,7 @@ CLOCK: [2020-04-17 Fri 10:00]--[2020-04-17 Fri 10:04] =>  0:04
 :END:
 #+name: 1329 Sort the matrix diagonally my solution
 #+caption: 1329 Sort the matrix diagonally my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def diagonal_sort(mat: List[List[int]]) -> List[List[int]]:
@@ -551,7 +551,7 @@ print(diagonal_sort(
 
 #+name: 1329 Sort the matrix diagonally leetcode solution
 #+caption: 1329 Sort the matrix diagonally leetcode solution
-#+begin_src ein-python :session localhost :results output code
+#+begin_src python :results output code
 
 #+end_src
 
@@ -598,7 +598,7 @@ We then sort each diagonal list and put them back to the ~mat~.
 **** Code
 #+name: 1329 Sort the matrix diagonally 2 my solution
 #+caption: 1329 Sort the matrix diagonally 2 my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def diagonal_sort(mat: List[List[int]]) -> List[List[int]]:
@@ -637,7 +637,7 @@ print(diagonal_sort(
 #+end_src
 
 #+RESULTS: 1329 Sort the matrix diagonally 2 my solution
-#+begin_src none
+#+begin_src python
 [[3, 2, 3], [1, 4, 4]]
 [[2, 1], [2, 2], [3, 3]]
 [[1, 2, 1], [3, 2, 4], [7, 7, 4]]
@@ -671,7 +671,7 @@ Not available.
 Interesting one [[https://leetcode.com/problems/sort-the-matrix-diagonally/discuss/489846/Several-Python-solutions][here]].
 #+name: 1329 Sort the matrix diagonally 2 leetcode solution
 #+caption: 1329 Sort the matrix diagonally 2 leetcode solution
-#+begin_src ein-python :session localhost :results output code
+#+begin_src python :results output code
 def diagonal_sort(mat):
     m, n = len(mat), len(mat[0])
 
@@ -696,7 +696,7 @@ print(diagonal_sort(
 #+end_src
 
 #+RESULTS: 1329 Sort the matrix diagonally 2 leetcode solution
-#+begin_src none
+#+begin_src python
 [[4, 2, 3], [1, 3, 4]]
 [[2, 1], [3, 2], [3, 2]]
 [[1, 2, 1], [3, 2, 4], [7, 7, 4]]
@@ -764,7 +764,7 @@ CLOCK: [2020-04-17 Fri 19:46]--[2020-04-17 Fri 19:50] =>  0:04
 :END:
 #+name: 1395 Count number of teams my solution
 #+caption: 1395 Count number of teams my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 def num_teams(rating: List[int]) -> int:
     if len(rating) < 3:
@@ -815,7 +815,7 @@ Not available.
 This following is adapted from [[https://leetcode.com/problems/count-number-of-teams/discuss/554817/Java-O(N2)-Time-O(N)-Space-(Best-Solution)][this Java solution]].
 #+name: 1395 Count number of teams efficient solution
 #+caption: 1395 Count number of teams efficient solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 def num_teams(rating: List[int]) -> int:
     ans = 0
@@ -869,7 +869,7 @@ We should try to use some better algorithms to solve it.
 
 #+name: 1395 Count number of teams general solution
 #+caption: 1395 Count number of teams general solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def calc_combinations(n: int, k: int) -> int:
@@ -977,7 +977,7 @@ CLOCK: [2020-04-20 Mon 19:46]--[2020-04-20 Mon 19:50] =>  0:04
 :END:
 #+name: 442 Find all duplicates in an array my solution
 #+caption: 442 Find all duplicates in an array my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def find_duplicates(nums: List[int]) -> List[int]:
@@ -1009,7 +1009,7 @@ Not available.
 Most interesting idea has been provided in the previous section.
 #+name: 442 Find all duplicates in an array leetcode solution
 #+caption: 442 Find all duplicates in an array leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 #+end_src
@@ -1066,7 +1066,7 @@ CLOCK: [2020-04-20 Mon 20:06]--[2020-04-20 Mon 20:14] =>  0:08
 :END:
 #+name: 78 Subsets my solution
 #+caption: 78 Subsets my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def subsets(nums: List[int]) -> List[List[int]]:
@@ -1099,7 +1099,7 @@ Bitmask solution.
 The idea is that we map each subset to a bitmask of length n, where 1 on the /ith/ position in the bitmask meas the presence of ~nums[i]~ in the subset, and 0 means its absence.
 #+name: 78 Subsets leetcode solution
 #+caption: 78 Subsets leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def subsets(nums: List[int]) -> List[List[int]]:
@@ -1216,7 +1216,7 @@ CLOCK: [2020-04-21 Tue 14:32]--[2020-04-21 Tue 14:56] =>  0:24
 :END:
 #+name: 48 Rotate image my solution
 #+caption: 48 Rotate image my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def rotate(matrix: List[List[int]]) -> None:
@@ -1265,7 +1265,7 @@ $O(1)$
 Not available.
 #+name: 48 Rotate image leetcode solution
 #+caption: 48 Rotate image leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 #+end_src
@@ -1285,7 +1285,7 @@ As shown in the Leetcode discussion forum, it is easier to flip the matrix inste
 The other way to mitigate the problem in my solution is to use the following code, which does the rotation of four elements at once.
 #+caption: 48 rotate image sample
 #+name: 48 rotate image sample
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 matrix[i][j], matrix[j][n - 1 - i], matrix[n - 1 - i][n - 1 - j], matrix[n - 1 - j][i] 
 = matrix[n - 1 - j][i], matrix[i][j], matrix[j][n - 1 - i], matrix[n - 1 - i][n - 1 - j]
 #+end_src
@@ -1335,7 +1335,7 @@ CLOCK: [2020-04-21 Tue 20:49]--[2020-04-21 Tue 21:05] =>  0:16
 :END:
 #+name: 72 Edit distance my solution
 #+caption: 72 Edit distance my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def min_distance(word1: str, word2: str) -> int:
@@ -1377,7 +1377,7 @@ $O(MN)$
 Not available.
 #+name: 72 Edit distance leetcode solution
 #+caption: 72 Edit distance leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 #+end_src
@@ -1436,7 +1436,7 @@ CLOCK: [2020-04-21 Tue 21:13]--[2020-04-21 Tue 21:16] =>  0:03
 :END:
 #+name: 121 Best time to buy and sell stock my solution
 #+caption: 121 Best time to buy and sell stock my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def max_profit(prices: List[int]) -> int:
@@ -1485,7 +1485,7 @@ If we plot the numbers in the array on a graph, we will have a line graph.
 The points of interest are the peaks and valleys in the given graph. We need to find the highest peak, following the lowest valley. We can maintain two variables - ~minprice~ and ~maxprofit~ corresponding to the lowest valley and maximum profit (max difference between selling price and ~minprice~) obtained so far respectively.
 #+name: 121 Best time to buy and sell stock leetcode solution
 #+caption: 121 Best time to buy and sell stock leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def max_profit(prices: List[int]) -> int:
@@ -1538,7 +1538,7 @@ The overlapping sub-problem here is very obvious - there's no need to calculate 
 Also people mentioned that this is similar to [[https://en.wikipedia.org/wiki/Maximum_subarray_problem][Kadane's Algorithm for Maximum Subarray Sum]].
 #+caption: 121 Best time to buy and sell stock dp solution
 #+name: 121 Best time to buy and sell stock dp solution
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def max_profit(prices) -> int:
     from math import inf
     
@@ -1599,7 +1599,7 @@ CLOCK: [2020-04-22 Wed 09:43]--[2020-04-22 Wed 09:49] =>  0:06
 :END:
 #+name: 53 Maximum subarray my solution
 #+caption: 53 Maximum subarray my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def max_subarray(nums: List[int]) -> int:
@@ -1637,7 +1637,7 @@ $O(N)$ but $O(1)$ can be achieved by removing the ~dp~ array.
 Not available.
 #+name: 53 Maximum subarray leetcode solution
 #+caption: 53 Maximum subarray leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 #+end_src
@@ -1657,7 +1657,7 @@ CLOCK: [2020-04-22 Wed 10:06]--[2020-04-22 Wed 10:09] =>  0:03
 In this problem, $O(1)$ space can be achieved.
 #+name: 53 Maximum subarray my solution O(1) space
 #+caption: 53 Maximum subarray my solution O(1) space
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def max_subarray(nums: List[int]) -> int:
@@ -1740,7 +1740,7 @@ CLOCK: [2020-04-22 Wed 11:11]--[2020-04-22 Wed 11:18] =>  0:07
 :END:
 #+name: 70 Climbming stairs my solution
 #+caption: 70 Climbming stairs my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def climb_stairs(n: int) -> int:
@@ -1777,7 +1777,7 @@ There are [[https://leetcode.com/problems/climbing-stairs/solution/][6 approache
 Here we take the formula solution.
 #+name: 70 Climbming stairs leetcode solution
 #+caption: 70 Climbming stairs leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def climb_stairs(n: int) -> int:
@@ -1846,7 +1846,7 @@ CLOCK: [2020-04-23 Thu 08:24]--[2020-04-23 Thu 08:41] =>  0:17
 :END:
 #+name: 746 Min cost climbing stairs my solution
 #+caption: 746 Min cost climbing stairs my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def min_cost_climbing_stairs(cost: List[int]) -> int:
@@ -1896,7 +1896,7 @@ We can do even better than that. At the i-th step, let f1, f2 be the old value o
 
 #+name: 746 Min cost climbing stairs leetcode solution
 #+caption: 746 Min cost climbing stairs leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def min_cost_climbing_stairs(cost: List[int]):
@@ -1916,7 +1916,7 @@ print(min_cost_climbing_stairs([10,14,10]))
 Based on the [[#746 Leetcode][Leetcode solution]], we can improve our code to get $O(1)$ space complexity.
 #+name: 746 Min cost climbing stairs my solution improved
 #+caption: 746 Min cost climbing stairs my solution improved
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def min_cost_climbing_stairs(cost: List[int]) -> int:
@@ -2004,7 +2004,7 @@ CLOCK: [2020-04-25 Sat 15:33]--[2020-04-25 Sat 15:37] =>  0:04
 :END:
 #+name: 703 Kth largest element in a stream my solution
 #+caption: 703 Kth largest element in a stream my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 class KthLargest:
@@ -2065,7 +2065,7 @@ The question was probably asking us to implement the (max) priority queue.
 The following [[https://leetcode.com/problems/kth-largest-element-in-a-stream/discuss/563924/Easy-to-Understand-or-HeapQ-or-Simple-or-Python-Solution][solution]] uses Python's ~heapq~ data structure.
 #+name: 703 Kth largest element in a stream leetcode solution
 #+caption: 703 Kth largest element in a stream leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 import heapq
@@ -2126,7 +2126,7 @@ Basically, we chop off the list after each ~add(val)~ operation, so the list has
 
 #+name: 703 Kth largest element in a stream leetcode solution improved
 #+caption: 703 Kth largest element in a stream leetcode solution improved
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 class KthLargest:
@@ -2198,7 +2198,7 @@ CLOCK: [2020-04-27 Mon 14:32]--[2020-04-27 Mon 14:46] =>  0:14
 :END:
 #+name: 215 Kth largest element in an array my solution
 #+caption: 215 Kth largest element in an array my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def find_kth_largest(nums: List[int], k: int) -> int:
@@ -2217,7 +2217,7 @@ Quickselect implementation (a replica of [[*Selection in expected linear time (Q
 
 #+caption: quickselect implementation
 #+name: quickselect implementation
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 import random
@@ -2269,7 +2269,7 @@ $O(1)$. Quicksort is in-place.
 Not available.
 #+name: 215 Kth largest element in an array leetcode solution
 #+caption: 215 Kth largest element in an array leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 #+end_src
@@ -2332,7 +2332,7 @@ CLOCK: [2020-04-28 Tue 21:03]--[2020-04-28 Tue 21:09] =>  0:06
 :END:
 #+name: 973 K closest points to origin my solution
 #+caption: 973 K closest points to origin my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 import heapq
@@ -2383,7 +2383,7 @@ CLOCK: [2020-04-29 Wed 14:36]--[2020-04-29 Wed 14:38] =>  0:02
 Uses [[*Selection in expected linear time (Quickselect)][Quickselect]].
 #+name: 973 K closest points to origin leetcode solution
 #+caption: 973 K closest points to origin leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 class Solution(object):
     def kClosest(self, points, K):
@@ -2483,7 +2483,7 @@ CLOCK: [2020-04-29 Wed 15:00]--[2020-04-29 Wed 15:04] =>  0:04
 :END:
 #+name: 347 Top K frequent elements my solution
 #+caption: 347 Top K frequent elements my solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def top_k_frequent(nums: List[int], k: int) -> List[int]:
@@ -2536,7 +2536,7 @@ $O(n)$.
 
 #+name: 347 Top K frequent elements leetcode solution
 #+caption: 347 Top K frequent elements leetcode solution
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 
 def top_k_frequent(nums, k):
@@ -2600,7 +2600,7 @@ In-place sort.
 Easy to implement.
 #+caption: Insertion sort
 #+name: Insertion sort
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def insertion_sort(arr):
     i = 0
     while i < len(arr):
@@ -2636,7 +2636,7 @@ CLOCK: [2020-04-21 Tue 17:35]--[2020-04-21 Tue 17:57] =>  0:22
 
 #+caption: dynamic programming - edit distance
 #+name: dynamic programming - edit distance
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def edit(s: str, t: str) -> int:
     from math import inf
     def get_element(tbl: List[List[int]], i: int, j: int) -> int:
@@ -2670,7 +2670,7 @@ print(edit("cbc", "ac"))
 
 #+caption: dynamic programming - edit distance improved
 #+name: dynamic programming - edit distance improved
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def edit(s: str, t: str) -> int:
     m = len(s)
     n = len(t)
@@ -2730,7 +2730,7 @@ So we can use bitmask.
 | mask | 1 | 0 | 1 |
 #+caption: bitmask
 #+name: bitmask
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def get_power_set(arr: List[int]) -> List[List[int]]:
     n = len(arr)
 
@@ -2948,7 +2948,7 @@ so that the subtree rooted at index ~i~ obeys the max-heap property.
 
 #+caption: max-heapify
 #+name: max-heapify
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def max_heapify(A, i, heap_size) -> None:
 
     # A is 0-indexed
@@ -3010,7 +3010,7 @@ Once again, compared to ~max-heapify()~, this algorithm does not need its argume
 since this algorithm is going to achieve exactly that.
 #+caption: build-max-heap
 #+name: build-max-heap
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<max-heapify>>
 def build_max_heap(A, heap_size) -> None:
 
@@ -3042,7 +3042,7 @@ CLOCK: [2020-04-24 Fri 10:27]--[2020-04-24 Fri 10:39] =>  0:12
 
 #+caption: heapsort
 #+name: heapsort
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<build-max-heap>>
 
 def heapsort(A):
@@ -3116,7 +3116,7 @@ Three step divide-and-conquer process for a subarray $A[p..r]$:
 Implementation of the above steps:
 #+caption: quicksort
 #+name: quicksort
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 <<partitioning the array>>
 
@@ -3140,7 +3140,7 @@ print(A)
 Implementation of partitioning the array:
 #+caption: partitioning the array
 #+name: partitioning the array
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 def partition(arr, low, high):
     """
     This function takes last element as pivot, places the pivot element at its
@@ -3307,7 +3307,7 @@ Steps to select:
 Python implementation of the algorithm.
 #+caption: selection worst case linear
 #+name: selection worst case linear
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def partition(arr, lo, hi, pivot) -> int:
     for i in range(lo, hi):
         if arr[i] == pivot:
@@ -3460,7 +3460,7 @@ Therefore, we can simplify this process of cutting by the following:
 Here is an implementation of the above formula $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$.
 #+caption: cutting rod recursive top-down implementation
 #+name: cutting rod recursive top-down implementation
-#+begin_src ein-python :session localhost :results output code :noweb yes
+#+begin_src python :results output code :noweb yes
 <<imports for typing>>
 def cut_rod(p: List[int], n: int) -> int:
     from math import inf
@@ -3523,7 +3523,7 @@ These two methods are asymptotically the same.
 Here is the Python code for dynamic programming using top-bottom memoization method.
 #+caption: top-bottom dynamic programming meoization
 #+name: top-bottom dynamic programming meoization
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def memoized_cut_rod(p, n):
     from math import inf
     def memoized_cut_rod_aux(p, n, r):
@@ -3567,7 +3567,7 @@ We need to prove that $r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},...,r_{n-1}+r_1)$ 
 equivalent to $r_n=\max_{1\le i\le n}(p_i+r_{n-i})$, so that we can justify the use of an inner loop in the code below.
 #+caption: bottom-up dynamic programming approach
 #+name: bottom-up dynamic programming approach
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 def bottom_up_cut_rod(p, n):
     from math import inf
 
@@ -3692,7 +3692,7 @@ CLOCK: [2020-04-25 Sat 16:29]--[2020-04-25 Sat 16:44] =>  0:15
 Based on the pseudo-code on CLRS.
 #+caption: max-priority queue
 #+name: max-priority queue
-#+begin_src ein-python :session localhost :results output code 
+#+begin_src python :results output code 
 class max_priority_queue:
 
     def __init__(self, nums: List[int]):

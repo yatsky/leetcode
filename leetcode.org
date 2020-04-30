@@ -2640,30 +2640,161 @@ twitter.getNewsFeed(1);
 
 **** Algorithm
 :LOGBOOK:
+CLOCK: [2020-04-30 Thu 09:30]--[2020-04-30 Thu 09:31] =>  0:01
+CLOCK: [2020-04-30 Thu 09:15]--[2020-04-30 Thu 09:29] =>  0:14
 CLOCK: [2020-04-30 Thu 09:02]--[2020-04-30 Thu 09:10] =>  0:08
 :END:
+We would have a set of ~users~ that stores all the users.
+They have ~tweets~ ordrerd by time.
 
+We also have a ~newsfeed~ for every user. This ~newsfeed~ is a priority queue built on timestamp and selects feeds from followees of current user.
+
+We have ~followers~ and ~followees~ for any user.
+
+We then map the ~userId~ to tade ~newsfeed~.
+
+We update ~users~ in ~postTweet~ for user A.
+We update ~newsfeed~ in ~follow~ of user A.
+We update ~newsfeed~ in ~unfollow~ of user A.
+We update ~newsfeed~ in ~postTweet~ of user A's followees.
+
+~newsfeed~ has to maintain a length of 10 unless total number of tweets from ~followees~ is less than 10.
 **** Code
+:LOGBOOK:
+CLOCK: [2020-04-30 Thu 18:56]--[2020-04-30 Thu 19:06] =>  0:10
+CLOCK: [2020-04-30 Thu 16:53]--[2020-04-30 Thu 16:57] =>  0:04
+CLOCK: [2020-04-30 Thu 14:56]--[2020-04-30 Thu 15:50] =>  0:54
+CLOCK: [2020-04-30 Thu 10:35]--[2020-04-30 Thu 10:46] =>  0:11
+CLOCK: [2020-04-30 Thu 09:31]--[2020-04-30 Thu 10:12] =>  0:41
+:END:
 #+name: 355 Desin twitter my solution
 #+caption: 355 Desin twitter my solution
 #+begin_src python :results output code :noweb yes
 <<imports for typing>>
+
+import collections
+from datetime import datetime
+import heapq
+
+class Twitter:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.users_tweets = collections.defaultdict(list)
+        self.users_followers = collections.defaultdict(set)
+        self.users_followees = collections.defaultdict(set)
+        self.users_newsfeeds = collections.defaultdict(list)
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        """
+        Compose a new tweet.
+        """
+        # if this userId is new
+        # ta must follow taself
+        self.users_followees[userId].add(userId)
+        self.users_followers[userId].add(userId)
+        # add tweet to the userId
+        tweet = datetime.now(tz=None), tweetId
+        self.users_tweets[userId].append(tweet)
+        # update newsfeeds of the followers
+        for user in self.users_followers[userId]:
+            heapq.heappush(self.users_newsfeeds[user], tweet)
+            
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        """
+
+        num_total_tweets = len(self.users_newsfeeds[userId])
+        num_tweets = 10 if num_total_tweets > 10 else num_total_tweets
+
+        res = heapq.nlargest(num_tweets, self.users_newsfeeds[userId])
+
+        return [i[1] for i in res]
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        """
+        # Only follow if followee is not followed by us
+        if followeeId not in self.users_followees[followerId]:
+            self.users_followees[followerId].add(followeeId)
+            self.users_followers[followeeId].add(followerId)
+
+            # get the tweets from new followee
+            for tweet in self.users_tweets[followeeId]:
+                heapq.heappush(self.users_newsfeeds[followerId], tweet)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        """
+        # Do not unfollow oneself
+        if followeeId == followerId:
+            return
+        # Only unfollow if followee is followed by us
+        if followeeId in self.users_followees[followerId]:
+
+            # remove followee (unfollow)
+            self.users_followees[followerId].remove(followeeId)
+            # remove follower (unfollow)
+            self.users_followers[followeeId].remove(followerId)
+            # remove tweets from folowee
+            for tweet in self.users_tweets[followeeId]:
+                self.users_newsfeeds[followerId].remove(tweet)
+
+            heapq.heapify(self.users_newsfeeds[followerId])
+            
+
+# Your Twitter object will be instantiated and called as such:
+obj = Twitter()
+
+obj.postTweet(1, 5)
+param_2 = obj.getNewsFeed(1)
+print(param_2)
+obj.follow(1, 2)
+param_2 = obj.getNewsFeed(1)
+print(param_2)
+obj.postTweet(2, 6)
+param_2 = obj.getNewsFeed(1)
+print(param_2)
+obj.unfollow(1, 2)
+param_2 = obj.getNewsFeed(1)
+print(param_2)
 
 #+end_src
 
 #+name: 355 Desin twitter my solution-results
 #+caption: 355 Desin twitter my solution-results
 #+RESULTS: 355 Desin twitter my solution
-#+begin_src none
-
+#+begin_src python
+[5]
+[5]
+[6, 5]
+[5]
 #+end_src
 ***** Complexity
 ****** Time complexity:
-
+:LOGBOOK:
+CLOCK: [2020-04-30 Thu 19:11]--[2020-04-30 Thu 19:16] =>  0:05
+:END:
+1. ~postTweet~ takes $O(k)$, where $k$ is the number of followers $userId$ has.
+2. ~getNewsFeed~ takes $O(n \lg n)$ with ~heapq.nlargest~, where $n$ is the number of tweets in the user's news feed.
+3. ~follow~ takes $O(n \lg k)$, where $n$ is the number of tweets the ~followee~ has and $k$ is the number of tweets in user's news feed. (this part can be improved significantly).
+4. ~unfollow~ takes $O(n+m)$, where $n$ is the number of tweets the ~followee~ has, $m$ is the number of tweets in user's news feed.
 ****** Space complexity: 
-
+:LOGBOOK:
+CLOCK: [2020-04-30 Thu 19:21]--[2020-04-30 Thu 19:23] =>  0:02
+:END:
+1. ~users_tweets~: $O(m\times n)$, where $m$ is the number of users, and $n$ is the number of tweets of each user.
+2. ~users_followers~: $O(m\times n)$, where $m$ is the number of users, and $n$ is the number of users who choose to follow a user.
+3. ~users_followees~: $O(m\times n)$, where $m$ is the number of users, and $n$ is the number of users who choose to follow a user. (this is not necessary)
+4. ~users_newsfeeds~: $O(m\times n)$, where $m$ is the number of users and $n$ is the number of tweets in their news feed. (We can also just keep 10 news feeds).
 **** Leetcode solution
-
+Not available.
 #+name: 355 Desin twitter leetcode solution
 #+caption: 355 Desin twitter leetcode solution
 #+begin_src python :results output code :noweb yes
@@ -2683,6 +2814,18 @@ CLOCK: [2020-04-30 Thu 09:02]--[2020-04-30 Thu 09:10] =>  0:08
 
 *** More analysis
 **** General thoughts
+:LOGBOOK:
+CLOCK: [2020-04-30 Thu 19:37]--[2020-04-30 Thu 19:50] =>  0:13
+:END:
+Design, design, design!
+
+From this question, we need to again emphasise the importance of thinking ahead and design our program before we write any code.
+Jumping into writing code after reading the description can be attracting because that gives us a false feeling of us doing something and make our hands dirty, but when we are doing Leetcode or serious programming, it is paramount that we do more paperwork, more design.
+
+The most important thing here is to actually define the question, as medium/hard questions, or easy questions, can contain a lot of information, and we need to process that information and make sure that we understand it by clearly defining it in our own words.
+The same not only applies to real world programming as well, but it takes an even more significance in the real world since problems are more vague and complex out there.
+
+If we do not think ahead and design well, it is likely that we will write some code, and it will pass some tests and fail some. Then we go back to the code trying to find out what happened, then run it again, then it maybe fail another test, then we fix it again. Essentially we will become a *bug* ourselves that tries to hit the lightbulb blindly over and over again. We reduce ourselves to a patch that can only fix one case and that may cause another part of the program to fail. Best case, our program becomes a heavy ~if else~ monster that does not have clear logic but still runs fine. Worst case, we give up and do not even have the courage to check the solution and try to fix our program, because this is human nature - we do not want to humiliate ourselves, even if the only one that knows we failed is ourselves.
 **** Related problems
 
 

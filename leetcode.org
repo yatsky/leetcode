@@ -2589,7 +2589,7 @@ print(top_k_frequent([1,2,1,1,24,2], 2))
 Seems we can also use bucket sort.
 **** Related problems
 
-** TODO 355 Design twitter
+** TODO 355 Design twitter                                     :medium:heap:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-30 Thu 08:58]--[2020-04-30 Thu 09:02] =>  0:04

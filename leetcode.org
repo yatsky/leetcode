@@ -2948,6 +2948,11 @@ print(edit("abc", "ac"))
 #+caption: dynamic programming - edit distance improved-results
 *** Discussions from /Introduction to Algorithms/
 See [[#CLRS Dynamic programming]].
+** Dijkstra's Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-05 Tue 16:18]--[2020-05-05 Tue 16:32] =>  0:14
+:END:
+https://www.youtube.com/watch?v=pVfj6mxhdMw
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
 ** General

@@ -2828,6 +2828,478 @@ The same not only applies to real world programming as well, but it takes an eve
 If we do not think ahead and design well, it is likely that we will write some code, and it will pass some tests and fail some. Then we go back to the code trying to find out what happened, then run it again, then it maybe fail another test, then we fix it again. Essentially we will become a *bug* ourselves that tries to hit the lightbulb blindly over and over again. We reduce ourselves to a patch that can only fix one case and that may cause another part of the program to fail. Best case, our program becomes a heavy ~if else~ monster that does not have clear logic but still runs fine. Worst case, we give up and do not even have the courage to check the solution and try to fix our program, because this is human nature - we do not want to humiliate ourselves, even if the only one that knows we failed is ourselves.
 **** Related problems
 
+** TODO 778 Swim in rising water                                 :heap:hard:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-05-05 Tue 11:01]--[2020-05-05 Tue 11:06] =>  0:05
+:END:
+On an $N\times N$ grid, each square ~grid[i][j]~ represents the elevation at that point ~(i, j)~.
+
+Now rain starts to fall. At time ~t~, the depth of the water everywhere is ~t~.
+You can swim from a square to another 4-directionally adjacent square if and only if the elevation of both squares individually are at most ~t~.
+You can swim infinite distance in zero time.
+Of course, you must stay within the boundaries of the grid during your swim.
+
+You start at the top left square ~(0, 0)~. What is the least time until you can reach the bottom right square ~(N-1, N-1)~?
+
+Constraints:
+1. 2 <= N <= 50.
+1. grid[i][j] is a permutation of [0, ..., N*N - 1].
+**** Examples:
+#+name: 778 Swim in rising water example
+#+caption: 778 Swim in rising water example
+#+begin_example
+Input: [[0,2],[1,3]]
+Output: 3
+Explanation:
+At time 0, you are in grid location (0, 0).
+You cannot go anywhere else because 4-directionally adjacent neighbors have a higher elevation than t = 0.
+You cannot reach point (1, 1) until time 3.
+When the depth of water is 3, we can swim anywhere inside the grid.
+
+Input: [[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]
+Output: 16
+Explanation:
+ 0  1  2  3  4
+24 23 22 21  5
+12 13 14 15 16
+11 17 18 19 20
+10  9  8  7  6
+
+We need to wait until time 16 so that (0, 0) and (4, 4) are connected.
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-05 Tue 15:38]--[2020-05-05 Tue 15:42] =>  0:04
+CLOCK: [2020-05-05 Tue 14:49]--[2020-05-05 Tue 15:02] =>  0:13
+CLOCK: [2020-05-05 Tue 13:25]--[2020-05-05 Tue 13:28] =>  0:03
+CLOCK: [2020-05-05 Tue 11:09]--[2020-05-05 Tue 11:23] =>  0:14
+:END:
+We have a loop that controls the time ~t~, which is also the depth of rain.
+Then in each iteration, we swim from the ~last_pos~ we are at, ~swim(last_pos)~.
+~last_pos=(0,0)~ when we are at time 0.
+In the ~swim()~ function, we choose the direction that is equal or less than ~t~, but that we did not swim before in ~visited_pos~.
+Each ~swim()~ gives a new ~last_pos~, we check if it is ~(N-1, N-1)~, if so, we just return ~t~.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-05-05 Tue 16:40]--[2020-05-05 Tue 17:01] =>  0:21
+CLOCK: [2020-05-05 Tue 14:40]--[2020-05-05 Tue 14:48] =>  0:08
+CLOCK: [2020-05-05 Tue 13:53]--[2020-05-05 Tue 14:00] =>  0:07
+CLOCK: [2020-05-05 Tue 11:44]--[2020-05-05 Tue 11:57] =>  0:13
+CLOCK: [2020-05-05 Tue 11:23]--[2020-05-05 Tue 11:39] =>  0:16
+:END:
+#+name: 778 Swim in rising water my solution
+#+caption: 778 Swim in rising water my solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+def swim_in_water(grid: List[List[int]]) -> int:
+    n = len(grid)
+    visited_pos : Set[Tuple[int]] = set()
+
+    # row, col
+    last_pos = (0, 0)
+    visited_pos.add(last_pos)
+    def avail_poses(last_pos: Tuple[int]) -> List[Tuple[int]]:
+        res = []
+        for row_offset in [-1, 0, 1]:
+            for col_offset in [-1, 0, 1]:
+                row = last_pos[0] + row_offset
+                col = last_pos[1] + col_offset
+                if 0 <= row < n and 0 <= col < n and (row, col) not in visited_pos and grid[row][col] <= t:
+                    res.append((row, col))
+
+        return res
+
+    def swim(last_pos: Tuple[int]) -> Tuple[int]:
+        ele = n+1
+        return_pos = last_pos
+        for pos in avail_poses(last_pos):
+            if grid[pos[0]][pos[1]] <= ele:
+                ele = grid[pos[0]][pos[1]]
+                return_pos = pos
+                
+        return return_pos
+
+    for t in range(0, n**2):
+        print(t)
+        last_pos = swim(last_pos)
+        visited_pos.add(last_pos)
+        print(last_pos)
+        if last_pos == (n-1, n-1):
+            return t
+
+#print(swim_in_water([[0,2],[1,3]]))
+print(swim_in_water([[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]))
+#+end_src
+
+#+name: 778 Swim in rising water my solution-results
+#+caption: 778 Swim in rising water my solution-results
+#+RESULTS: 778 Swim in rising water my solution
+#+begin_src python
+0
+(0, 0)
+1
+(0, 1)
+(0, 1)
+2
+(0, 2)
+(0, 2)
+3
+(0, 3)
+(0, 3)
+4
+(0, 4)
+(0, 4)
+5
+(1, 4)
+(1, 4)
+6
+(1, 4)
+7
+(1, 4)
+8
+(1, 4)
+9
+(1, 4)
+10
+(1, 4)
+11
+(1, 4)
+12
+(1, 4)
+13
+(1, 4)
+14
+(1, 4)
+15
+(2, 3)
+(1, 4)
+16
+(2, 3)
+(2, 4)
+(1, 4)
+17
+(2, 3)
+(2, 4)
+(1, 4)
+18
+(2, 3)
+(2, 4)
+(1, 4)
+19
+(2, 3)
+(2, 4)
+(1, 4)
+20
+(2, 3)
+(2, 4)
+(1, 4)
+21
+(1, 3)
+(2, 3)
+(2, 4)
+(1, 4)
+22
+(1, 3)
+(2, 3)
+(2, 4)
+(1, 4)
+23
+(1, 3)
+(2, 3)
+(2, 4)
+(1, 4)
+24
+(1, 3)
+(2, 3)
+(2, 4)
+(1, 4)
+None
+#+end_src
+
+
+
+#+name: 778 Swim in rising water my solution - 2 
+#+caption: 778 Swim in rising water my solution - 2
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+def swim_in_water(grid: List[List[int]]) -> int:
+    n = len(grid)
+
+    # row, col
+    last_pos = (0, 0)
+    visited_poses = set()
+    def avail_poses(last_pos: Tuple[int], cur_t: int) -> List[Tuple[int]]:
+        offsets = (
+            (-1, 0),
+            (0, 1),
+            (1, 0),
+            (0, -1)
+        )
+        res = []
+
+        for row_offset, col_offset in offsets:
+            row = last_pos[0] + row_offset
+            col = last_pos[1] + col_offset
+            if 0 <= row < n and 0 <= col < n and (row, col) not in visited_poses and grid[row][col] <= cur_t:
+                res.append((row, col))
+
+        return res
+
+    def swim(cur_pos: Tuple[int], cur_t: int) -> int:
+        if cur_pos == (n-1, n-1):
+            return cur_t
+
+        while len(avail_poses(cur_pos, cur_t)) == 0:
+            cur_t += 1
+
+        print(cur_pos)
+        print(cur_t)
+        for pos in avail_poses(cur_pos, cur_t):
+            visited_poses.add(pos)
+            return swim(pos, cur_t)
+
+    return swim(last_pos, 0)
+
+print(swim_in_water([[0,2],[1,3]]))
+#print(swim_in_water([[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]))
+#+end_src
+
+#+RESULTS: 778 Swim in rising water my solution - 2
+#+begin_src python
+(0, 0)
+1
+(1, 0)
+1
+(0, 0)
+2
+(0, 1)
+3
+3
+#+end_src
+
+
+Dynamic programming.
+#+name: 778 Swim in rising water my solution - 3
+#+caption: 778 Swim in rising water my solution - 3
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+from math import inf
+
+def swim_in_water(grid: List[List[int]]) -> int:
+    def adjacent_cells(pos: Tuple[int]) -> List[Tuple[int]]:
+        offsets = (
+            (-1, 0),
+            (0, 1),
+            (1, 0),
+            (0, -1)
+        )
+        res = []
+
+        for row_offset, col_offset in offsets:
+            row = pos[0] + row_offset
+            col = pos[1] + col_offset
+            if 0 <= row < n and 0 <= col < n:
+                res.append((row, col))
+        return res
+
+    n = len(grid)
+    min_times = [[inf for i in range(n)] for j in range(n)]
+    min_times[0][0] = 0
+
+    for row in range(n):
+        for col in range(n):
+            if (row, col) != (0, 0):
+                min_times[row][col] = min(
+                    [abs(grid[row][col]-grid[adj_row][adj_col]) + min_times[adj_row][adj_col] for adj_row, adj_col in adjacent_cells((row, col))]
+                )
+                
+    return min_times[n-1][n-1]
+
+#print(swim_in_water([[0,2],[1,3]]))
+print(swim_in_water([[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]))
+#+end_src
+
+#+RESULTS: 778 Swim in rising water my solution - 3
+#+begin_src python
+[[0, 1, 2, 3, 4], [24, 23, 22, 21, 5], [36, 33, 30, 27, 16], [37, 37, 34, 31, 20], [38, 39, 40, 41, 34]]
+#+end_src
+
+Dijkstra's algorithm.
+
+#+name: 778 Swim in rising water my solution - 4
+#+caption: 778 Swim in rising water my solution - 4
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+from math import inf
+
+def swim_in_water(grid: List[List[int]]) -> int:
+    def adjacent_cells(pos: Tuple[int]) -> List[Tuple[int]]:
+        offsets = (
+            (-1, 0),
+            (0, 1),
+            (1, 0),
+            (0, -1)
+        )
+        res = []
+
+        for row_offset, col_offset in offsets:
+            row = pos[0] + row_offset
+            col = pos[1] + col_offset
+            if 0 <= row < n and 0 <= col < n:
+                res.append((row, col))
+        return res
+
+    def min_distance(pos, dist):
+        min_dist = inf
+        min_index = None
+        for row, col in adjacent_cells(pos):
+            dist = abs(grid[row][col] - grid[pos[0]][pos[1]])
+            if  (row, col) not in dist and dist < min_dist:
+                min_dist = dist
+                min_index = (row, col)
+
+        return min_index
+            
+
+    n = len(grid)
+    dist = dict()
+
+    # The set of visited vertices
+    visited = set()
+    # The set of unvisited vertices
+    unvisited = set()
+
+    # set all other distances to infinity
+    for row in range(n):
+        for col in range(n):
+            dist[(row, col)] = inf
+            unvisited.add((row, col))
+
+    dist = {(0, 0): 0}
+
+    while len(unvisited) != 0:
+
+
+    return dist[(n-1, n-1)]
+
+
+#print(swim_in_water([[0,2],[1,3]]))
+print(swim_in_water([[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]))
+#+end_src
+***** Complexity
+****** Time complexity:
+
+****** Space complexity: 
+
+**** Leetcode solution
+:LOGBOOK:
+CLOCK: [2020-05-05 Tue 20:08]--[2020-05-05 Tue 20:33] =>  0:25
+CLOCK: [2020-05-05 Tue 19:07]--[2020-05-05 Tue 19:51] =>  0:44
+:END:
+
+Given a grid like below:
+| 1 | 2 | 5 |
+| 3 | 7 | 6 |
+| 8 | 4 | 0 |
+
+Starting from ~grid[0][0]~, we have two adjacent cells, we add them to the heap
+because we can naively reach them starting from ~grid[0][0]~.
+
+By definition, we want to choose the cell with the minimum elevation in a list of possible choices,
+so we pop from the heap, and get ~grid[0][1]~, ~2~.
+
+Then we get its adjacent cells, ~grid[0][2]~, ~5~ and ~grid[1][1]~, ~7~.
+We add these two to the heap.
+
+Now, it is obvious to the naked eye that ~3<5<7~, so at this moment we have to choose the ~grid[1][0]~, ~3~, path.
+Again, we simply pop from the heap to do this. After this operation, our heap now has two elements left, ~grid[0][2]~, ~5~, and ~grid[1][1]~, ~7~.
+
+We then again check the adjacent cells of ~grid[1][0]~, ~3~, and add them to the heap.
+Now in the heap we have four elements, ~grid[0][2]~, ~5~, ~grid[1][1]~, ~7~, ~grid[1][1]~, ~7~, ~grid[2][0]~, ~8~
+
+We continue this loop until we reach ~grid[n-1][n-1]~.
+
+Intuitively speaking, all elements in the heap have been *discovered* by us before, meaning that there is a valid path from the start to it. 
+For example, when we are at ~grid[0][1]~, ~2~, and we find that ~5~ and ~7~ are larger than another option ~3~, we can /swim/ to ~grid[1][0]~, ~3~, in no time.
+When we are at ~grid[1][0]~, ~3~, and find that ~7~ and ~8~ are larger than another option ~5~, we can /swim/ to ~grid[0][2]~, ~5~, in no time.
+
+The process of *finding and getting (swimming to) the smallest* option/heading/cell/elevation is done by the priority queue automatically.
+#+name: 778 Swim in rising water leetcode solution
+#+caption: 778 Swim in rising water leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+import heapq
+
+def swim_in_water(grid: List[List[int]]) -> int:
+    visited, heap = set(), [(grid[0][0], 0, 0)]
+    time, n = 0, len(grid)
+
+    # The idea to use heap is that:
+    # 1. It keeps a list of possible cells to take, and
+    # 2. The cell with the minimum cost/elevation is stored at the top
+    # 3. At the start of every iteration, every cell in the heap has been seen before,
+    #    meaning that there is at least one path from (0, 0) to that cell
+
+    # Intuitively, we always want to choose the cell with the minimum elevation.
+    # 
+    while heap:
+        cur, x, y = heapq.heappop(heap)
+        visited.add((x, y))
+        time = max(time, cur)
+
+        if x == y == n-1:
+            return time
+        for i, j in [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]:
+            if 0<=i<=n-1 and 0<=j<=n-1 and (i, j) not in visited:
+                heapq.heappush(heap, (grid[i][j], i, j))
+
+        print(cur)
+        print(heap)
+
+    return -1
+print(swim_in_water([[8,2, 7], [3,4, 6], [1, 5, 0]]))
+#+end_src
+
+#+name: 778 Swim in rising water leetcode solution-results
+#+caption: 778 Swim in rising water leetcode solution-results
+#+RESULTS: 778 Swim in rising water leetcode solution
+#+begin_src python
+8
+[(2, 0, 1), (3, 1, 0)]
+2
+[(3, 1, 0), (4, 1, 1), (7, 0, 2)]
+3
+[(1, 2, 0), (4, 1, 1), (4, 1, 1), (7, 0, 2)]
+1
+[(4, 1, 1), (4, 1, 1), (7, 0, 2), (5, 2, 1)]
+4
+[(4, 1, 1), (5, 2, 1), (7, 0, 2), (5, 2, 1), (6, 1, 2)]
+4
+[(5, 2, 1), (5, 2, 1), (6, 1, 2), (6, 1, 2), (5, 2, 1), (7, 0, 2)]
+5
+[(0, 2, 2), (5, 2, 1), (5, 2, 1), (6, 1, 2), (7, 0, 2), (6, 1, 2)]
+8
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 
 * Data structures
 This section contains widely used data structures and related problems.

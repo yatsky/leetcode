@@ -3230,7 +3230,7 @@ Now in the heap we have four elements, ~grid[0][2]~, ~5~, ~grid[1][1]~, ~7~, ~gr
 We continue this loop until we reach ~grid[n-1][n-1]~.
 
 Intuitively speaking, all elements in the heap have been *discovered* by us before, meaning that there is a valid path from the start to it. 
-For example, when we are at ~grid[0][1]~, ~2~, and we find that ~5~ and ~7~ are larger than another option ~3~, we can /swim/ to ~grid[1][0]~, ~3~, in no time.
+For example, when we are at ~grid[0][1]~, ~2~, and we find that ~5~ and ~7~ are larger than another option ~3~, then there must be a way from ~grid[0][0]~ for us to /swim/ to ~grid[1][0]~, ~3~, in no time.
 When we are at ~grid[1][0]~, ~3~, and find that ~7~ and ~8~ are larger than another option ~5~, we can /swim/ to ~grid[0][2]~, ~5~, in no time.
 
 The process of *finding and getting (swimming to) the smallest* option/heading/cell/elevation is done by the priority queue automatically.
@@ -3292,13 +3292,18 @@ print(swim_in_water([[8,2, 7], [3,4, 6], [1, 5, 0]]))
 8
 #+end_src
 ***** Time complexity:
-
+:LOGBOOK:
+CLOCK: [2020-05-06 Wed 09:21]
+:END:
+$O(n^2\lg n)$, $n$ is the number of rows of the grid. The ~while~ loop takes $O(n^2)$ time. Inside it, the ~heapq.heappush~ takes
+$O(\lg n)$ time.
 ***** Space complexity: 
+$O(n)$, ~visited~ and ~heap~.
 
 *** More analysis
 **** General thoughts
 **** Related problems
-
+[[*Dijkstra's Algorithm]]
 
 
 * Data structures

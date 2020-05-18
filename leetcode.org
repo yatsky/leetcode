@@ -2589,7 +2589,7 @@ print(top_k_frequent([1,2,1,1,24,2], 2))
 Seems we can also use bucket sort.
 **** Related problems
 
-** TODO 355 Design twitter                                     :medium:heap:
+** DONE 355 Design twitter                                     :medium:heap:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-04-30 Thu 08:58]--[2020-04-30 Thu 09:02] =>  0:04
@@ -2828,7 +2828,7 @@ The same not only applies to real world programming as well, but it takes an eve
 If we do not think ahead and design well, it is likely that we will write some code, and it will pass some tests and fail some. Then we go back to the code trying to find out what happened, then run it again, then it maybe fail another test, then we fix it again. Essentially we will become a *bug* ourselves that tries to hit the lightbulb blindly over and over again. We reduce ourselves to a patch that can only fix one case and that may cause another part of the program to fail. Best case, our program becomes a heavy ~if else~ monster that does not have clear logic but still runs fine. Worst case, we give up and do not even have the courage to check the solution and try to fix our program, because this is human nature - we do not want to humiliate ourselves, even if the only one that knows we failed is ourselves.
 **** Related problems
 
-** TODO 778 Swim in rising water                                 :heap:hard:
+** DONE 778 Swim in rising water                                 :heap:hard:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-05-05 Tue 11:01]--[2020-05-05 Tue 11:06] =>  0:05
@@ -3202,10 +3202,15 @@ print(swim_in_water([[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,2
 ****** Space complexity: 
 
 **** Leetcode solution
+:PROPERTIES:
+:CUSTOM_ID: 778 Leetcode
+:END:
 :LOGBOOK:
 CLOCK: [2020-05-05 Tue 20:08]--[2020-05-05 Tue 20:33] =>  0:25
 CLOCK: [2020-05-05 Tue 19:07]--[2020-05-05 Tue 19:51] =>  0:44
 :END:
+
+We use [[*Dijkstra's Algorithm]].
 
 Given a grid like below:
 | 1 | 2 | 5 |
@@ -3302,6 +3307,7 @@ $O(n)$, ~visited~ and ~heap~.
 
 *** More analysis
 **** General thoughts
+See [[#778 Leetcode]].
 **** Related problems
 [[*Dijkstra's Algorithm]]
 
@@ -3651,17 +3657,17 @@ so that the subtree rooted at index ~i~ obeys the max-heap property.
 #+name: A 3-node construct that ~max-heapify~ works on
 #+caption: A 3-node construct that ~max-heapify~ works on
 #+BEGIN_SRC ditaa :file max-heapify-demo.png :cmdline -r -s 2 
-                 /-------\
-                 | arr(i)|
-                 |       |
-                 \-------/
-                /         \
-               /           \
-              /             \
-    /-------\               /-------\
-    | max   |               | max   |
-    | heap  |               | heap  |
-    \-------/               \-------/
+/-------\
+| arr(i)|
+|       |
+\-------/
+/         \
+/           \
+/             \
+/-------\               /-------\
+| max   |               | max   |
+| heap  |               | heap  |
+\-------/               \-------/
 #+END_SRC
 
 #+RESULTS:
@@ -4323,8 +4329,128 @@ print(bottom_up_cut_rod([1,4,4,4,9], 4))
 :NOTER_PAGE: 389
 :END:
 
+** Single-Source Shortest Paths
+:PROPERTIES:
+:NOTER_PAGE: 664
+:END:
+:LOGBOOK:
+CLOCK: [2020-05-06 Wed 09:38]--[2020-05-06 Wed 10:09] =>  0:31
+:END:
 
+Relaxation in Dijkstra's Algorithm: http://web.cs.unlv.edu/larmore/Courses/CSC269/pathing.
+#+begin_quote
+The notion of "relaxation" comes from an analogy between the estimate of the
+shortest path and the length of a helical tension spring, which is not
+designed for compression. Initially, the cost of the shortest path is an
+overestimate, likened to a stretched out spring. As shorter paths are found,
+the estimated cost is lowered, and the spring is relaxed. Eventually, the
+shortest path, if one exists, is found and the spring has been relaxed to its
+resting length.
+#+end_quote
+*** Definition
+:PROPERTIES:
+:NOTER_PAGE: 664
+:END:
+:LOGBOOK:
+CLOCK: [2020-05-07 Thu 10:04]--[2020-05-07 Thu 10:06] =>  0:02
+:END:
+In a *shortest-paths problem*, we are given a weighted, directed graph $G=(V, E)$,
+with weight function $w: E \rightarrow \mathbb{R}$ mapping edges to real-valued weights.
+The *weight* $w(p)$ of a path $p=\langle v_0, v_1,\ldots,v_k\rangle$ is the sum of the
+weights of its constituent edges:
+\begin{equation}
+w(p) = \sum_{i=1}^k w(v_{i-1}, v_i)
+\end{equation}
 
+We define the *shortest-path weight* $\delta(u,v)$ from $u$ to $v$ by
+\begin{equation}
+\delta(u,v)= \begin{cases}
+
+\min{\{ w(p): u \overset{p}{\leadsto} v\}} &\text{if there is a path from \(u\) to \(v\)}\\
+\infty &\text{else}
+
+\end{cases}
+\end{equation}
+To put it simply, the *shortest-path weight* from $u$ to $v$ either
+1. does not exist ($\infty$), or
+2. is the minimum weight of all possible weights of different paths (or simply one path) from $u$ to $v$.
+   
+A *shortest path* from vertex $u$ to vertex $v$ is then defined as any path $p$ with weight
+$w(p)=\delta (u,v)$.
+
+Concepts:
+1. Vertices, that are connected to create 
+2. directed Edges, that are given real-valued
+3. Weights 
+4. Directed Edges with Weights, that form
+5. Paths with Weights
+
+*Single-source shortest-paths problem* (SSSP): Given a directed graph $G=(V, E)$, we want to find a shortest path
+from a /given/ source vertex $s\in V$ to each vertex $v\in V$.
+
+This seems also like a dynamic programming problem because:
+1. We are looking fo a minimum value
+2. This value can be obtained by obtaining the minimum value of subproblems of the same kind
+**** Variants of the SSSP problem
+:LOGBOOK:
+CLOCK: [2020-05-07 Thu 10:06]--[2020-05-07 Thu 10:13] =>  0:07
+CLOCK: [2020-05-07 Thu 10:02]--[2020-05-07 Thu 10:04] =>  0:02
+:END:
+*Single-destination shortest-paths problem*: Find a shortest path to a given *destination* vertex
+$t$ from each vertex $v$. By reversing the direction of each edge in the graph, we can reduce this problem to SSSP.
+
+*Single-pair shortest-path problem*: Find a shortest path from $u$ to $v$ fro given vertices $u$ and $v$. If we solve the SSSP problem with source vertex $u$, then we solve this problem as well.
+Moreover, all known algorithms for this problem have the same worst-case asymptotic running time as the best SSSP problem algorithms (❓).
+
+*All-piars shortest-paths problem*: Find a shortest path from $u$ to $v$ for every pair of vertices $u$ and $v$. Although we can solve this problem by running a single-source algorithm once from each vertex, we usually can solve it faster (as there are many repeated calculations in this algorithm).
+
+**** Summary of the four problems
+:LOGBOOK:
+CLOCK: [2020-05-07 Thu 10:13]--[2020-05-07 Thu 10:21] =>  0:08
+:END:
+Using databse cardinality:
+- $1:1$: One vertex to one vertex.
+- $1:many$: One vertex to multiple vertices.
+  - $src:many: base/example problem the algorithm works with. 
+- $many:1$: Multiple vertices to one vertex.
+  - $many:dest: can be solved by inverting directions of edges and starting from $dest$ to $many$.
+- $many:many$: Every vertex to every vertex.
+
+*** Optimal substructure of a shortest path
+:PROPERTIES:
+:NOTER_PAGE: 665
+:END:
+:LOGBOOK:
+CLOCK: [2020-05-07 Thu 11:40]--[2020-05-07 Thu 11:43] =>  0:03
+:END:
+Shortest paths algorithms typically rely on the property that a shortest path between two vertices contains other shortest paths within it. This property calls for [[*Dynamic programming]] and Greedy method.
+
+Dijkstra's algorithm is a greedy algorithm, and the Floyd-Warshall algorithm, which finds shortest paths in $many:many$ vertices, is a dynamic-programming algorithm.
+
+*** Negative-weight edges
+:PROPERTIES:
+:NOTER_PAGE: 666
+:END:
+:LOGBOOK:
+CLOCK: [2020-05-07 Thu 11:44]--[2020-05-07 Thu 12:02] =>  0:18
+:END:
+A graph $G=(V, E)$ can contain negative-weighted edges $E_{nw}$ but and be well defined, given that:
+for any vertex pair $(u,v)$, if $w(u, v)<0, w(v, u) > 0$, then $w(u,v)+w(v, u)\ge 0$. This prevents a *negative-weight cycle*.
+
+#+BEGIN_SRC ditaa :file negative-weight-cycle :cmdline -r -s 2 
+
+Non-negative (+6-3)
++----+ 5   +----+ +6  +----+
+|src |---->|5   |---->|11  |
+|    |     |    |<----|    |
++----+     +----+ -3  +----+
+     
+Negative (+6-7)
++----+ 5   +----+ +6  +----+
+|src |---->|-inf|---->|-inf|
+|    |     |    |<----|    |
++----+     +----+ -7  +----+
+#+END_SRC
 ** Data structure
 :PROPERTIES:
 :NOTER_PAGE: 249
@@ -4440,17 +4566,17 @@ class max_priority_queue:
 
 * Clock table
 #+BEGIN: clocktable :scope file :maxlevel 1
-#+CAPTION: Clock summary at [2020-04-27 Mon 16:24]
-| Headline                             |      Time |
-|--------------------------------------+-----------|
-| *Total time*                         | *1d 1:33* |
-|--------------------------------------+-----------|
-| Problems                             |     10:33 |
-| Algorithms                           |      0:40 |
-| Techniques                           |      0:18 |
-| CLRS Notes & Yufei Tao lecture notes |     10:36 |
-| Exporting                            |      0:38 |
-| Fix up                               |      2:48 |
+#+CAPTION: Clock summary at [2020-05-07 Thu 09:54]
+| Headline                             |       Time |
+|--------------------------------------+------------|
+| *Total time*                         | *1d 15:49* |
+|--------------------------------------+------------|
+| Problems                             |      23:22 |
+| Algorithms                           |       0:54 |
+| Techniques                           |       0:20 |
+| CLRS Notes & Yufei Tao lecture notes |      11:47 |
+| Exporting                            |       0:38 |
+| Fix up                               |       2:48 |
 #+END:
 
 * Exporting                                                        :noexport:

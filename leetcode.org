@@ -3311,6 +3311,179 @@ See [[#778 Leetcode]].
 **** Related problems
 [[*Dijkstra's Algorithm]]
 
+** TODO 1022 Sum of root to leaf binary numbers                  :tree:easy:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-05-20 Wed 19:54]--[2020-05-20 Wed 19:56] =>  0:02
+:END:
+Given a binary tree, each node has value ~0~ or ~1~.
+Each root-to-leaf path represents a binary number starting with the most significant bit.
+For example, if the path is ~0->1->1->0->1~, then this could represent ~01101~ in binary, which is ~13~.
+
+For all leaves in the tree, consider the numbers represented by the path from the root to that leaf.
+
+Return the sum of these numbers.
+
+Constraints:
+1. The number of nodes in the tree is between 1 and 1000.
+2. node.val is 0 or 1.
+3. The answer will not exceed 2^31 - 1.
+**** Examples:
+#+name: 1022 Sum of root to leaf binary numbers example
+#+caption: 1022 Sum of root to leaf binary numbers example
+#+begin_example
+Input: [1,0,1,0,1,0,1]
+Output: 22
+Explanation: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
+#+end_example
+
+*** Solution
+
+**** Problem category
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-20 Wed 20:59]--[2020-05-20 Wed 21:21] =>  0:22
+CLOCK: [2020-05-20 Wed 19:56]--[2020-05-20 Wed 20:00] =>  0:04
+:END:
+We try to use generators to solve the calculation part of the problem.
+For traversing the tree, we use pre-order traversal.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-05-20 Wed 21:26]--[2020-05-20 Wed 21:39] =>  0:13
+CLOCK: [2020-05-20 Wed 20:42]--[2020-05-20 Wed 20:59] =>  0:17
+CLOCK: [2020-05-20 Wed 20:04]--[2020-05-20 Wed 20:20] =>  0:16
+:END:
+#+name: 1022 Sum of root to leaf binary numbers my solution
+#+caption: 1022 Sum of root to leaf binary numbers my solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+def calculator():
+    total = 0
+    bit = None
+    num = "" # every path uses the same num in the calculator generator, so this is messed up
+
+    while True:
+        bit = yield
+
+        if bit is None:
+            # We must terminate the coroutine normally
+            # to return a value.
+            # If we do try...except GeneratorExit, we will not be able to return a value later
+            break
+        elif bit == "leaf":
+            total += int(num, 2)
+            num = num[:-1]
+        else:
+            num = num + str(bit)
+
+    return total
+
+def dele_gen():
+    global results
+    while True:
+        results = yield from calculator()
+
+
+results = 0
+calc = dele_gen()
+next(calc)
+def traverse(node, calc):
+    if node:
+        calc.send(node.val)
+        if node.left is None or node.right is None:
+            calc.send("leaf")
+        else:
+            traverse(node.left, calc)
+            traverse(node.right, calc)
+    else:
+        calc.send("")
+        
+l_1 = TreeNode(0)
+r_0 = TreeNode(1)
+l = TreeNode(0, l_1, r_0)
+r = TreeNode(1)
+root = TreeNode(1, l, r)
+traverse(root, calc)
+calc.send(None)
+print(results)
+#+end_src
+
+#+name: 1022 Sum of root to leaf binary numbers my solution-results
+#+caption: 1022 Sum of root to leaf binary numbers my solution-results
+#+RESULTS: 1022 Sum of root to leaf binary numbers my solution
+#+begin_src python
+11
+#+end_src
+***** Complexity
+****** Time complexity:
+
+****** Space complexity: 
+
+**** Leetcode solution
+Not available.
+#+name: 1022 Sum of root to leaf binary numbers leetcode solution
+#+caption: 1022 Sum of root to leaf binary numbers leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def sum_root_to_leaf(root) -> int:
+    if not root:
+        return 0
+
+    res = []
+
+    def helper(node, path):
+        if node.left is None and node.right is None:
+            res.append(path + str(node.val))
+            return
+        
+        if node.left:
+            helper(node.left, path + str(node.val))
+
+        if node.right:
+            helper(node.right, path+str(node.val))
+
+
+    helper(root, "0b")
+    return sum([int(p, 2) for p in res])
+l_1 = TreeNode(0)
+r_0 = TreeNode(1)
+l = TreeNode(0, l_1, r_0)
+r = TreeNode(1)
+root = TreeNode(1, l, r)
+print(sum_root_to_leaf(root))
+#+end_src
+
+#+name: 1022 Sum of root to leaf binary numbers leetcode solution-results
+#+caption: 1022 Sum of root to leaf binary numbers leetcode solution-results
+#+RESULTS: 1022 Sum of root to leaf binary numbers leetcode solution
+#+begin_src python
+12
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 
 * Data structures
 This section contains widely used data structures and related problems.

@@ -4721,6 +4721,22 @@ To minimise or /even/ avoid collision, we make $h$ appear to be "random", making
 
 There are two ways to deal with collision: chaining and open addressing.
 Chaining: make every slot in the table $T$ a linked list (doubly linked list makes deletion faster).
+
+In a nutshell:
+1. We want to store some objects in such a way that it's fast for us to get to them later via some key.
+2. We then just use an array to store the objects, each is placed in the array using their key as the index, and one can use a key to find the corresponding object in the array. This is called *open addressing*.
+3. As the number of potential objects grows, it requires more storage. However, most of the time, we only want a subset of the objects to be readily available because those are what we use anyway.
+4. Therefore, there is really no need to store all possible objects.
+5. Then we decide to use a smaller array to store the objects.
+6. Because the key of an object is no longer also an index in the smaller array (the key might be larger than the length of the array), it is logical to develop a *function* to map the key to an index of the array.
+7. The function is properly named *hash function*.
+8. The array is then called a *hash table*.
+9. The story does not end here. Because there are more objects than the number of places available to store them in the array (hash table), it is possible that two elements will be put in the same position (two different keys end up with the same index through the hash function). Pigeon hold theorem.
+   1. To solve this, we have *chaining* and *open addressing*
+   2. Chaining links all elements that ended up in the same index so the 1-d array now becomes 2-d.
+      1. Because the linking of the elements at one index can be infinite (as long as the memory is sufficient), the hash table can store infinite objects, but the time spent on retrieving one object also increases until it becomes asymptotically the same as directly searching through all objects.
+   3. Open addressing tries to find the next available index if the current index is already taken.
+      1. This means that the table can fill up and no more insertion can be made.
 *** Priority queue
 :PROPERTIES:
 :NOTER_PAGE: 183

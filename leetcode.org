@@ -3429,6 +3429,9 @@ print(results)
 ****** Space complexity: 
 
 **** Leetcode solution
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 09:57]--[2020-05-21 Thu 09:57] =>  0:00
+:END:
 Not available.
 #+name: 1022 Sum of root to leaf binary numbers leetcode solution
 #+caption: 1022 Sum of root to leaf binary numbers leetcode solution
@@ -3476,11 +3479,26 @@ print(sum_root_to_leaf(root))
 12
 #+end_src
 ***** Time complexity:
-
+$O(n)$, where ~n~ is the number of nodes, as this algorithm visits all nodes in the tree.
 ***** Space complexity: 
-
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 09:57]--[2020-05-21 Thu 10:01] =>  0:04
+:END:
+Assuming full binary tree, $O(n\log(n))$, we need to have $O(n)$ ~paths~ (number of leaves of the tree), each having the length of $\log(n)$ (height of the tree).
 *** More analysis
 **** General thoughts
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 10:02]--[2020-05-21 Thu 10:15] =>  0:13
+:END:
+A key problem in my solution is that I have no way of creating path copies easily.
+
+Initially I thought that it was a good idea to use a generator responsible for calculating the total as this is somewhat similar to calculating a running average problem. 
+Then the problem came when the variable ~num~ could only hold *one path* and the generator had no easy way to keep track of the paths that corresponds to nodes. Therefore, when it added the ~num~ for the left most leaf to the total, it could not determine which path to take next.
+
+The only way to do it is to backtrack ~num~ by removing the bits that correspond to the leaf that has been visited and its parent, grandparent, great-grandparent... that has no other children. This causes a lot of trouble as every node references this single variable ~num~, and there are many states to check.
+
+The code from Leetcode discussion solves this problem by copying the current path at each node, though this is done implicitly, as strings are copied implicitly.
+Therefore, every node has their own copy the the current path, and they can safely modify the path (~path+str(node.val)~) without affecting other nodes.
 **** Related problems
 
 

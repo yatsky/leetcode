@@ -3502,6 +3502,120 @@ Therefore, every node has their own copy the the current path, and they can safe
 **** Related problems
 
 
+** DONE 1207 Unique number of occurrences                  :hash_table:easy:
+*** Description
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 19:00]--[2020-05-21 Thu 19:01] =>  0:01
+:END:
+Given an array of integers ~arr~, write a function that returns ~true~ iff the number of occurrences of each value in the array is unique.
+
+Constraints:
+1. 1 <= arr.length <= 1000
+2. -1000 <= arr[i] <= 1000
+**** Examples:
+#+name: 1207 Unique number of occurrences example
+#+caption: 1207 Unique number of occurrences example
+#+begin_example
+Input: arr = [1,2,2,1,1,3]
+Output: true
+Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.
+
+Input: arr = [1,2]
+Output: false
+
+Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
+Output: true
+#+end_example
+
+*** Solution
+
+**** Understanding the problem
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 19:02]--[2020-05-21 Thu 19:04] =>  0:02
+:END:
+The problem:
+1. gives an array of integers that
+2. could be negative, 0, or positive.
+3. wants us to count the number of occurrences (~occur~) of each value, and
+4. return true if ~occur~ of each integer is different.
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 19:06]--[2020-05-21 Thu 19:07] =>  0:01
+CLOCK: [2020-05-21 Thu 19:02]--[2020-05-21 Thu 19:02] =>  0:00
+:END:
+We scan the integer array, and add one to the counter (~occur~) map of each value we met.
+We then scan the counter map to see if there is more than one unique numbers.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 19:10]--[2020-05-21 Thu 19:12] =>  0:02
+:END:
+#+name: 1207 Unique number of occurrences my solution
+#+caption: 1207 Unique number of occurrences my solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+
+def unique_occurrences(arr: List[int]) -> bool:
+    occurs = {}
+    for i in arr:
+        occurs[i] = occurs.get(i, 0) + 1
+
+        
+    uniques = set(occurs.values())
+    return len(uniques) == len(occurs.values())
+
+arr = [1,2,2,1,1,3]
+arr = [2,2,1,1,3]
+print(unique_occurrences(arr))
+#+end_src
+
+#+name: 1207 Unique number of occurrences my solution-results
+#+caption: 1207 Unique number of occurrences my solution-results
+#+RESULTS: 1207 Unique number of occurrences my solution
+#+begin_src python
+False
+#+end_src
+***** Complexity
+****** Time complexity:
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 19:15]--[2020-05-21 Thu 19:16] =>  0:01
+:END:
+$O(n)$, where $n$ is the number of elements in the array.
+****** Space complexity: 
+$O(n)$.
+
+**** Leetcode solution
+Not available.
+#+name: 1207 Unique number of occurrences leetcode solution
+#+caption: 1207 Unique number of occurrences leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 1207 Unique number of occurrences leetcode solution-results
+#+caption: 1207 Unique number of occurrences leetcode solution-results
+#+RESULTS: 1207 Unique number of occurrences leetcode solution
+#+begin_src none
+
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 19:16]--[2020-05-21 Thu 19:25] =>  0:09
+:END:
+This is an easy question. The /hard/ part of this question is actually understanding the description clearly and quickly. This is why I suddenly decided to add a /Understanding the problem/ heading. 
+
+It's actually amazing that after so many questions and problems that I have solved, I put this heading in so late. Yes the importance of understanding the question, or figuring out the definition of the terms used in the question, has been known to me for quite some time, but somehow I just did not give credits where it's due. It's almost like I'm unconsciously supressing the known idea that understanding the problem clearly and quickly is crucial to solving the problem. 
+
+I want to take this opportunity to write it down explicitly that the first thing we need to do in any coding (or anything really) is to *come to terms with the author* (/How to read a book/). We must first understand what the words mean before we understand what the author of the problem is saying by giving us those words. Again, this is an extremly simple and important but often ignored rule.
+**** Related problems
+
+
 
 * Data structures
 This section contains widely used data structures and related problems.

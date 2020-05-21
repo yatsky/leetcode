@@ -3311,7 +3311,7 @@ See [[#778 Leetcode]].
 **** Related problems
 [[*Dijkstra's Algorithm]]
 
-** TODO 1022 Sum of root to leaf binary numbers                  :tree:easy:
+** DONE 1022 Sum of root to leaf binary numbers                  :tree:easy:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-05-20 Wed 19:54]--[2020-05-20 Wed 19:56] =>  0:02

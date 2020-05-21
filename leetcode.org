@@ -4697,6 +4697,30 @@ Three types of linked lists:
 
 The following content concerns unsorted Doubly Linked List.
 
+*** Hash tables
+:PROPERTIES:
+:NOTER_PAGE: 274
+:END:
+:LOGBOOK:
+CLOCK: [2020-05-21 Thu 10:27]--[2020-05-21 Thu 10:55] =>  0:28
+:END:
+/Addressing/: Putting one item to a place according to some rule.
+
+Direct-address tables: associate keys with indexes in an array of size ~U~, when the number of possible keys $U$ is small. $O(1)$ for searching in worst-case scenario.
+
+When $U$ is large, creating an array/table $T$ of size ~U~ may be immpractical.
+In addition, the number of keys *actually stored* may be so small relative to $U$ that most of the space allocated to the table $T$ will be wasted.
+
+Thus we come up with another idea (Hash Table) to save storage and maintain $O(1)$ search time in average-case scenario.
+
+With hash tables, we now cannot use an element's key to store it because its key might be larger than the length of the hash table. To solve this problem, we use a *hash function* $h$ to compute the slot/position in the table $T$ from key $k$. $h$ maps the universe $U$ of keys into the slots of a *hash table* $T[0\ldots m-1]$: $h:U\rightarrow \{0,1,\ldots,m-1\}$ and $m$ is usually much less than $|U|$.
+
+We also say that an element with key $k$ hashes to slot $h(k)$, and that $h(k)$ is the *hash value* of key $k$. If two keys somehow hash to the same slot, this is called a *collision*.
+
+To minimise or /even/ avoid collision, we make $h$ appear to be "random", making its output as dispersed as possible.
+
+There are two ways to deal with collision: chaining and open addressing.
+Chaining: make every slot in the table $T$ a linked list (doubly linked list makes deletion faster).
 *** Priority queue
 :PROPERTIES:
 :NOTER_PAGE: 183

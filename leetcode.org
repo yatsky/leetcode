@@ -4702,6 +4702,7 @@ The following content concerns unsorted Doubly Linked List.
 :NOTER_PAGE: 274
 :END:
 :LOGBOOK:
+CLOCK: [2020-05-21 Thu 16:22]--[2020-05-21 Thu 16:52] =>  0:30
 CLOCK: [2020-05-21 Thu 10:27]--[2020-05-21 Thu 10:55] =>  0:28
 :END:
 /Addressing/: Putting one item to a place according to some rule.

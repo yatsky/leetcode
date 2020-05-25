@@ -3835,6 +3835,30 @@ Not available.
 
 *** More analysis
 **** General thoughts
+:LOGBOOK:
+CLOCK: [2020-05-25 Mon 21:57]--[2020-05-25 Mon 22:12] =>  0:15
+:END:
+Coming up with the solution algorithm conceptually is not hard as this is well-documented in CLRS.
+
+The hard part comes at the actual coding. Basically, I encountered the following issues:
+1. Properly use reference to inner class
+2. Properly reference the class itself when setting types for arguments
+3. Properly use ~@property~ decorator and ~property.setter~ as I did not use them often.
+
+Besides those issues, I was also sceptical if the following code would work.
+That is to say, if I still have reference to the last ~node~ when I break out of the loop.
+
+The answer is yes, since ~node~ is shadowed in the ~for~ loop. Therefore, if we break out of the loop or the loop finishes, node still points to the last object it got in the loop.
+#+begin_src python
+node = None
+for node in nodes:
+    if node.key == key:
+        node.val = value
+        break
+
+# this is a slight modification of my solution
+node.child = self.Node(value, key, node)
+#+end_src
 **** Related problems
 
 

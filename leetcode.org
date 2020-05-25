@@ -3616,6 +3616,228 @@ I want to take this opportunity to write it down explicitly that the first thing
 **** Related problems
 
 
+** 706 Design HashMap
+*** Description
+:LOGBOOK:
+CLOCK: [2020-05-25 Mon 20:11]--[2020-05-25 Mon 20:16] =>  0:05
+:END:
+Design a HashMap without using any built-in hash table libraries.
+
+To be specific, your design should include these functions:
+- ~put(key, value)~: insert a ~(key, value)~ pair into the HashMap. If the value already exists in the HashMap, update the value.
+- ~get(key)~: returns the value to which the specified key is mapped, or ~-1~ if this map contains no mapping for the key.
+- ~remove(key)~: remove the mapping for the value key if this map contains the mapping for the key.
+  
+
+Constraints:
+1. All keys and values will be in the range of [0, 1000000].
+2. The number of operations will be in the range of [1, 10000].
+3. Please do not use the built-in HashMap library.
+**** Examples:
+#+name: 706 Design HashMap example
+#+caption: 706 Design HashMap example
+#+begin_example
+MyHashMap hashMap = new MyHashMap();
+hashMap.put(1, 1);          
+hashMap.put(2, 2);         
+hashMap.get(1);            // returns 1
+hashMap.get(3);            // returns -1 (not found)
+hashMap.put(2, 1);          // update the existing value
+hashMap.get(2);            // returns 1 
+hashMap.remove(2);          // remove the mapping for 2
+hashMap.get(2);            // returns -1 (not found) 
+#+end_example
+
+*** Solution
+
+**** Understanding the problem
+:LOGBOOK:
+CLOCK: [2020-05-25 Mon 20:17]--[2020-05-25 Mon 20:21] =>  0:04
+:END:
+The ~remove()~ method, though not mentioned, should be idempotent.
+
+The code template also gives more information on requirements.
+The ~key~ is an integer and ~value~ will always be non-negative.
+
+Because the number of operations will be in the range less than ~10000~, this can be used as
+the length of our array backing up the map, assuming that all the operations were ~put()~.
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-25 Mon 20:24]--[2020-05-25 Mon 20:29] =>  0:05
+:END:
+We need to find a proper hash function.
+
+For the hash function, we simply divide the ~key~ by ~100~. We can use doubly linked list for handling collision.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-05-25 Mon 21:20]--[2020-05-25 Mon 21:31] =>  0:11
+CLOCK: [2020-05-25 Mon 20:37]--[2020-05-25 Mon 20:51] =>  0:14
+CLOCK: [2020-05-25 Mon 20:29]--[2020-05-25 Mon 20:36] =>  0:07
+CLOCK: [2020-05-25 Mon 20:23]--[2020-05-25 Mon 20:24] =>  0:01
+:END:
+#+name: 706 Design HashMap my solution
+#+caption: 706 Design HashMap my solution
+#+begin_src python :results output code :noweb yes :tangle yes
+<<imports for typing>>
+class MyHashMap:
+    class Node:
+
+        def __init__(self, val: int, key: int, parent: 'Node'=None, child: 'Node'=None):
+            self._val = val
+            self._key = key
+            self._parent = parent
+            self._child = child
+
+        @property
+        def val(self):
+            return self._val
+        @val.setter
+        def val(self, val):
+            self._val = val
+
+        @property
+        def key(self):
+            return self._key
+
+        @key.setter
+        def key(self, key):
+            self._key = key
+
+        @property
+        def child(self):
+            return self._child
+
+        @child.setter
+        def child(self, child: 'Node'):
+            self._child = child
+
+        @property
+        def parent(self):
+            return self._parent
+
+        @parent.setter
+        def parent(self, parent: 'Node'):
+            self._parent = parent
+            
+
+    @staticmethod
+    def gen_nodes(root: 'Node'):
+        node = root
+        while node:
+            yield node
+            node = node.child
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.arr = [self.Node(-1, -1) for i in range(10000)]
+        
+    def _get_nodes(self, key: int):
+
+        hash_value = self._hash_func(key)
+        return self.gen_nodes(self.arr[hash_value])
+
+    def put(self, key: int, value: int) -> None:
+        """
+        value will always be non-negative.
+        """
+
+        nodes = self._get_nodes(key)
+        node = None
+        for node in nodes:
+            if node.key == key:
+                node.val = value
+                break
+        else:
+            node.child = self.Node(value, key, node)
+
+    def get(self, key: int) -> int:
+        """
+        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+        """
+        nodes = self._get_nodes(key)
+        node = None
+        for node in nodes:
+            if node.key == key:
+                return node.val
+
+        return -1
+    
+
+    def remove(self, key: int) -> None:
+        """
+        Removes the mapping of the specified value key if this map contains a mapping for the key
+        """
+        
+        nodes = self._get_nodes(key)
+        node = None
+        for node in nodes:
+            if node.key == key:
+                if node.child:
+                    node.child.parent = node.parent
+                node.parent.child = node.child
+
+    @staticmethod
+    def _hash_func(key: int) -> int:
+        """
+        Hashes key
+        """
+        return key // 100
+
+obj = MyHashMap()
+obj.put(100, 123)
+print(obj.get(100))
+obj.put(101, 124)
+print(obj.get(101))
+obj.put(102, 125)
+print(obj.get(102))
+obj.remove(102)
+print(obj.get(102))
+print(obj.get(101))
+print(obj.get(103))
+#+end_src
+
+#+name: 706 Design HashMap my solution-results
+#+caption: 706 Design HashMap my solution-results
+#+RESULTS: 706 Design HashMap my solution
+#+begin_src python
+123
+124
+125
+-1
+124
+-1
+#+end_src
+***** Complexity
+****** Time complexity:
+
+****** Space complexity: 
+
+**** Leetcode solution
+
+#+name: 706 Design HashMap leetcode solution
+#+caption: 706 Design HashMap leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 706 Design HashMap leetcode solution-results
+#+caption: 706 Design HashMap leetcode solution-results
+#+RESULTS: 706 Design HashMap leetcode solution
+#+begin_src none
+
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 
 * Data structures
 This section contains widely used data structures and related problems.

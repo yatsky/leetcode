@@ -3616,7 +3616,7 @@ I want to take this opportunity to write it down explicitly that the first thing
 **** Related problems
 
 
-** 706 Design HashMap
+** TODO 706 Design HashMap                                 :hash_table:easy:
 *** Description
 :LOGBOOK:
 CLOCK: [2020-05-25 Mon 20:11]--[2020-05-25 Mon 20:16] =>  0:05

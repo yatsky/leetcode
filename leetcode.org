@@ -3810,9 +3810,9 @@ print(obj.get(103))
 #+end_src
 ***** Complexity
 ****** Time complexity:
-
+$O(1)$ average.
 ****** Space complexity: 
-
+$O(1)$ given at maximum 10000 operations.
 **** Leetcode solution
 Not available.
 #+name: 706 Design HashMap leetcode solution

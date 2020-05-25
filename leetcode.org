@@ -3744,7 +3744,6 @@ class MyHashMap:
         """
 
         nodes = self._get_nodes(key)
-        node = None
         for node in nodes:
             if node.key == key:
                 node.val = value
@@ -3757,7 +3756,6 @@ class MyHashMap:
         Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
         """
         nodes = self._get_nodes(key)
-        node = None
         for node in nodes:
             if node.key == key:
                 return node.val
@@ -3771,11 +3769,11 @@ class MyHashMap:
         """
         
         nodes = self._get_nodes(key)
-        node = None
         for node in nodes:
             if node.key == key:
                 if node.child:
                     node.child.parent = node.parent
+                    
                 node.parent.child = node.child
 
     @staticmethod
@@ -3789,6 +3787,7 @@ obj = MyHashMap()
 obj.put(100, 123)
 print(obj.get(100))
 obj.put(101, 124)
+obj.put(101, 1024)
 print(obj.get(101))
 obj.put(102, 125)
 print(obj.get(102))
@@ -3803,10 +3802,10 @@ print(obj.get(103))
 #+RESULTS: 706 Design HashMap my solution
 #+begin_src python
 123
-124
+1024
 125
 -1
-124
+1024
 -1
 #+end_src
 ***** Complexity

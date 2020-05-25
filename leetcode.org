@@ -3815,7 +3815,7 @@ print(obj.get(103))
 ****** Space complexity: 
 
 **** Leetcode solution
-
+Not available.
 #+name: 706 Design HashMap leetcode solution
 #+caption: 706 Design HashMap leetcode solution
 #+begin_src python :results output code :noweb yes

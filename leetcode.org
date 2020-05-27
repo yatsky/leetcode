@@ -3861,6 +3861,187 @@ node.child = self.Node(value, key, node)
 **** Related problems
 
 
+** TODO 208 Implementing Trie
+*** Description
+:LOGBOOK:
+CLOCK: [2020-05-27 Wed 22:01]--[2020-05-27 Wed 22:02] =>  0:01
+:END:
+Implement a Trie with ~insert~, ~search~ and ~startwith~.
+
+Constraints:
+1. You may assume that all inputs are consist of lowercase letters a-z.
+2. All inputs are guaranteed to be non-empty strings.
+**** Examples:
+#+name: 208 Implementing Trie example
+#+caption: 208 Implementing Trie example
+#+begin_example
+Trie trie = new Trie();
+
+trie.insert("apple");
+trie.search("apple");   // returns true
+trie.search("app");     // returns false
+trie.startsWith("app"); // returns true
+trie.insert("app");   
+trie.search("app");     // returns true
+#+end_example
+
+*** Solution
+
+**** Understanding the problem
+:LOGBOOK:
+CLOCK: [2020-05-27 Wed 22:02]--[2020-05-27 Wed 22:05] =>  0:03
+:END:
+A Trie is based on a tree structure.
+~insert(word)~ inserts a ~word~ into the trie.
+~search(word)~ tries to find a ~word~ in the trie, and returns ~True~ if it can find the ~word~, else return ~False~.
+~startswith(prefix)~ tries to find ~prefix~ in the trie, and returns ~True~ if it can find the ~prefix~, else return ~False~.
+
+The difference between ~search()~ and ~startswith()~ is that the last character of the ~word~ for ~search()~ must be the last character in the trie as well, i.e. its ~is_end~ property must be ~True~.
+
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 08:24]--[2020-05-28 Thu 08:25] =>  0:01
+:END:
+We use standard Trie structure with a ~TrieNode~ and a ~Trie~.
+**** Code
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 09:05]--[2020-05-28 Thu 09:33] =>  0:28
+CLOCK: [2020-05-28 Thu 08:35]--[2020-05-28 Thu 08:45] =>  0:10
+:END:
+#+name: 208 Implementing Trie my solution
+#+caption: 208 Implementing Trie my solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+
+
+class Trie:
+    class TrieNode:
+
+        def __init__(self, is_end=False, num_children=26):
+            self.is_end = is_end
+            self.num_children = num_children
+            self.links = [None for i in range(self.num_children)]
+
+        @property
+        def is_end(self):
+            return self._is_end
+
+        @is_end.setter
+        def is_end(self, val):
+            self._is_end = val
+
+
+        def contains_key(self, ch: str) -> bool:
+            return self.links[ord(ch)-ord('a')] is not None
+
+        def get(self, ch: str) -> 'TrieNode':
+            return self.links[ord(ch) - ord('a')]
+
+        def put(self, ch: str, node: 'TrieNode') -> None:
+            self.links[ord(ch) - ord('a')] = node
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = self.TrieNode()
+
+    def insert(self, word: str) -> None:
+        """
+        Inserts a word into the trie.
+        """
+        node = self.root
+        for ch in word:
+            if not node.contains_key(ch):
+                node.put(ch, self.TrieNode())
+                
+            node = node.get(ch)
+            
+        # set the last node.is_end to True
+        node.is_end = True
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the trie.
+        """
+        node = self.search_prefix(word)
+        return (node is not None) and node.is_end
+    
+
+    def startsWith(self, prefix: str) -> bool:
+        """
+        Returns if there is any word in the trie that starts with the given prefix.
+        """
+        node = self.search_prefix(prefix)
+        return node is not None
+
+
+    def search_prefix(self, prefix: str) -> TrieNode:
+        node = self.root
+        for ch in prefix:
+            if node.contains_key(ch):
+                node = node.get(ch)
+            else:
+                return None
+
+        return node
+    
+
+# Your Trie object will be instantiated and called as such:
+obj = Trie()
+word="apple"
+obj.insert(word)
+param_2 = obj.search(word)
+print(param_2)
+word="app"
+obj.insert(word)
+param_2 = obj.search(word)
+print(param_2)
+prefix="apt"
+param_3 = obj.startsWith(prefix)
+print(param_3)
+param_2 = obj.search("aa")
+print(param_2)
+#+end_src
+
+#+name: 208 Implementing Trie my solution-results
+#+caption: 208 Implementing Trie my solution-results
+#+RESULTS: 208 Implementing Trie my solution
+#+begin_src python
+True
+True
+False
+False
+#+end_src
+***** Complexity
+****** Time complexity:
+
+****** Space complexity: 
+
+**** Leetcode solution
+
+#+name: 208 Implementing Trie leetcode solution
+#+caption: 208 Implementing Trie leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 208 Implementing Trie leetcode solution-results
+#+caption: 208 Implementing Trie leetcode solution-results
+#+RESULTS: 208 Implementing Trie leetcode solution
+#+begin_src none
+
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
 
 * Data structures
 This section contains widely used data structures and related problems.

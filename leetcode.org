@@ -4040,6 +4040,26 @@ False
 
 *** More analysis
 **** General thoughts
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 09:50]--[2020-05-28 Thu 10:10] =>  0:20
+:END:
+A Trie is built with two parts: a ~TrieNode~ and a ~Trie~.
+
+The most important thing to check for when building a ~TrieNode~ is the number of children it should have when ~children~ is an array of fixed length. In cases when we are not certain of the length, we can use HashMap.
+
+The ~TrieNode~ should have at least three methods and one property to be functional: ~put~, ~get~, ~contains_key~, and ~is_end~ as a property.
+
+The three methods are meant to operate on ~TrieNode.children~, which are basically modifications of array's ~get~, ~append~, ~in~ methods. They also have the same time complexity of $O(1)$.
+
+The ~is_end~ property marks whether the current node is the end of a word.
+
+When we have a ~TrieNode~, we then build a ~Trie~ upon it.
+The most important thing with ~Trie~ is the subtle difference between a ~prefix~ and a ~word~.
+A ~word~ is also a prefix, but a ~prefix~ does not necessarily equal to a ~word~.
+A ~prefix~ is also a ~word~ iff ~prefix.last_node.is_end==True~.
+This tells us that, we can use the method ~search_prefix(prefix)~ to find the ~prefix~, and also use it to find if a ~word~ is in the Trie, since we only need to check if the last node is also an end.
+
+The ~Trie~ also have at least three methods to be functional: ~insert~, ~search_prefix~ and ~search_word~. Typically a ~startswith~ method will be added, and this is as trivial as ~search_word~.
 **** Related problems
 
 

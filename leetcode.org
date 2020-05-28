@@ -4187,6 +4187,28 @@ See [[#CLRS Dynamic programming]].
 CLOCK: [2020-05-05 Tue 16:18]--[2020-05-05 Tue 16:32] =>  0:14
 :END:
 https://www.youtube.com/watch?v=pVfj6mxhdMw
+** Binary search
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 19:59]--[2020-05-28 Thu 20:05] =>  0:06
+:END:
+Simple recursive solution.
+#+begin_src python :results output code
+def binary_search(arr, left, right, target):
+    """Return position of the target, or -1 if not found."""
+
+    # check base case
+    if left <= right:
+        mid = left + (right - left) // 2
+
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] > target:
+            return binary_search(arr, left, mid - 1, target)
+        else:
+            return binary_search(arr, mid + 1, right, target)
+
+    return -1
+#+end_src
 * Techniques
 This section contains techniques that do not make a full algorithm and related problems.
 ** General

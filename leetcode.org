@@ -4062,6 +4062,119 @@ This tells us that, we can use the method ~search_prefix(prefix)~ to find the ~p
 The ~Trie~ also have at least three methods to be functional: ~insert~, ~search_prefix~ and ~search_word~. Typically a ~startswith~ method will be added, and this is as trivial as ~search_word~.
 **** Related problems
 
+** TODO 1038 Binary Search Tree to Greater Sum Tree
+*** Description
+Given the root of a binary search tree with distinct values,
+modify it so that every ~node~ has a new value equal to the sum of the values of
+the original tree that are greater or equal to ~node.val~.
+
+As a reminder, a binary search tree is a tree that satisfies these constraints:
+
+1. The left subtree of a node contains only nodes with keys less than the node's key.
+2. The right subtree of a node contains only nodes with keys greater than the node's key.
+3. Both the left and right subtrees must also be binary search trees.
+
+Constraints:
+
+1. The number of nodes in the tree is between 1 and 100.
+2. Each node will have value between 0 and 100.
+3. The given tree is a binary search tree.
+**** Examples:
+#+name: 1038 Binary Search Tree to Greater Sum Tree example
+#+caption: 1038 Binary Search Tree to Greater Sum Tree example
+#+begin_example
+
+#+end_example
+
+*** Solution
+
+**** Understanding the problem
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 20:17]--[2020-05-28 Thu 20:19] =>  0:02
+:END:
+The question is bit hard to understand at first but it is asking us to do the following.
+1. We have a BST.
+2. Start from the right-most leaf, we replace every node with,
+/the sum of/, all values that are greater than the node, i.e, all values that are to the right of the node.
+**** Algorithm
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 20:19]--[2020-05-28 Thu 20:22] =>  0:03
+:END:
+Like what is said in Understanding the problem, we start from the right-most leaf.
+In this case, we use DFS and In-order traversal.
+Every node's value is made of its original value plus the value of the node processed before it. 
+**** Code
+:LOGBOOK:
+CLOCK: [2020-05-28 Thu 20:33]--[2020-05-28 Thu 20:37] =>  0:04
+CLOCK: [2020-05-28 Thu 20:22]--[2020-05-28 Thu 20:30] =>  0:08
+:END:
+#+name: 1038 Binary Search Tree to Greater Sum Tree my solution
+#+caption: 1038 Binary Search Tree to Greater Sum Tree my solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        def helper(node) -> None:
+            nonlocal running_sum
+            if node.right:
+                helper(node.right)
+
+            node.val += running_sum
+            running_sum = node.val
+
+            if node.left:
+                helper(node.left)
+
+        running_sum = 0
+        helper(root)
+        return root
+#+end_src
+
+#+name: 1038 Binary Search Tree to Greater Sum Tree my solution-results
+#+caption: 1038 Binary Search Tree to Greater Sum Tree my solution-results
+#+RESULTS: 1038 Binary Search Tree to Greater Sum Tree my solution
+#+begin_src none
+
+#+end_src
+***** Complexity
+****** Time complexity:
+$O(n)$, where $n$ is the number of nodes in the BST.
+****** Space complexity: 
+$O(n)$, the space needed for the recursive stack.
+
+**** Leetcode solution
+
+#+name: 1038 Binary Search Tree to Greater Sum Tree leetcode solution
+#+caption: 1038 Binary Search Tree to Greater Sum Tree leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 1038 Binary Search Tree to Greater Sum Tree leetcode solution-results
+#+caption: 1038 Binary Search Tree to Greater Sum Tree leetcode solution-results
+#+RESULTS: 1038 Binary Search Tree to Greater Sum Tree leetcode solution
+#+begin_src none
+
+#+end_src
+***** Time complexity:
+
+***** Space complexity: 
+
+*** More analysis
+**** General thoughts
+**** Related problems
+
+
 
 * Data structures
 This section contains widely used data structures and related problems.

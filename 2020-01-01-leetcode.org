@@ -1,11 +1,13 @@
-#+FILETAG: :learning:note:
+:PROPERTIES:
+:ID:       5DA915BC-E205-46B6-969A-B0D8624C36FA
+:END:
 #+AUTHOR: Yi Wang
 #+TITLE: Leetcode, Data structure and Algorithm
 #+LATEX_HEADER: \usepackage{amsmath}
-#+OPTIONS: toc:2 H:5
-#+SETUPFILE: ../../orgs/theme-readtheorg.setup
-# HTML_HEAD: <link rel="stylesheet" href="http://dakrone.github.io/org.css" type="text/css" />
-
+#+OPTIONS: toc:1 H:5
+#+HTML_MATHJAX: align: left indent: 5em tagside: left font: Neo-Euler
+#+HTML_MATHJAX: cancel.js noErrors.js
+#+filetags: :blog:learning:note:
 * Introduction
 This is the main file that contains all the problems and their solutions.
 Each problem is organised as follows:

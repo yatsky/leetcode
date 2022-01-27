@@ -108,7 +108,7 @@ True
 #+end_src
 *** Complexity
 :LOGBOOK:
-CLOCK: [2022-01-27 Thu 20:54]
+CLOCK: [2022-01-27 Thu 20:54]--[2022-01-27 Thu 20:56] =>  0:02
 :END:
 **** Time complexity:
 $O(N), \text{where } N=s.length$ as it's just one scan.

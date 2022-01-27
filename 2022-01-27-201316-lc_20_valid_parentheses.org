@@ -1,0 +1,148 @@
+:PROPERTIES:
+:ID:       C600D69A-00E9-49F0-A6D0-24B56686D5D0
+:END:
+#+title: lc 20 Valid Parentheses
+#+filetags: :blog:leetcode:
+
+#+begin_export html
+---
+layout: post
+title: "lc 20 Valid Parentheses"
+excerpt:
+---
+#+end_export
+
+* 20 valid parentheses
+:LOGBOOK:
+CLOCK: [2022-01-27 Thu 20:15]--[2022-01-27 Thu 20:50] =>  0:35
+:END:
+** Description
+Given a string ~s~ containing just the characters ~'('~, ~')'~, ~'{'~, ~'}'~, ~'['~, ~']'~, determine if the input string is valid.
+
+An input string is valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+
+Constraints:
+1. $1 \leq s.length \leq 10^{4}$
+2. ~s~ consists of parentheses only ~'()[]{}'~.
+
+*** Examples:
+#+name: 20 valid parentheses example
+#+caption: 20 valid parentheses example
+#+begin_example
+Input: s = "()"
+Output: true
+
+Input: s = "()[]{}"
+Output: true
+
+Input: s = "(]"
+Output: false
+#+end_example
+
+** Solution
+
+*** Understanding the problem
+Looking at this question I think this is a [[id:4A31FB1B-DB8A-4452-8A74-0E6E19BE7BAE][Stack]] question with [[id:7ACCCAD0-A7F6-4744-B415-1930C279FE2E][First In Last Out (FILO)]].
+
+A more complicated valid example would be ~({[]})~.
+
+*** Algorithm
+Because $s.length \geq 1$, let's start with having 1 element in the string, which is obviously invalid.
+What's more, we know that for any ~s~, if $s.length \mod 2 = 1$, then it's an invalid string because there will always be one bracket left.
+
+Given the above, we will only consider $s.length \mod 2 = 0$, and because $s.length \leq 10^{4}$, which is relatively a small number, we can apply the following algorithm
+1. Scan the string one by one from left to right (order doesn't really matter here).
+2. If the stack is not empty, check to see if the new element can pair with the last element in the stack
+   1. If they can pair, then pop the last element from the stack and go back to step 1.
+   2. If they cannot pair, then push the element in to the stack as the last element and go back to step 1.
+3. If the stack is empty, simply push the element into the stack and go back to step 1.
+4. Continue the process until we scanned all elements in the string.
+5. If the stack in the end is empty, then we return ~true~, else return ~false~.
+*** Code
+#+name: 20 valid parentheses my solution
+#+caption: 20 valid parentheses my solution
+#+begin_src python :results output code :noweb yes
+def isValid(s):
+    """
+    :type s: str
+    :rtype: bool
+    """
+    if len(s) % 2 == 1:
+        return False
+
+    # by definition, we should only have one way (open -> close) mapping
+    mapping = {
+        "(": ")",
+        "[": "]",
+        "{": "}",
+    }
+    stack = []
+    for element in s:
+        if len(stack) == 0:
+            stack.append(element)
+        else:
+            if mapping.get(stack[-1], None) == element:
+                stack.pop()
+            else:
+                stack.append(element)
+
+    return len(stack) == 0
+# invalid
+print(isValid(")"))
+print(isValid("(){}}[]"))
+print(isValid("}}]"))
+# valid
+print(isValid("()"))
+print(isValid("(){[]}(){{{}}}"))
+print(isValid("({}){[]}(){{{}}}"))
+#+end_src
+
+#+name: 20 valid parentheses my solution-results
+#+caption: 20 valid parentheses my solution-results
+#+RESULTS: 20 valid parentheses my solution
+#+begin_src python
+False
+False
+False
+True
+True
+True
+#+end_src
+**** Complexity
+:LOGBOOK:
+CLOCK: [2022-01-27 Thu 20:54]
+:END:
+***** Time complexity:
+$O(N), \text{where } N=s.length$ as it's just one scan.
+***** Space complexity: 
+$O(N), \text{where } N=s.length$. It's the space needed for the stack.
+
+*** Leetcode solution
+I'll not provide Leetcode solution because I don't want to accidentally leak their IP as I'm on a premium plan at the moment.
+
+However my solution is almost the same as the leetcode solution.
+#+name: 20 valid parentheses leetcode solution
+#+caption: 20 valid parentheses leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 20 valid parentheses leetcode solution-results
+#+caption: 20 valid parentheses leetcode solution-results
+#+RESULTS: 20 valid parentheses leetcode solution
+#+begin_src none
+
+#+end_src
+**** Time complexity:
+
+**** Space complexity: 
+
+** More analysis
+*** General thoughts
+~nil~.
+*** Related problems
+
+

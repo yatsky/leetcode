@@ -2,11 +2,12 @@
 :ID:       6705fa69-9835-4076-b293-cd962e3c5828
 :END:
 #+title: 441 Arranging Coins
+#+filetags: :leetcode:blog:
 #+begin_export html
 ---
 layout: post
 title: "441 Arranging Coins"
-excerpt:
+excerpt: Math magic.
 ---
 #+end_export
 

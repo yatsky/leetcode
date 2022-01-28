@@ -1,0 +1,100 @@
+:PROPERTIES:
+:ID:       6705fa69-9835-4076-b293-cd962e3c5828
+:END:
+#+title: 441 Arranging Coins
+#+begin_export html
+---
+layout: post
+title: "441 Arranging Coins"
+excerpt:
+---
+#+end_export
+
+* Description
+You have ~n~ coins and you want to build a staircase with these coins.
+The staircase consists of ~k~ rows where the ~ith~ row has exactly ~i~ coins.
+The last row of the staircase *may be* incomplete.
+
+Given the integer ~n~, return /the number of *complete rows* of the staircase case you will build/.
+
+Constraints:
+$1 \leq n \leq 2^{31} - 1$
+
+** Examples:
+#+name: 441 Arranging Coins example
+#+caption: 441 Arranging Coins example
+#+begin_example
+1
+11
+11
+
+Input: n = 5
+Output: 2
+Explanation: Because the 3rd row is incomplete, we return 2.
+
+
+1
+11
+111
+11
+
+Input: n = 8
+Output: 3
+Explanation: Because the 4th row is incomplete, we return 3.
+#+end_example
+
+* Solution
+
+** Understanding the problem
+:LOGBOOK:
+CLOCK: [2022-01-28 Fri 21:51]--[2022-01-28 Fri 21:52] =>  0:01
+:END:
+I think this question is equivalent to the fowllowing question 
+** Algorithm
+
+** Code
+#+name: 441 Arranging Coins my solution
+#+caption: 441 Arranging Coins my solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 441 Arranging Coins my solution-results
+#+caption: 441 Arranging Coins my solution-results
+#+RESULTS: 441 Arranging Coins my solution
+#+begin_src none
+
+#+end_src
+*** Complexity
+**** Time complexity:
+
+**** Space complexity: 
+
+** Leetcode solution
+
+#+name: 441 Arranging Coins leetcode solution
+#+caption: 441 Arranging Coins leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 441 Arranging Coins leetcode solution-results
+#+caption: 441 Arranging Coins leetcode solution-results
+#+RESULTS: 441 Arranging Coins leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-01-28 Fri 21:47]--[2022-01-28 Fri 21:51] =>  0:04
+:END:

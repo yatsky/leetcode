@@ -93,7 +93,7 @@ True
 CLOCK: [2022-01-28 Fri 22:20]--[2022-01-28 Fri 22:36] =>  0:16
 CLOCK: [2022-01-28 Fri 22:15]--[2022-01-28 Fri 22:18] =>  0:03
 :END:
-Leetcode uses two solutions (binary search and math), and I'm glad that the second one is exactly /my/ solution, good job Leetcode :)!
+Leetcode uses two solutions ([[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]] and math), and I'm glad that the second one is exactly /my/ solution, good job Leetcode :)!
 
 As an exercise, I implement the binary search solution here but I don't really like binary search in general because there are too many edge cases to consider, i.e. starting/ending numbers, mid point...
 
@@ -143,6 +143,8 @@ True
 
 * More analysis
 ** General thoughts
+[[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]] is hard in the sense that it requires a great amount of attention to edge cases.
+I think I'll have to spend more time on it to get the hang of it.
 ** Related problems
 
 * Log time

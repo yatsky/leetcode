@@ -47,44 +47,95 @@ Explanation: Because the 4th row is incomplete, we return 3.
 
 ** Understanding the problem
 :LOGBOOK:
+CLOCK: [2022-01-28 Fri 21:54]--[2022-01-28 Fri 22:14] =>  0:20
 CLOCK: [2022-01-28 Fri 21:51]--[2022-01-28 Fri 21:52] =>  0:01
 :END:
-I think this question is equivalent to the fowllowing question 
+I think this question is equivalent to the fowllowing question:
+$\frac{(1+i)i}{2} \leq n \leq \frac{(1+i+1)(i+1)}{2}, \text{ solve i}$
 ** Algorithm
-
+We can solve the left part of the inequation and get ~i~.
+$i = \lfloor{\sqrt{2n+\frac{1}{4}} - \frac{1}{2}}\rfloor$
 ** Code
 #+name: 441 Arranging Coins my solution
 #+caption: 441 Arranging Coins my solution
 #+begin_src python :results output code :noweb yes
-<<imports for typing>>
+import math
 
+def arrangeCoins(n: int):
+    return int(math.floor(math.sqrt(2 * n + 0.25) - 0.5))
+
+print(arrangeCoins(5) == 2)
+print(arrangeCoins(8) == 3)
+print(arrangeCoins(1) == 1)
+print(arrangeCoins(2) == 1)
+print(arrangeCoins(3) == 2)
+print(arrangeCoins(4) == 2)
 #+end_src
 
 #+name: 441 Arranging Coins my solution-results
 #+caption: 441 Arranging Coins my solution-results
 #+RESULTS: 441 Arranging Coins my solution
-#+begin_src none
-
+#+begin_src python
+True
+True
+True
+True
+True
+True
 #+end_src
 *** Complexity
 **** Time complexity:
-
+~O(1)~ because there is an upper bound of the time required.
 **** Space complexity: 
-
+~O(1)~ because there is an upper bound of the space required.
 ** Leetcode solution
+:LOGBOOK:
+CLOCK: [2022-01-28 Fri 22:20]--[2022-01-28 Fri 22:36] =>  0:16
+CLOCK: [2022-01-28 Fri 22:15]--[2022-01-28 Fri 22:18] =>  0:03
+:END:
+Leetcode uses two solutions (binary search and math), and I'm glad that the second one is exactly /my/ solution, good job Leetcode :)!
 
+As an exercise, I implement the binary search solution here but I don't really like binary search in general because there are too many edge cases to consider, i.e. starting/ending numbers, mid point...
+
+As we have established in [[Understanding the problem]], $\frac{(1+i)i}{2} \leq n$, this means we want to /search/ for an ~i~ in ~1...n~ that satisfies the condition.
 #+name: 441 Arranging Coins leetcode solution
 #+caption: 441 Arranging Coins leetcode solution
 #+begin_src python :results output code :noweb yes
-<<imports for typing>>
+def arrangeCoins(n: int):
+    # how do we know that left should start from 0?
+    # this is why I don't want to use binary search
+    left, right = 0, n
+    while left <= right:
+        mid = (left + right) // 2
 
+        temp = mid * (mid + 1) // 2
+        if temp == n:
+            return mid
+        if temp > n:
+            right = mid - 1
+        if temp < n:
+            left = mid + 1
+    return right
+
+
+print(arrangeCoins(5) == 2)
+print(arrangeCoins(8) == 3)
+print(arrangeCoins(1) == 1)
+print(arrangeCoins(2) == 1)
+print(arrangeCoins(3) == 2)
+print(arrangeCoins(4) == 2)
 #+end_src
 
 #+name: 441 Arranging Coins leetcode solution-results
 #+caption: 441 Arranging Coins leetcode solution-results
 #+RESULTS: 441 Arranging Coins leetcode solution
-#+begin_src none
-
+#+begin_src python
+True
+True
+True
+True
+True
+True
 #+end_src
 *** Time complexity:
 
@@ -96,5 +147,6 @@ I think this question is equivalent to the fowllowing question
 
 * Log time
 :LOGBOOK:
+CLOCK: [2022-01-28 Fri 21:54]--[2022-01-28 Fri 21:54] =>  0:00
 CLOCK: [2022-01-28 Fri 21:47]--[2022-01-28 Fri 21:51] =>  0:04
 :END:

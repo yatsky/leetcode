@@ -1,0 +1,174 @@
+:PROPERTIES:
+:ID:       BDC2B4A7-A64C-4263-801D-74D5BD4BEDC6
+:END:
+#+title: 704 Binary Search
+#+filetags: :leetcode:blog:
+
+#+begin_export html
+---
+layout: post
+title: "704 Binary Search"
+excerpt: 想了一个记忆口诀
+---
+#+end_export
+
+* Description
+Given an array of integers ~nums~, which is sorted in ascending order, and an integer ~target~, write a function to search ~target~ in ~nums~.
+If ~target~ exists, then return its index. Otherwise, return -1.
+
+You must write an algorithm with ~O(log n)~ runtime complexity.
+
+Constraints:
+1. $1 \leq nums.length \leq 10^{4}$
+2. $-10^{4} \lt nums[i], target \lt 10^{4}$
+3. All the integers in ~nums~ are *unique*
+4. ~nums~ is sorted in ascending order
+** Examples:
+#+name: 704 Binary Search example
+#+caption: 704 Binary Search example
+#+begin_example
+Input: nums = [-1,0,3,5,9,12], target = 9
+Output: 4
+Explanation: 9 exists in nums and its index is 4
+
+Input: nums = [-1,0,3,5,9,12], target = 2
+Output: -1
+Explanation: 2 does not exist in nums so return -1
+#+end_example
+
+* Solution
+
+** Understanding the problem
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 14:01]--[2022-01-29 Sat 14:27] =>  0:26
+:END:
+We use [[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]] to achieve ~O(log n)~ runtime complexity.
+** Algorithm
+
+** Code
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 13:58]--[2022-01-29 Sat 14:01] =>  0:03
+:END:
+#+name: 704 Binary Search my solution
+#+caption: 704 Binary Search my solution
+#+begin_src python :results output code :noweb yes
+def search(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: int
+    """
+    ret = -1
+    left_idx = 0
+    # why len(nums) - 1?
+    right_idx = len(nums) - 1
+
+    # Why use <=?
+    while left_idx <= right_idx:
+        mid_idx = (left_idx + right_idx) // 2
+        curr = nums[mid_idx]
+
+        if target == curr:
+            return mid_idx
+        elif target > curr:
+            left_idx = mid_idx + 1
+        else:
+            right_idx = mid_idx - 1
+
+    return ret
+
+# tests
+nums = [-1, 0, 3, 5, 9, 12]
+target = 9
+print(search(nums, target) == 4)
+
+nums = [-1, 0, 3, 5, 9, 12]
+target = 2
+print(search(nums, target) == -1)
+
+nums = [0, 3, 5, 9, 12]
+target = 5
+print(search(nums, target) == 2)
+
+nums = [0, 3, 5, 9, 12]
+target = 2
+print(search(nums, target) == -1)
+
+nums = [-1]
+target = 1
+print(search(nums, target) == -1)
+
+nums = [0]
+target = 0
+print(search(nums, target) == 0)
+#+end_src
+
+#+name: 704 Binary Search my solution-results
+#+caption: 704 Binary Search my solution-results
+#+RESULTS: 704 Binary Search my solution
+#+begin_src python
+True
+True
+True
+True
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+$O\log{n}$, where ~n=len(nums)~
+**** Space complexity: 
+$O(n)$
+
+** Leetcode solution
+~nil~
+#+name: 704 Binary Search leetcode solution
+#+caption: 704 Binary Search leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 704 Binary Search leetcode solution-results
+#+caption: 704 Binary Search leetcode solution-results
+#+RESULTS: 704 Binary Search leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 14:39]--[2022-01-29 Sat 14:39] =>  0:00
+CLOCK: [2022-01-29 Sat 14:27]--[2022-01-29 Sat 14:38] =>  0:11
+:END:
+I never knew how to understand the conditions needed in [[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]].
+
+I have the [[id:F5A9C8B6-4A10-431F-AD4C-B2E4EEBA3097][Binary search key point]] to help myself /memorize/ the algorithm:
+1. 首尾要有效 - Both start and end indexes are valid indexes (can get element from the list)
+2. 首尾要相交 - ~left_idx~ and ~right_idx~ need to converge (~==~) so that we can handle a list of single element
+3. 中点需整除 - Use ~mod 2~ to get the mid point
+#+begin_src python
+# why len(nums) - 1?
+# because len(nums) - 1 is the last element of the list nums
+right_idx = len(nums) - 1
+
+# Why use <=?
+# consider a list that only contains a single element,
+# then left_idx = 0 and right_idx = 0
+# if we don't have the equal sign here,
+# we will easily fail this case
+while left_idx <= right_idx:
+#+end_src
+
+Another point is that for a potentially empty list, we can simply return ~-1~ if the list's length is 0.
+** Related problems
+1. [[idid:6705fa69-9835-4076-b293-cd962e3c5828][441 Arranging Coins]]
+* Log time
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 14:44]
+CLOCK: [2022-01-29 Sat 13:55]--[2022-01-29 Sat 13:58] =>  0:03
+:END:

@@ -169,6 +169,6 @@ Another point is that for a potentially empty list, we can simply return ~-1~ if
 1. [[idid:6705fa69-9835-4076-b293-cd962e3c5828][441 Arranging Coins]]
 * Log time
 :LOGBOOK:
-CLOCK: [2022-01-29 Sat 14:44]
+CLOCK: [2022-01-29 Sat 14:44]--[2022-01-29 Sat 14:54] =>  0:10
 CLOCK: [2022-01-29 Sat 13:55]--[2022-01-29 Sat 13:58] =>  0:03
 :END:

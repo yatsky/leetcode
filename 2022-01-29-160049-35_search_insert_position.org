@@ -1,0 +1,174 @@
+:PROPERTIES:
+:ID:       A8874EDB-07AF-42BA-872C-FC356CBB1C3E
+:END:
+#+title: 35 Search Insert Position
+#+filetags: :BinarySearch:blog:leetcode:
+
+#+begin_export html
+---
+layout: post
+title: "35 Search Insert Position"
+excerpt: Binary search is just tricky
+---
+#+end_export
+
+* Description
+Given a sorted array of distinct integers and a target value, return the index if the target is found.
+If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with ~O(log n)~ runtime complexity.
+
+Constraints:
+1. $1 \leq nums.length \leq 10^{4}$
+2. $-10^{4} \leq nums[i] \leq 10^{4}$
+3. ~nums~ contains *distinct* values sorted in *ascending* order
+4. $-10^{4} \leq target \leq 10^{4}$
+
+** Examples:
+#+name: 35 Search Insert Position example
+#+caption: 35 Search Insert Position example
+#+begin_example
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+
+Input: nums = [1,3,5,6], target = 2
+Output: 1
+
+Input: nums = [1,3,5,6], target = 7
+Output: 4
+#+end_example
+
+* Solution
+
+** Understanding the problem
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 16:08]--[2022-01-29 Sat 16:37] =>  0:29
+:END:
+How do we know that this is a [[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]] problem? Two points:
+1. it requires ~O(log n)~ time complexity, but this is not the deciding factor.
+2. The task asks us to find a certain /index/position/ by comparing a /target element/ with an ordered list of elements.
+   1. It could be asking inexplicitly but you need to be able to figure out what is really being asked.
+** Algorithm
+[[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]].
+** Code
+#+name: 35 Search Insert Position my solution
+#+caption: 35 Search Insert Position my solution
+#+begin_src python :results output code :noweb yes
+def searchInsert(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: int
+    """
+    left_idx = 0
+    right_idx = len(nums) - 1
+
+    while left_idx <= right_idx:
+        mid = left_idx + (right_idx - left_idx) // 2
+        curr = nums[mid]
+
+        if curr == target:
+            return mid
+        elif curr > target:
+            right_idx = mid - 1
+        else:
+            left_idx = mid + 1
+
+    # [1, target, curr]
+    # right_idx, left_idx, left_idx+1
+    # [curr, target, 4]
+    # right_idx, left_idx, left_idx+1
+    return left_idx
+
+
+# tests
+nums, target, result = [0], 0, 0
+print(searchInsert(nums, target) == result)
+
+nums, target, result = [0], 1, 1
+print(searchInsert(nums, target) == result)
+
+nums, target, result = [0], -1, 0
+print(searchInsert(nums, target) == result)
+
+nums, target, result = [0, 2], 1, 1
+print(searchInsert(nums, target) == result)
+
+
+nums, target, result = [0, 2, 3], 0, 0
+print(searchInsert(nums, target) == result)
+
+
+nums, target, result = [0, 2, 3], 4, 3
+print(searchInsert(nums, target) == result)
+#+end_src
+
+#+name: 35 Search Insert Position my solution-results
+#+caption: 35 Search Insert Position my solution-results
+#+RESULTS: 35 Search Insert Position my solution
+#+begin_src python
+True
+True
+True
+True
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(log n)~
+**** Space complexity: 
+~O(1)~
+** Leetcode solution
+~nil~ but basically the same implementation.
+#+name: 35 Search Insert Position leetcode solution
+#+caption: 35 Search Insert Position leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 35 Search Insert Position leetcode solution-results
+#+caption: 35 Search Insert Position leetcode solution-results
+#+RESULTS: 35 Search Insert Position leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 16:37]--[2022-01-29 Sat 16:52] =>  0:15
+:END:
+Again we know we need to use [[id:7D287370-82D0-4B7E-BF90-D8013A5B6732][Binary Search]], but the implementation details suck. 
+
+Basically we need to under stand what it means to /insert/ an element to the list at position ~idx~.
+A trivial case is that we can find ~target~ in the list, then we return ~mid~.
+
+We now consider when we can't find ~target~ in the list and what should we return in the end.
+First of all, we can easily tell that in this case, the terminating condition for the binary search would be ~left_idx == right_idx + 1~.
+
+By actually inserting ~target~ into the list, we then will have something like below:
+#+name: curr < target
+#+caption: curr < target
+| curr      | target   | n            |
+| right_idx | left_idx | left_idx + 1 |
+
+#+name: curr > target
+#+caption: curr > target
+| n         | target   | curr         |
+| right_idx | left_idx | left_idx + 1 |
+
+We can see from the insertion tables that ~target~ is always inserted at the ~left_idx~ location.
+** Related problems
+1. [[id:905546B4-B48A-4EBF-9D2B-11D3F510EA04][278 First Bad Version]]
+2. [[id:BDC2B4A7-A64C-4263-801D-74D5BD4BEDC6][704 Binary Search]]
+3. [[id:6705fa69-9835-4076-b293-cd962e3c5828][441 Arranging Coins]]
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-01-29 Sat 16:01]--[2022-01-29 Sat 16:08] =>  0:07
+:END:

@@ -2,12 +2,13 @@
 :ID:       15118A97-316A-477C-B8DA-0F402EB4C288
 :END:
 #+title: 189 Rotate Array
+#+filetags: :leetcode:blog:
 
 #+begin_export html
 ---
 layout: post
 title: "189 Rotate Array"
-excerpt:
+excerpt: Harder than meets the eye.
 ---
 #+end_export
 
@@ -124,6 +125,8 @@ True
 ~O(n)~
 
 ** Leetcode solution
+https://leetcode.com/problems/rotate-array/solution/
+
 4 approaches.
 1. Brute force, which will probably time out.
 2. Using extra array, which is my solution.
@@ -190,3 +193,9 @@ False
 :LOGBOOK:
 CLOCK: [2022-01-31 Mon 15:04]--[2022-01-31 Mon 15:07] =>  0:03
 :END:
+
+* leetcode solution :noexport:
+cyclic replacements
+#+begin_src python
+
+#+end_src

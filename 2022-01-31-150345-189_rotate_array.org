@@ -1,0 +1,192 @@
+:PROPERTIES:
+:ID:       15118A97-316A-477C-B8DA-0F402EB4C288
+:END:
+#+title: 189 Rotate Array
+
+#+begin_export html
+---
+layout: post
+title: "189 Rotate Array"
+excerpt:
+---
+#+end_export
+
+* Description
+Given an array, rotate the array to the right by ~k~ steps, where ~k~ is non-negative.
+
+
+Constraints:
+1. $1 \leq nums.length \leq 10^{5}$
+2. $-2^{31} \leq nums[i] \leq 2^{31} - 1$
+3. $0 \leq k \leq 10^{5}$
+** Examples:
+#+name: 189 Rotate Array example
+#+caption: 189 Rotate Array example
+#+begin_example
+Input: nums = [1,2,3,4,5,6,7], k = 3
+Output: [5,6,7,1,2,3,4]
+Explanation:
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
+
+Input: nums = [-1,-100,3,99], k = 2
+Output: [3,99,-1,-100]
+Explanation: 
+rotate 1 steps to the right: [99,-1,-100,3]
+rotate 2 steps to the right: [3,99,-1,-100]
+#+end_example
+
+* Solution
+
+** Understanding the problem
+:LOGBOOK:
+CLOCK: [2022-01-31 Mon 15:07]--[2022-01-31 Mon 15:39] =>  0:32
+:END:
+I think this question definitely needs to use ~mod~.
+
+Suppose the result set is ~ret~.
+One trivial case is where ~len(nums) == 1~, then ~ret == nums~.
+
+Another observation is if ~len(nums) == k~, then ~ret == nums~
+Therefore we are not concerned about rotating the list ~k~ times,
+we are concerned about rotating the list ~r = k % len(nums)~ times.
+
+If we make more effort we can see that ~ret = nums[r:] + nums[:r]~.
+
+Because there's this comment from the existing code:
+#+begin_quote
+:rtype: None Do not return anything, modify nums in-place instead.
+#+end_quote
+we need to modify ~nums~ instead of return ~ret~ as I was planning to do.
+** Algorithm
+See previous section.
+** Code
+:LOGBOOK:
+CLOCK: [2022-01-31 Mon 15:39]--[2022-01-31 Mon 15:51] =>  0:12
+:END:
+#+name: 189 Rotate Array my solution
+#+caption: 189 Rotate Array my solution
+#+begin_src python :results output code :noweb yes
+from typing import List
+def rotate(nums: List[int], k):
+    """
+    :type nums: List[int]
+    :type k: int
+    :rtype: None Do not return anything, modify nums in-place instead.
+    """
+    r = k % len(nums)
+
+    # time limit exceeded
+    # for i in range(r):
+    #    nums.insert(0, nums.pop())
+    # this does not work because it didn't modify the original object bound to nums
+    # nums = nums[-r::1] + nums[:-r]
+    nums[:] = nums[-r::1] + nums[:-r]
+
+# tests
+nums = [0]
+k = 10
+rotate(nums, k)
+print(nums == [0])
+
+nums = [0, 1, 2]
+k = 3
+rotate(nums, k)
+print(nums == [0, 1, 2])
+
+
+nums = [-1,-100,3,99]
+k = 2
+rotate(nums, k)
+print(nums == [3, 99, -1, -100])
+
+
+nums = [1, 2, 3, 4, 5, 6, 7]
+k = 3
+rotate(nums, k)
+print(nums == [5, 6, 7, 1, 2, 3, 4])
+#+end_src
+
+#+name: 189 Rotate Array my solution-results
+#+caption: 189 Rotate Array my solution-results
+#+RESULTS: 189 Rotate Array my solution
+#+begin_src python
+True
+True
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(n)~
+**** Space complexity: 
+~O(n)~
+
+** Leetcode solution
+4 approaches.
+1. Brute force, which will probably time out.
+2. Using extra array, which is my solution.
+3. Using cyclic replacements
+4. Using reverse
+#+name: 189 Rotate Array leetcode solution
+#+caption: 189 Rotate Array leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 189 Rotate Array leetcode solution-results
+#+caption: 189 Rotate Array leetcode solution-results
+#+RESULTS: 189 Rotate Array leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-01-31 Mon 15:51]--[2022-01-31 Mon 16:02] =>  0:11
+:END:
+I was able to come up with the solution idea but I wasn't aware of how to modify ~nums~ *in-place*.
+I initially used ~nums = nums[-r::1] + nums[:-r]~ which I knew was a bit off and wasn't passing the tests, but I didn't know how to fix it until I looked up other people's solutions.
+
+Also something of interest here.
+#+begin_src python :results output code :noweb yes
+from typing import List
+def rotate(nums: List[int], k):
+    """
+    :type nums: List[int]
+    :type k: int
+    :rtype: None Do not return anything, modify nums in-place instead.
+    """
+    r = k % len(nums)
+
+    nums = nums[-r::1] + nums[:-r]
+    print("Shadowed numns: ", nums)
+
+# tests
+nums = [-1,-100,3,99]
+k = 2
+rotate(nums, k)
+print("Original nums: ", nums)
+print(str(nums) == str([3, 99, -1, -100]))
+
+#+end_src
+
+#+RESULTS:
+#+begin_src python
+Shadowed numns:  [3, 99, -1, -100]
+Original nums:  [-1, -100, 3, 99]
+False
+#+end_src
+
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-01-31 Mon 15:04]--[2022-01-31 Mon 15:07] =>  0:03
+:END:

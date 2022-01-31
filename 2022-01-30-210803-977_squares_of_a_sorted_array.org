@@ -1,0 +1,156 @@
+:PROPERTIES:
+:ID:       7CACD4F4-0404-4D86-87B3-23F7028681C5
+:END:
+#+title: 977 Squares of a Sorted Array
+#+filetags: :leetcode:blog:
+
+#+begin_export html
+---
+layout: post
+title: "977 Squares of a Sorted Array"
+excerpt: Two pointers.
+---
+#+end_export
+
+* Description
+Given an integer array ~nums~ sorted in *non-decreasing* order, return /an array of *the squares of each number* sorted in non-decreasing order/.
+
+
+Constraints:
+1. $1 \leq nums.length \leq 10^{4}$
+2. $-10^{4} \leq nums[i] \leq 10^{4}$
+3. ~nums~ is sorted in *non-decreasing* order.
+
+** Examples:
+#+name: 977 Sauqres of a Sorted Array example
+#+caption: 977 Sauqres of a Sorted Array example
+#+begin_example
+Input: nums = [-4,-1,0,3,10]
+Output: [0,1,9,16,100]
+Explanation: After squaring, the array becomes [16,1,0,9,100].
+After sorting, it becomes [0,1,9,16,100].
+
+Input: nums = [-7,-3,2,3,11]
+Output: [4,9,9,49,121]
+#+end_example
+
+* Solution
+
+** Understanding the problem
+:LOGBOOK:
+CLOCK: [2022-01-30 Sun 21:11]--[2022-01-30 Sun 21:27] =>  0:16
+:END:
+If $e \geq 0, \forall e \in nums$, then the problem is trivial as we only need to square each element and the resulting array is already sorted.
+
+We need to consider the case where negative integers are present.
+
+I think the basic idea is that we can start from both ends of the squared list, and move towards the center of the list.
+For example, we have the following list ~[-2, -1, 0, 3, 10]~, and its squared list ~num_sq = [4, 1, 0, 9, 100]~.
+In general, we don't know if ~num_sq[0] > num_sq[-1]~ or the other way around, but we *do know* that ~num_sq~ is first *non-increasing* and then *non-decreasing*.
+
+** Algorithm
+:LOGBOOK:
+CLOCK: [2022-01-30 Sun 21:27]--[2022-01-30 Sun 21:42] =>  0:15
+:END:
+The basic algorithm following previous section is the following:
+1. We start with ~left_idx = 0~ and ~right_idx = len(num_sq)-1~ and get ~num_sq[left_idx]~ and ~num_sq[right_idx]~ and compare them.
+   1. if ~num_sq[left_idx] <= num_sq[right_idx]~, then we put ~num_sq[left_idx]~ in the result list, and ~left_idx += 1~.
+   2. else we do the opposite.
+2. Then we repeat the process until ~left_idx > right_idx~.
+
+** Code
+#+name: 977 Sauqres of a Sorted Array my solution
+#+caption: 977 Sauqres of a Sorted Array my solution
+#+begin_src python :results output code :noweb yes
+def sortedSquares(nums):
+    """
+    :type nums: List[int]
+    :rtype: List[int]
+    """
+    ret = []
+    left_idx, right_idx = 0, len(nums) - 1
+
+    while left_idx <= right_idx:
+        left_val = nums[left_idx] ** 2
+        right_val = nums[right_idx] ** 2
+
+        if left_val > right_val:
+            ret.append(left_val)
+            left_idx += 1
+        else:
+            ret.append(right_val)
+            right_idx -= 1
+    # we use append so the order is reversed, i.e. order is non-increasing
+    # therefore need to reverse the list
+    return ret[::-1]
+
+
+# tests
+nums = [0]
+result = [0]
+print(sortedSquares([0]) == [0])
+
+
+nums = [0, 1]
+result = [0, 1]
+print(sortedSquares(nums) == result)
+
+
+nums = [-1, 0, 1]
+result = [0, 1, 1]
+print(sortedSquares(nums) == result)
+
+
+
+nums = [-2, -1, 0, 1]
+result = [0, 1, 1, 4]
+print(sortedSquares(nums) == result)
+#+end_src
+
+#+name: 977 Sauqres of a Sorted Array my solution-results
+#+caption: 977 Sauqres of a Sorted Array my solution-results
+#+RESULTS: 977 Sauqres of a Sorted Array my solution
+#+begin_src python
+True
+True
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(n)~
+**** Space complexity: 
+~O(n)~ for the resulting list.
+** Leetcode solution
+~nil~. Same algorithm.
+#+name: 977 Sauqres of a Sorted Array leetcode solution
+#+caption: 977 Sauqres of a Sorted Array leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 977 Sauqres of a Sorted Array leetcode solution-results
+#+caption: 977 Sauqres of a Sorted Array leetcode solution-results
+#+RESULTS: 977 Sauqres of a Sorted Array leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-01-30 Sun 21:44]--[2022-01-30 Sun 21:51] =>  0:07
+:END:
+This is not too hard a question for someone who's never seen it before.
+I guess with Leetcode there's some clue as it's categorised as a [[id:31FC61E7-8140-44D6-BE4D-73543300D415][Two Pointer]] question.
+So naturally one would think about starting from both ends of the list.
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-01-30 Sun 21:08]--[2022-01-30 Sun 21:11] =>  0:03
+:END:

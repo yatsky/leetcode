@@ -154,8 +154,8 @@ First of all, we can easily tell that in this case, the terminating condition fo
 By actually inserting ~target~ into the list, we then will have something like below:
 #+name: curr < target
 #+caption: curr < target
-| curr      | target   | n            |
-| right_idx | left_idx | left_idx + 1 |
+| curr      | target   | n             |
+| right_idx | left_idx | left_idx + 1  |
 
 #+name: curr > target
 #+caption: curr > target

@@ -1,0 +1,112 @@
+:PROPERTIES:
+:ID:       DE028F72-7681-4284-BFE8-1A66E1A5786D
+:END:
+#+title: 344 Reverse String
+
+#+begin_export html
+---
+layout: post
+title: "344 Reverse String"
+excerpt:
+---
+#+end_export
+
+* Description
+Write a function that reverses a string. The input is given as an array of characters ~s~.
+
+You must do this by modifying the input array *in-place* with ~O(1)~ extra memory.
+
+Constraints:
+1. $1 \leq s.length \leq 10^{5}$
+2. ~s[i]~ is a printable ascii character
+** Examples:
+#+name: 344 Reverse String example
+#+caption: 344 Reverse String example
+#+begin_example
+Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+
+Input: s = ["H","a","n","n","a","h"]
+Output: ["h","a","n","n","a","H"]
+#+end_example
+
+* Solution
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 10:25]--[2022-02-01 Tue 10:36] =>  0:11
+:END:
+
+** Understanding the problem
+
+** Algorithm
+We can have two pointers ~left_idx = 0~ and ~right_idx = len(s)~ and swap ~s[left_idx]~ and ~s[right_idx]~.
+Then ~left_idx += 1~, ~right_idx -= 1~, until ~left_idx == right_idx~.
+** Code
+#+name: 344 Reverse String my solution
+#+caption: 344 Reverse String my solution
+#+begin_src python :results output code :noweb yes
+def reverseString(s):
+    """
+    :type s: List[str]
+    :rtype: None Do not return anything, modify s in-place instead.
+    """
+
+    left_idx = 0
+    right_idx = len(s) -1
+
+    while left_idx < right_idx:
+        s[left_idx], s[right_idx] = s[right_idx], s[left_idx]
+        left_idx += 1
+        right_idx -= 1
+
+
+
+# tests
+s = ["h","e","l","l","o"]
+reverseString(s)
+print(s == ["o","l","l","e","h"])
+
+s = ["H","a","n","n","a","h"]
+reverseString(s)
+print(s == ["h","a","n","n","a","H"])
+#+end_src
+
+#+name: 344 Reverse String my solution-results
+#+caption: 344 Reverse String my solution-results
+#+RESULTS: 344 Reverse String my solution
+#+begin_src python
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(N)~
+**** Space complexity: 
+~O(1)~
+** Leetcode solution
+Recursion or two pointers.
+#+name: 344 Reverse String leetcode solution
+#+caption: 344 Reverse String leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 344 Reverse String leetcode solution-results
+#+caption: 344 Reverse String leetcode solution-results
+#+RESULTS: 344 Reverse String leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+See also: [[id:3E2188AE-9F77-4B94-A3A1-74A1AAE29F9A][In-place algorithm]].
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 10:23]--[2022-02-01 Tue 10:25] =>  0:02
+:END:

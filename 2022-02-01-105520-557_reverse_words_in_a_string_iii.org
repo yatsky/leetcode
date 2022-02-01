@@ -1,0 +1,110 @@
+:PROPERTIES:
+:ID:       E56E03A3-A52E-4ACD-9EEA-60E504372D4E
+:END:
+#+title: 557. Reverse Words in a String III
+
+#+begin_export html
+---
+layout: post
+title: "557. Reverse Words in a String III"
+excerpt:
+---
+#+end_export
+
+* Description
+Given a string ~s~, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+Constraints:
+1. $1\leq s.length \leq 5*10^{4}$
+2. ~s~ contains printable ascii characters
+3. ~s~ does not contain any leading or trailing spaces
+4. There is *at least one* word in ~s~
+5. All the words in ~s~ are separated by a single space
+** Examples:
+#+name: 577 Reverse Words in a String III example
+#+caption: 577 Reverse Words in a String III example
+#+begin_example
+Input: s = "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+
+Input: s = "God Ding"
+Output: "doG gniD"
+#+end_example
+
+* Solution
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 10:57]--[2022-02-01 Tue 11:09] =>  0:12
+:END:
+
+** Understanding the problem
+Not too much to write here.
+** Algorithm
+With Python we can simply split the string by space, do reverse and then join then back together with a space.
+** Code
+#+name: 577 Reverse Words in a String III my solution
+#+caption: 577 Reverse Words in a String III my solution
+#+begin_src python :results output code :noweb yes
+def reverseWords(s):
+    """
+    :type s: str
+    :rtype: str
+    """
+    return " ".join([w[::-1] for w in s.split(" ")])
+
+# tests
+s = "t"
+target = "t"
+print(reverseWords(s) == target)
+
+s = "Let's take LeetCode contest"
+target = "s'teL ekat edoCteeL tsetnoc"
+print(reverseWords(s) == target)
+#+end_src
+
+#+name: 577 Reverse Words in a String III my solution-results
+#+caption: 577 Reverse Words in a String III my solution-results
+#+RESULTS: 577 Reverse Words in a String III my solution
+#+begin_src python
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(N)~, ~N~ is length of ~s~.
+**** Space complexity: 
+~O(N)~, ~N~ is length of ~s~, as we need to store the temporary reversed list of words.
+
+** Leetcode solution
+~nil~.
+#+name: 577 Reverse Words in a String III leetcode solution
+#+caption: 577 Reverse Words in a String III leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 577 Reverse Words in a String III leetcode solution-results
+#+caption: 577 Reverse Words in a String III leetcode solution-results
+#+RESULTS: 577 Reverse Words in a String III leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 11:09]--[2022-02-01 Tue 11:10] =>  0:01
+:END:
+What if there is leading/trailing spaces?
+What if there are consecutive spaces?
+
+I think in an interview I'd just go with regex to reduce these two questions in the the original question and solve it.
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 10:55]--[2022-02-01 Tue 10:57] =>  0:02
+:END:

@@ -1,0 +1,109 @@
+:PROPERTIES:
+:ID:       5CCE2F0A-4C5A-48FA-BAF6-AC38926353D3
+:END:
+#+title: 876. Middle of the Linked List
+
+#+begin_export html
+---
+layout: post
+title: "876. Middle of the Linked List"
+excerpt:
+---
+#+end_export
+* Description
+Given the ~head~ of a singly linked list, return /the middle node of the linked list/.
+
+Constraints:
+1. The number of nodes in the list is in the range ~[1, 100]~.
+2. $1 \leq Node.val \leq 100$
+** Examples:
+#+name: 876 Middle of the Linked List example
+#+caption: 876 Middle of the Linked List example
+#+begin_example
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+
+Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.
+#+end_example
+
+* Solution
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 11:27]--[2022-02-01 Tue 11:44] =>  0:17
+:END:
+
+** Understanding the problem
+Trivial case is a single node. We should just return the node.
+
+Bottom line is we have to traverse all nodes before we know which one is the middle one. So time complexity has to be at least ~O(N)~.
+
+Naively we can put all nodes in a list as we scan the linked list and get the middle node. That would cost ~O(N)~ space.
+However, we can use some math and only record the mid node ~mid_node~ when our scanning pointer ~pos~ position changes.
+** Algorithm
+1. Initialise ~mid_node = head~, ~pos = 0~, ~curr_node = head~
+2. while ~curr_node.next is not None~
+   1. ~curr_node = curr_node.next~
+   2. ~pos += 1~
+   3. if ~pos % 2 == 1~, ~mid_node = mid_node.next~
+** Code
+#+name: 876 Middle of the Linked List my solution
+#+caption: 876 Middle of the Linked List my solution
+#+begin_src python :results output code :noweb yes
+def middleNode(self, head):
+    """
+    :type head: ListNode
+    :rtype: ListNode
+    """
+    mid_node = head
+    pos = 0
+    curr_node = head
+    while curr_node.next:
+        curr_node = curr_node.next
+        pos += 1
+        if pos % 2 == 1:
+            mid_node = mid_node.next
+
+    return mid_node
+#+end_src
+
+#+name: 876 Middle of the Linked List my solution-results
+#+caption: 876 Middle of the Linked List my solution-results
+#+RESULTS: 876 Middle of the Linked List my solution
+#+begin_src none
+
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(N)~
+**** Space complexity: 
+~O(1)~
+
+** Leetcode solution
+~nil~.
+#+name: 876 Middle of the Linked List leetcode solution
+#+caption: 876 Middle of the Linked List leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 876 Middle of the Linked List leetcode solution-results
+#+caption: 876 Middle of the Linked List leetcode solution-results
+#+RESULTS: 876 Middle of the Linked List leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 11:25]--[2022-02-01 Tue 11:27] =>  0:02
+:END:

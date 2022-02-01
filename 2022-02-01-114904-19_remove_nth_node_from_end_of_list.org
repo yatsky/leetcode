@@ -1,0 +1,145 @@
+:PROPERTIES:
+:ID:       5F127147-614D-4DF1-A8A3-6271B3B18E7D
+:END:
+#+title: 19. Remove Nth Node From End of List
+#+filetags: :review:leetcode:
+
+#+begin_export html
+---
+layout: post
+title: "19. Remove Nth Node From End of List"
+excerpt: This one I wasn't able to finish
+---
+#+end_export
+Note this one
+* Description
+Given the ~head~ of a linked list, remove the ~nth~ node from the end of the list and return its head.
+
+Constraints:
+1. The number of nodes in the list is ~sz~.
+2. $1 \leq sz \leq 30$.
+3. $0 \leq Node.val \leq 100$.
+4. $1 \leq n \leq sz$.
+** Examples:
+#+name: 19 Remove Nth Node from end of list example
+#+caption: 19 Remove Nth Node from end of list example
+#+begin_example
+Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]
+
+Input: head = [1], n = 1
+Output: []
+
+Input: head = [1,2], n = 1
+Output: [1]
+#+end_example
+
+* Solution
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 15:16]--[2022-02-01 Tue 16:13] =>  0:57
+CLOCK: [2022-02-01 Tue 11:56]--[2022-02-01 Tue 12:02] =>  0:06
+CLOCK: [2022-02-01 Tue 11:52]--[2022-02-01 Tue 11:56] =>  0:04
+:END:
+
+** Understanding the problem
+From the provided code we can see it's a singly linked list.
+
+We can use ~fast_node~ and ~fast_pos~ that will reach the end of the list, and ~slow_node~ and ~slow_pos~ that will be ~n~ node(s) away from ~fast_node~. Slow node will be tracking the previous node of the node to be removed.
+
+Given that the trivial case ~[1]~ and ~n=1~ returns ~[]~, we have ~slow_node = head~, ~slow_pos = 0~ and ~fast_node = head~ and ~fast_pos = 0~.
+
+In the end we want to first have ~fast_node~ and ~slow_node~ to be ~n~ nodes away and then move both of them to the next node, until ~fast_node~ reaches the end of the list.
+
+*Note that ~slow_node~ will be the node that is connected to ~fast_node~, and the node between them will be removed.*
+** Algorithm
+1. Initialise ~fast_node = head~, ~fast_pos = 0~, ~slow_node = head~, ~slow_pos = 0~
+2. while ~fast_node.next~
+   1. if ~fast_pos - slow_pos < n~
+      1. ~fast_node = fast_node.next~, ~fast_pos += 1~
+   2. if ~fast_pos - slow_pos == n~
+      1. ~fast_node = fast_node.next~, ~fast_pos += 1~
+      1. ~slow_node = slow_node.next~, ~slow_pos += 1~
+** Code
+#+name: 19 Remove Nth Node from end of list my solution
+#+caption: 19 Remove Nth Node from end of list my solution
+#+begin_src python :results output code :noweb yes
+def removeNthFromEnd(self, head, n):
+    """
+    :type head: ListNode
+    :type n: int
+    :rtype: ListNode
+    """
+
+    fast_node = head
+    fast_pos = 0
+    slow_node = head
+    slow_pos = 0
+
+    while fast_pos - slow_pos < n:
+        fast_node = fast_node.next
+        fast_pos += 1
+
+    if fast_node is None:
+        return head.next
+
+    while fast_node.next:
+        fast_node = fast_node.next
+        slow_node = slow_node.next
+
+    slow_node.next = slow_node.next.next
+
+    return head
+#+end_src
+
+#+name: 19 Remove Nth Node from end of list my solution-results
+#+caption: 19 Remove Nth Node from end of list my solution-results
+#+RESULTS: 19 Remove Nth Node from end of list my solution
+#+begin_src none
+
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(N)~
+**** Space complexity: 
+
+~O(1)~
+** Leetcode solution
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 16:31]--[2022-02-01 Tue 16:37] =>  0:06
+:END:
+
+#+name: 19 Remove Nth Node from end of list leetcode solution
+#+caption: 19 Remove Nth Node from end of list leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 19 Remove Nth Node from end of list leetcode solution-results
+#+caption: 19 Remove Nth Node from end of list leetcode solution-results
+#+RESULTS: 19 Remove Nth Node from end of list leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 16:37]--[2022-02-01 Tue 16:42] =>  0:05
+:END:
+I had to check Leetcode solution for this one as my original wasn't right.
+
+I think the hardest part is again the edge cases, especially how to handle a linked list of only one element, although it's not really relevant in this case, and how to remove the head node.
+** Related problems
+1. [[id:E56E03A3-A52E-4ACD-9EEA-60E504372D4E][557. Reverse Words in a String III]]
+2. [[id:F70A53FD-1410-4C75-8B2C-FCFDCCB95211][283 Move Zeroes]]
+3. [[id:D26210D2-A439-47E4-AC17-72C0F88D3EAF][167 Two Sum II - Input Array is Sorted]]
+4. [[id:E56E03A3-A52E-4ACD-9EEA-60E504372D4E][557. Reverse Words in a String III]] 
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-02-01 Tue 11:49]--[2022-02-01 Tue 11:52] =>  0:03
+:END:

@@ -56,6 +56,17 @@ In the end we want to first have ~fast_node~ and ~slow_node~ to be ~n~ nodes awa
 Incorrect algorithm where I put progression of space between ~slow_node~ and ~fast_node~ by moving ~fast_node~, and ~slow_node~ and ~fast_node~ moving together, under the same while loop.
 In this case I had difficulty handling the edge case with ~head~ being the element to be removed via checking if ~fast_node is None~.
 I had no way of returning from the ~while~ loop.
+Once the ~while~ loop finishes, I have no way of distinguishing the following situations so I won't know if I need to remove the head:
+
+n = 3
+| 1 | 2 | 3 | None |
+| s |   | f |      |
+
+n = 3
+
+| 1 | 2 | 3 | 4 | None |
+|   | s |   | f |      |
+
 #+begin_example
 1. Initialise ~fast_node = head~, ~fast_pos = 0~, ~slow_node = head~, ~slow_pos = 0~
 2. while ~fast_node.next~

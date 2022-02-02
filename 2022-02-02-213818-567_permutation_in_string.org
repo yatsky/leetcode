@@ -1,0 +1,145 @@
+:PROPERTIES:
+:ID:       76AFC40F-E27F-43E4-8190-5C3A16DED3E1
+:END:
+#+title: 567 Permutation in String
+#+filetags: :review:blog:aws:
+
+#+begin_export html
+---
+layout: post
+title: "567 Permutation in String"
+excerpt:
+---
+#+end_export
+
+* Description
+:LOGBOOK:
+CLOCK: [2022-02-02 Wed 21:39]--[2022-02-02 Wed 21:42] =>  0:03
+:END:
+Given two strings ~s1~ and ~s2~, return ~true~ if ~s2~ contains a permutation of ~s1~, or ~false~ otherwise.
+
+In other words, return ~true~ if one of ~s1~'s permutations is the substring of ~s2~.
+
+Constraints:
+1. $1 \leq s1.length, s2.length \leq 10^{4}$
+2. ~s1~ and ~s2~ consist of lowercase English letters
+** Examples:
+#+name: 567 Permutation in String Problem question example
+#+caption: 567 Permutation in String Problem question example
+#+begin_example
+Input: s1 = "ab", s2 = "eidbaooo"
+Output: true
+Explanation: s2 contains one permutation of s1 ("ba").
+
+Input: s1 = "ab", s2 = "eidboaoo"
+Output: false
+#+end_example
+
+* Solution
+:LOGBOOK:
+CLOCK: [2022-02-02 Wed 21:42]--[2022-02-02 Wed 22:01] =>  0:19
+:END:
+
+** Understanding the problem
+Well a trivial case is if ~len(s1) > len(s2)~, then we return ~false~.
+
+I think we can just use brute force and scan ~s2~ with a sliding window ~s2[slow:fast]~, where ~fast-slow == len(s1)~, and check if ~s1~ is a permutation of the window.
+
+How to check for permutation?
+I think we should first check if ~set(s1) == set(s2[slow:fast])~, then check ~sum([ord(c) for c in s1]) == sum([ord(c) for c in window])~.
+** Algorithm
+
+** Code
+#+name: 567 Permutation in String Problem question my solution
+#+caption: 567 Permutation in String Problem question my solution
+#+begin_src python :results output code :noweb yes
+def checkInclusion(s1, s2):
+    """
+    :type s1: str
+    :type s2: str
+    :rtype: bool
+    """
+
+    if len(s1) > len(s2):
+        return False
+
+    fast = 0
+    slow = 0
+
+    while fast - slow < len(s1):
+        fast += 1
+
+    while fast <= len(s2):
+        window = s2[slow:fast]
+        if (set(s1) == set(window)) and (
+            sum([ord(c) for c in s1]) == sum([ord(c) for c in window])
+        ):
+            return True
+        fast += 1
+        slow += 1
+
+    return False
+
+
+# tests
+s1 = "abc"
+s2 = "a"
+print(checkInclusion(s1, s2) == False)
+
+
+s1 = "abc"
+s2 = "abc"
+print(checkInclusion(s1, s2) == True)
+
+s1 = "abc"
+s2 = "bca"
+print(checkInclusion(s1, s2) == True)
+
+s1 = "abc"
+s2 = "bcae"
+print(checkInclusion(s1, s2) == True)
+
+s1 = "abc"
+s2 = "bbcda"
+print(checkInclusion(s1, s2) == True)
+#+end_src
+
+#+name: 567 Permutation in String Problem question my solution-results
+#+caption: 567 Permutation in String Problem question my solution-results
+#+RESULTS: 567 Permutation in String Problem question my solution
+#+begin_src python
+True
+True
+True
+True
+False
+#+end_src
+*** Complexity
+**** Time complexity:
+I'm not too sure about this but I think this is $O(N^{2})$ as worst case we need to do $N \over 2$ ~sum~ during a full scan.
+**** Space complexity: 
+~O(N)~.
+** Leetcode solution
+~nil~.
+#+name: 567 Permutation in String Problem question leetcode solution
+#+caption: 567 Permutation in String Problem question leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 567 Permutation in String Problem question leetcode solution-results
+#+caption: 567 Permutation in String Problem question leetcode solution-results
+#+RESULTS: 567 Permutation in String Problem question leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+** Related problems
+
+* Log time

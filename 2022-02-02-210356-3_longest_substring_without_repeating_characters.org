@@ -1,0 +1,143 @@
+:PROPERTIES:
+:ID:       756BD3C9-73CA-4ADD-90DA-98A27EFCF43F
+:END:
+#+title: 3 Longest Substring Without Repeating Characters
+#+filetags: :review:blog:leetcode:
+
+#+begin_export html
+---
+layout: post
+title: "3. Longest Substring Without Repeating Characters"
+excerpt: Medium
+---
+#+end_export
+
+* Description
+Given a string ~s~, find the length of the ~longest substring~ without repeating characters.
+
+Constraints:
+1. $0 \leq s.length \leq 5 \times 10^{4}$
+2. ~s~ consists of English letters, digits, symbols and spaces.
+** Examples:
+#+name: 3 Longest Substring Without Repeating Characters example
+#+caption: 3 Longest Substring Without Repeating Characters example
+#+begin_example
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+#+end_example
+
+* Solution
+:LOGBOOK:
+CLOCK: [2022-02-02 Wed 21:08]--[2022-02-02 Wed 21:34] =>  0:26
+:END:
+
+** Understanding the problem
+I think this is similar to two pointers where we maintain a ~fast_pos~ and a ~slow_pos~.
+
+The idea is that ~fast_pos~ moves.
+** Algorithm
+
+** Code
+#+name: 3 Longest Substring Without Repeating Characters my solution
+#+caption: 3 Longest Substring Without Repeating Characters my solution
+#+begin_src python :results output code :noweb yes
+def lengthOfLongestSubstring(s):
+    """
+    :type s: str
+    :rtype: int
+    """
+
+    slow_pos = 0
+    fast_pos = 0
+    max_length = 0
+
+    while fast_pos < len(s):
+        # we can still do one last comparison when fast_pos == len(s) - 1
+        substring = s[slow_pos : fast_pos + 1]
+        if len(substring) == len(set(substring)):
+            max_length = max_length if max_length > len(substring) else len(substring)
+        else:
+            # note we can't just move slow_pos to fast_pos here
+            # as that will break test case "dvdf"
+            slow_pos += 1
+        fast_pos += 1
+
+    return max_length
+
+
+# tests
+s = ""
+print(lengthOfLongestSubstring(s) == 0)
+
+s = "b"
+print(lengthOfLongestSubstring(s) == 1)
+
+s = "bba"
+print(lengthOfLongestSubstring(s) == 2)
+
+s = "pwwkew"
+print(lengthOfLongestSubstring(s) == 3)
+
+s = "dvdf"
+print(lengthOfLongestSubstring(s) == 3)
+#+end_src
+
+#+name: 3 Longest Substring Without Repeating Characters my solution-results
+#+caption: 3 Longest Substring Without Repeating Characters my solution-results
+#+RESULTS: 3 Longest Substring Without Repeating Characters my solution
+#+begin_src python
+True
+True
+True
+True
+True
+#+end_src
+*** Complexity
+**** Time complexity:
+~O(n)~
+**** Space complexity: 
+~O(n)~, need the space for the substring.
+** Leetcode solution
+
+~nil~.
+#+name: 3 Longest Substring Without Repeating Characters leetcode solution
+#+caption: 3 Longest Substring Without Repeating Characters leetcode solution
+#+begin_src python :results output code :noweb yes
+<<imports for typing>>
+
+#+end_src
+
+#+name: 3 Longest Substring Without Repeating Characters leetcode solution-results
+#+caption: 3 Longest Substring Without Repeating Characters leetcode solution-results
+#+RESULTS: 3 Longest Substring Without Repeating Characters leetcode solution
+#+begin_src none
+
+#+end_src
+*** Time complexity:
+
+*** Space complexity: 
+
+* More analysis
+** General thoughts
+:LOGBOOK:
+CLOCK: [2022-02-02 Wed 21:34]--[2022-02-02 Wed 21:36] =>  0:02
+:END:
+I reckon this is almost a two pointers question.
+
+Also Leetcode provides an interesting [[https://leetcode.com/problems/longest-substring-without-repeating-characters/solution/][optimized solution]].
+** Related problems
+
+* Log time
+:LOGBOOK:
+CLOCK: [2022-02-02 Wed 21:04]--[2022-02-02 Wed 21:08] =>  0:04
+:END:

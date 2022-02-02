@@ -2,7 +2,7 @@
 :ID:       5F127147-614D-4DF1-A8A3-6271B3B18E7D
 :END:
 #+title: 19. Remove Nth Node From End of List
-#+filetags: :review:leetcode:
+#+filetags: :blog:review:leetcode:
 
 #+begin_export html
 ---
